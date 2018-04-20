@@ -1,0 +1,209 @@
+.icon-blank{
+	background:url('icons/blank.gif') no-repeat;
+}
+.icon-add{
+	background:url('icons/edit_add.png') no-repeat;
+}
+.icon-edit{
+	background:url('icons/pencil.png') no-repeat;
+}
+.icon-remove{
+	background:url('icons/edit_remove.png') no-repeat;
+}
+.icon-save{
+	background:url('icons/filesave.png') no-repeat;
+}
+.icon-cut{
+	background:url('icons/cut.png') no-repeat;
+}
+.icon-ok{
+	background:url('icons/ok.png') no-repeat;
+}
+.icon-no{
+	background:url('icons/no.png') no-repeat;
+}
+.icon-cancel{
+	background:url('icons/cancel.png') no-repeat;
+}
+.icon-reload{
+	background:url('icons/reload.png') no-repeat;
+}
+.icon-search{
+	background:url('icons/search.png') no-repeat;
+}
+.icon-print{
+	background:url('icons/print.png') no-repeat;
+}
+.icon-help{
+	background:url('icons/help.png') no-repeat;
+}
+.icon-undo{
+	background:url('icons/undo.png') no-repeat;
+}
+.icon-redo{
+	background:url('icons/redo.png') no-repeat;
+}
+.icon-back{
+	background:url('icons/back.png') no-repeat;
+}
+.icon-sum{
+	background:url('icons/sum.png') no-repeat;
+}
+.icon-tip{
+	background:url('icons/tip.png') no-repeat;
+}
+.icon-up{
+	background:url('icons/up.gif') no-repeat;
+}
+.icon-down{
+	background:url('icons/down.gif') no-repeat;
+}
+
+/*2012/4/16 gt 从css/icon.css集成过来的*********/
+.icon-cls {
+    background: url(../images/easyui/class.gif) no-repeat !important;
+}
+.icon-event {
+    background: url(../images/easyui/event.gif) no-repeat !important;
+}
+.icon-config {
+    background: url(../images/easyui/config.gif) no-repeat !important;
+}
+.icon-prop {
+    background: url(../images/easyui/prop.gif) no-repeat !important;
+}
+.icon-method {
+    background: url(../images/easyui/method.gif) no-repeat !important;
+}
+.icon-cmp {
+    background: url(../images/easyui/cmp.gif) no-repeat !important;
+}
+.icon-pkg {
+    background: url(../images/easyui/pkg.gif) no-repeat !important;
+}
+.icon-static {
+    background: url(../images/easyui/static.gif) no-repeat !important;
+}
+.icon-docs {
+    background: url(../images/easyui/docs.gif) no-repeat !important;
+}
+.icon-expand-all {
+    background: url(../images/easyui/expand-all.gif) no-repeat !important;
+}
+.icon-collapse-all {
+    background: url(../images/easyui/collapse-all.gif) no-repeat !important;
+}
+.icon-expand-members {
+    background: url(../images/easyui/expand-members.gif) no-repeat !important;
+}
+.icon-hide-inherited {
+    background: url(../images/easyui/hide-inherited.gif) no-repeat !important;
+}
+.icon-org {
+    background: url(../images/easyui/org.gif) no-repeat !important;
+}
+.icon-save-back {
+    background: url(../images/easyui/save-back.png) no-repeat !important;
+}
+.icon-delete {
+    background: url(../images/easyui/delete.gif) no-repeat !important;
+}
+
+.icon-delete-row {
+    background: url(../images/easyui/delete-row.gif) no-repeat !important;
+}
+.icon-back {
+    background: url(../images/easyui/back.png) no-repeat !important;
+}
+.icon-search {
+    background: url(../images/easyui/search.png) no-repeat !important;
+}
+.icon-search-row {
+    background: url(../images/easyui/search-row.png) no-repeat !important;
+}
+.icon-reload {
+    background: url(../images/easyui/reload.png) no-repeat !important;
+}
+.icon-reset {
+    background: url(../images/easyui/reload.png) no-repeat !important;
+}
+.icon-print {
+    background: url(../images/easyui/print.gif) no-repeat !important;
+}
+.icon-export {
+    background: url(../images/easyui/print.gif) no-repeat !important;
+}
+.icon-help {
+    background: url(../images/easyui/help.png) no-repeat !important;
+}
+.icon-check {
+    background: url(../images/easyui/check.png) no-repeat !important;
+}
+.icon-example {
+    background: url(../images/easyui/example.gif) no-repeat !important;
+}
+.icon-retry {
+    background: url(../images/easyui/retry.png) no-repeat !important;
+}
+.icon-send-now {
+    background: url(../images/easyui/send-now.gif) no-repeat !important;
+}
+.icon-checked {
+    background: url(../images/easyui/checked.gif) no-repeat !important;
+}
+.icon-unchecked {
+    background: url(../images/easyui/unchecked.gif) no-repeat !important;
+}
+.icon-pick-button {
+    background: url(../images/easyui/pick-button.gif) no-repeat !important;
+}
+.icon-apply {
+    background: url(../images/easyui/apply.png) no-repeat !important;
+}
+.icon-offset {
+    background: url(../images/easyui/offset.png) no-repeat !important;
+}
+.icon-success {
+    background: url(../images/easyui/success.gif) no-repeat !important;
+}
+.icon-forum {
+    background: url(../images/easyui/forum.gif) no-repeat !important;
+}
+.icon-pdf {
+    background: url(../images/easyui/pdf.gif) no-repeat !important;
+}
+.icon-excel {
+    background: url(../images/easyui/excel.gif) no-repeat !important;
+}
+.icon-word {
+    background: url(../images/easyui/word.gif) no-repeat !important;
+}
+.icon-btncom {
+	 background: url(../images/easyui/prop.gif) no-repeat !important;
+}
+.icon-close {
+    background: url(../images/easyui/close.gif) no-repeat !important;
+}
+.icon-detail {
+    background: url(../images/easyui/detail.gif) no-repeat !important;
+}
+.icon-after {
+	background: url(../images/easyui/after.gif) no-repeat !important;
+}
+.icon-before {
+	background: url(../images/easyui/before.gif) no-repeat !important;
+}
+.icon-refresh {
+    background: url(../images/core/reset.gif) no-repeat !important;
+}
+.icon-update {
+    background: url(../images/core/edit.gif) no-repeat !important;
+}
+
+.icon-property {
+    background: url(../images/core/p16.png) no-repeat !important;
+}
+
+.icon-function {
+    background: url(../images/core/f16.png) no-repeat !important;
+}

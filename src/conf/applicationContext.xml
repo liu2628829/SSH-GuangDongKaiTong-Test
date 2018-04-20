@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/jee
+    http://www.springframework.org/schema/jee/spring-jee-2.5.xsd"
+    default-autowire="byName"
+    default-lazy-init="true">
+
+	<!-- Proxool oracle连接池
+	     使用：org.logicalcobwebs.proxool.ProxoolDataSource, 密码不需加密
+	     使用：pub.source.SelfDataSource 密码需要加密
+	     maximumActiveTime属性：单个连接最低时长，单位：毫秒
+	     maximumConnectionLifetime:连接对象在连接池内存活时间，单位：毫秒
+	     alias：如果有配多个数据源，此属性可一定保证唯一，缓存的连接对象，是通过此属性找的
+	 
+    <bean id="Develop" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+    	<description>pub.dbDialectFactory.OracleDialect</description>
+	    <property name="driver">
+	      	<value>oracle.jdbc.driver.OracleDriver</value>
+	    </property>
+	    <property name="driverUrl">
+	     	<value>jdbc:oracle:thin:safeMgrDev/safeMgrDev@172.168.27.7:1522:catt11g</value>
+	    </property>
+	    <property name="user">
+	        <value>safeMgrDev</value>
+	    </property>
+	    <property name="password">
+	        <value>safeMgrDev</value>
+	    </property>
+	    <property name="alias">
+	        <value>Develop</value>
+	    </property>
+	    <property name="houseKeepingSleepTime">
+	        <value>90000</value>
+	    </property>
+	    <property name="maximumActiveTime">
+	        <value>900000</value>
+	    </property>
+	    <property name="prototypeCount">
+	        <value>15</value>
+	    </property>
+	    <property name="maximumConnectionCount">
+	        <value>15</value>
+	    </property>
+	    <property name="minimumConnectionCount">
+	        <value>15</value>
+	    </property>
+	    <property name="trace">
+	        <value>true</value>
+	    </property>
+	    <property name="verbose">
+	        <value>true</value>
+	    </property>
+	    <property name="testBeforeUse">
+	        <value>true</value>
+	    </property>
+	     <property name="houseKeepingTestSql">
+	        <value>select 1 from dual</value>
+	    </property>
+	</bean>  -->
+
+
+    <!-- Proxool mysql连接池
+    <value>jdbc:mysql://172.168.50.220:3306/selfmanage?user=root&amp;password=123456&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8</value>
+    <value>jdbc:mysql://172.168.50.172:5029/hdppweb?user=root&amp;password=root&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true</value>
+ 	<value>jdbc:mysql://localhost:3306/safeMgrDev?user=root&amp;password=root&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true</value>
+ 	-->
+    <bean id="Develop" class="org.logicalcobwebs.proxool.ProxoolDataSource" >
+    	<description>pub.dbDialectFactory.MysqlDialect</description>
+	    <property name="driver">
+	        <value>com.mysql.jdbc.Driver</value>
+	    </property>
+	    <property name="driverUrl">
+		    <value>jdbc:mysql://127.0.0.1:3306/safeMgrDev?user=root&amp;password=root&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true</value>
+	    </property>
+	    <property name="user">
+	        <value>root</value>
+	    </property>
+	    <property name="password">
+	        <value>root</value>
+	    </property>
+	    <property name="alias">
+	        <value>Develop</value>
+	    </property>
+	    <property name="houseKeepingSleepTime">
+	        <value>90000</value>
+	    </property>
+	    <property name="prototypeCount">
+	        <value>3</value>
+	    </property>
+	    <property name="maximumConnectionCount">
+	        <value>3</value>
+	    </property>
+	    <property name="minimumConnectionCount">
+	        <value>3</value>
+	    </property>
+	    <property name="trace">
+	        <value>true</value>
+	    </property>
+	    <property name="verbose">
+	        <value>true</value>
+	    </property>
+	    <property name="testBeforeUse">
+	        <value>true</value>
+	    </property>
+	     <property name="houseKeepingTestSql">
+	        <value>select 1</value>
+	    </property>
+	</bean>
+
+	<bean id="defaultSource" class="pub.source.SpringDataSource">
+	 	<property name="sourceName">
+    		<value>Develop</value>
+    	</property>
+    </bean>
+
+	<context:component-scan base-package="com.catt" />
+
+</beans>

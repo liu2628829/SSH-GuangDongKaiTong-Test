@@ -1,0 +1,172 @@
+/*��֧��W3C��׼*/
+.Find{
+	border:#7F9DB9 1px solid;
+	border-left:0px;
+    font-size:12px;
+    line-height:12px;
+	height:23px;
+	background:#fff url(../images/find/work.gif) no-repeat right;
+	cursor:pointer;
+	}
+	.Find input{padding-top:3px;}	
+	
+	
+	.PickList{
+	width:18;
+	position:relative;
+	top:1;
+	border:#7F9DB9 1px solid;
+	border-left:0px;
+    font-size:13px;               
+    line-height:16px;
+	height:21px;
+	background:#fff url(../images/find/pick-button.gif) no-repeat right 2px;
+	cursor:pointer;
+	background-position:100% 80%;
+	}
+	.PickList input{padding-top:3px;}	
+	.alarmlevel{
+  	position: absolute;
+    left:20px;
+    bottom: 0px;
+  }
+  
+  .seltDiv{
+  	position: absolute;
+  	display: none;
+  	top:0px;
+  	left:0px;
+  	border: 1px solid #BED9EC;
+  	background-color: white;
+  }
+  
+  .cleanDiv{
+  	background-color: #D0E1F0;
+  	text-align: right;
+  	padding-right: 10px;
+  }
+  
+  .cleanBtnOver{
+      background:url(./../images/find/reset.gif) no-repeat 0px 0px;
+      cursor: hand;
+      color:blue;
+      text-decoration:underline;
+  }
+  
+  .cleanBtnOut{
+      background:url(./../images/find/reset.gif) no-repeat 0px 0px;
+      cursor: hand;
+      color:black;
+      text-decoration:none;
+  }
+  
+  .prompt_Div{
+  	  display: none;
+  	  position: absolute;
+  	  background-color:white;
+  }
+  
+  /*jquery��-��*/
+  .JQSelect{display:inline;border:none 0px;padding:0px 0px 0px 0px;vertical-align:middle;}
+  /*
+  .JQSelect td{border:none 0px;border-color:#7F9DB9;padding-right:0px;height:22px;overflow:auto;}
+  .JQSelect .txt{float:left;display:block;height:22px;border-style:solid;border-width:1px 0px 1px 1px;border-color:#7F9DB9;}
+  .JQSelect .btn{display:-moz-inline-box;display:inline-block;height:20px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;border:#7F9DB9 solid;
+  				 border-width:1px 1px 1px 0px;
+  				 background:#fff url(../images/find/pick-button.gif) no-repeat right 0px;
+  				 }
+  				 */
+  .JQSelect td{
+  height:4px;border:none 0px;border-width:0px 0px 0px 0px;padding-right:0px;margin:0px 0px 0px 0px;
+  }		 
+  .JQSelect .txt{
+  	border:#7F9DB9 solid;border-width:1px 0px 1px 1px;height:20px;padding-top:2px;padding-left:4px;
+  }
+  .JQSelect .btn{
+ 				display:-moz-inline-box;display:inline-block;height:20px;width:15px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+  			    background:#7F9DB9 url(../images/find/pick-button.gif) no-repeat right 1px;
+  			    -webkit-text-size-adjust: none;
+  			    font-size:8px;border:#7F9DB9 solid;border-width:0px 0px 0px 0px;}
+  .JQSelect_div {position: absolute;background-color:white;overflow:auto;}
+  .JQSelect_iframe {border:none 0px;overflow:hidden}
+  
+  /*������*/
+  .PopupWindow {float:left;border:none 0px;padding:0px 0px 0px 0px;vertical-align:middle;}
+  .PopupWindow td{height:4px;border:none 0px;border-width:0px 0px 0px 0px;padding-right:0px;}
+  .PopupWindow .txt{float:left;border:#7F9DB9 solid;border-width:1px 0px 1px 1px;height:22px;padding-top:3px;}
+  .PopupWindow .openWinBtn{display:-moz-inline-box;display:inline-block;height:10px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+			    				background:#fff url(../images/find/book_custom1.gif) no-repeat right 0px;
+			    				-webkit-text-size-adjust: none;
+			    				font-size:8px;border:#7F9DB9 solid;border-width:1px 1px 0px 0px;
+				 }
+  .PopupWindow .cleanBtn{display:-moz-inline-box;display:inline-block;height:10px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+			    				background:#fff url(../images/find/reset1.gif) no-repeat right 0px;
+			    				-webkit-text-size-adjust: none;
+			    				font-size:8px;border:#7F9DB9 solid;border-width:0px 1px 1px 0px;
+				 }
+  /*�����ı���*/
+  .TextAreaPopupWindow {float:left;border:none 0px;padding:0px 0px 0px 0px;vertical-align:middle;}
+  .TextAreaPopupWindow td{height:4px;border:none 0px;border-width:0px 0px 0px 0px;padding-right:0px;}
+  .TextAreaPopupWindow .txt{float:left;border:#7F9DB9 solid;border-width:1px 1px 1px 1px;padding-top:3px;}
+  .TextAreaPopupWindow .openTxtAreaWinBtn{display:-moz-inline-box;display:inline-block;height:16px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+			    				background:#fff url(../images/find/work.gif) no-repeat right 0px;
+			    				-webkit-text-size-adjust: none;
+			    				font-size:8px;border:#7F9DB9 solid;border-width:0px 0px 0px 0px;
+				 }
+  .TextAreaPopupWindow .cleanTxtAreaBtn{display:-moz-inline-box;display:inline-block;height:16px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+			    				background:#fff url(../images/find/reset.gif) no-repeat right 0px;
+			    				-webkit-text-size-adjust: none;
+			    				font-size:8px;border:#7F9DB9 solid;border-width:0px 0px 0px 0px;
+				 }
+				 
+  /*���ļ��ϴ�*/
+  .fileUpload {float:left;border:none 0px;padding:0px 0px 0px 0px;vertical-align:middle;}
+  .fileUpload td{height:11px;border:none 0px;border-width:0px 0px 0px 0px;padding-right:0px;}
+  .fileUpload .txt{float:left;border:#7F9DB9 solid;border-width:1px 0px 1px 1px;height:22px;padding-top:3px;}
+  .fileUpload .openWinBtn{display:-moz-inline-box;display:inline-block;height:10px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+			    				background:#fff url(../images/find/upfile.gif) no-repeat right 0px;
+			    				-webkit-text-size-adjust: none;
+			    				font-size:8px;border:#7F9DB9 solid;border-width:1px 1px 0px 0px;
+				 }
+  .fileUpload .cleanBtn{display:-moz-inline-box;display:inline-block;height:10px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+			    				background:#fff url(../images/find/reset1.gif) no-repeat right 0px;
+			    				-webkit-text-size-adjust: none;
+			    				font-size:8px;border:#7F9DB9 solid;border-width:0px 1px 1px 0px;
+				 }
+				 
+  .jqFileUploadDiv {width:16px;height:10px;overflow:hidden;margin-top:-10px;}
+  .uploadFile {filter:alpha(opacity=0);opacity:0;width:10px;height:9px;margin:0px;}
+  
+  /*��ֵ��*/
+  .Digit{float:left;border:none 0px;padding:0px 0px 0px 0px;vertical-align:middle;}
+  .Digit td{height:4px;border:none 0px;border-width:0px 0px 0px 0px;padding-right:0px;}
+  .Digit .txt{float:left;border:#7F9DB9 solid;border-width:1px 0px 1px 1px;height:22px;padding-top:3px;}
+  .Digit .upBtn{display:-moz-inline-box;display:inline-block;height:10px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+  			    background:#fff url(../images/find/up.gif) no-repeat right 0px;
+  			    -webkit-text-size-adjust: none;
+  			    font-size:8px;border:#7F9DB9 solid;border-width:1px 1px 0px 0px;
+  			   }
+  .Digit .downBtn{display:-moz-inline-box;display:inline-block;height:10px;width:16px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+  			    background:#fff url(../images/find/down.gif) no-repeat right 0px;
+  			    -webkit-text-size-adjust: none;
+  			    font-size:8px;border:#7F9DB9 solid;border-width:0px 1px 1px 0px;
+  			    }
+  /*�ɰ�*/
+  .Mask {position:absolute;left:0; top:0; display:none; overflow:hidden;
+         filter:Alpha(opacity=40);zoom:1;
+  	     opacity:0.4; background-color:#ccc; width:100%; height:100%; z-index:1000;}
+  	     
+ /*�����ֵ��*/
+ .moreVal{float:left;border:none 0px;padding:0px 0px 0px 0px;vertical-align:middle;}
+ .moreVal td{height:4px;border:none 0px;border-width:0px 0px 0px 0px;padding-right:0px;}
+ .moreVal .txt{float:left;border:#7F9DB9 solid;border-width:1px 0px 1px 1px;height:20px;padding-top:3px;}
+ .moreVal a {display:-moz-inline-box;display:inline-block;height:20px;width:15px;cursor:pointer;padding:0px 0px 0px 0px;margin:0px;
+			    				background:#fff url(../images/find/icomoreVal.gif) no-repeat right 0px;
+			    				-webkit-text-size-adjust: none;
+			    				font-size:8px;border:#7F9DB9 solid;border-width:0px;
+  }
+ 
+
+
+
+
