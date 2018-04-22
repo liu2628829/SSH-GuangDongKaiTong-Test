@@ -1,0 +1,43 @@
+<!-- 
+/**
+* 下拉列有表样例及说明
+* gaotao 2010-07-18
+* 
+*/
+ -->
+<html>
+<head>
+
+<?XML:NAMESPACE PREFIX="CATTSOFT" ?>
+<?IMPORT NAMESPACE="CATTSOFT" IMPLEMENTATION="../../htc/TreeList/TreeList.htc" ?>
+<title>弹出窗口</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+<meta http-equiv="Page-Enter" content="blendTrans(Duration=0.5)">
+<meta http-equiv="Page-Exit" content="blendTrans(Duration=0.5)">
+<link rel="stylesheet" href="css/default.css">
+<link rel="stylesheet" href="css/find.css">
+
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../../js/ext.js"></script>
+<script type="text/javascript" src="../../js/select.js"></script>
+<script type="text/javascript" src="js/tooltip_split.js"></script>
+<script type="text/javascript" src="js/commonEnum.js"></script>
+<script type="text/javascript">
+//样例数据
+var json = [
+	{id:'1',text:'研发部'},{id:'2',text:'售前部'},
+	{id:'3',text:'人事部'},{id:'4',text:'产品部'},
+	{id:'5',text:'财务部'},{id:'6',text:'工程部'}
+	];
+
+function returnData(){
+	window.returnValue = json;
+	window.close();
+}
+
+</script>
+</head>
+<body style="border:0px;">
+	<input type="button" value="返回数据" onclick="returnData()" />
+</body>
+</html>

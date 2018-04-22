@@ -1,0 +1,75 @@
+ {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+BODY {
+	BACKGROUND: #FFF; COLOR: #000; LINE-HEIGHT: 1.6; TEXT-ALIGN: center
+}
+BODY {
+	FONT-SIZE: 9pt; COLOR: #333; FONT-FAMILY: "宋体",Arial, Simsun, Verdana, sans-serif
+}
+INPUT {
+	FONT-SIZE: 9pt; COLOR: #333; FONT-FAMILY: "宋体",Arial, Simsun, Verdana, sans-serif
+}
+SELECT {
+	FONT-SIZE: 9pt; COLOR: #333; FONT-FAMILY: "宋体",Arial, Simsun, Verdana, sans-serif
+}
+TEXTAREA {
+	FONT-SIZE: 9pt; COLOR: #333; FONT-FAMILY: "宋体",Arial, Simsun, Verdana, sans-serif
+}
+TABLE {
+	FONT-SIZE: 9pt; COLOR: #333; FONT-FAMILY: "宋体",Arial, Simsun, Verdana, sans-serif
+}
+IMG {
+	BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+A {
+	COLOR: #4264bd
+}
+LI {
+	LINE-HEIGHT: 20px
+}
+.dCenter {
+	MARGIN: 0px auto; WIDTH: 800px; TEXT-ALIGN: left
+}
+.dBody {
+	BACKGROUND: url(../images/body.jpg) repeat-y 50% top
+}
+.nav {
+	FLOAT: right; MARGIN-RIGHT: 25px; LIST-STYLE-TYPE: none
+}
+.nav LI {
+	FLOAT: left; MARGIN-LEFT: 20px
+}
+.navbar {
+	FONT-SIZE: 14px; MARGIN-BOTTOM: 6px; COLOR: #fff; LINE-HEIGHT: 28px; HEIGHT: 0px
+}
+.navbar A {
+	COLOR: #fff; TEXT-DECORATION: none
+}
+.navbar A:hover {
+	COLOR: #ccc; TEXT-DECORATION: none
+}
+.res-block {
+	BACKGROUND: url(../images/block/block-top.gif) no-repeat; MARGIN-BOTTOM: 15px; WIDTH: 210px; PADDING-TOP: 5px
+}
+.res-block-inner {
+	PADDING-RIGHT: 11px; PADDING-LEFT: 11px; BACKGROUND: url(../images/block/block-body.gif) repeat-y left 50%; PADDING-BOTTOM: 6px; PADDING-TOP: 6px
+}
+.res-block-bottom {
+	BACKGROUND: url(../images/block/block-bottom.gif) no-repeat; WIDTH: 210px; HEIGHT: 5px
+}
+.res-block H3 {
+	MARGIN-BOTTOM: 8px; FONT: bold 12px 宋体,tahoma,arial,sans-serif; COLOR: #555
+}
+.res-block UL {
+	FONT: 12px tahoma,arial,sans-serif; MARGIN-LEFT: 15px; COLOR: #555; LIST-STYLE-TYPE: disc
+}
+.res-block UL LI {
+	MARGIN: 0px 0px 5px 3px
+}
+#footer {
+	BACKGROUND: url(../images/footer.jpg) no-repeat; COLOR: #ccc; PADDING-TOP: 9px; FONT-FAMILY: Arial; HEIGHT: 47px; TEXT-ALIGN: center
+}
+#footer A {
+	COLOR: #ddd; TEXT-DECORATION: none
+}

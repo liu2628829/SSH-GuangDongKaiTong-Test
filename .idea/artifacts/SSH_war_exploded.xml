@@ -5,6 +5,7 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="SSH" />
+          <element id="library" level="project" name="WebRoot" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="SSH/web/Web" />

@@ -1,0 +1,45 @@
+html,body{width:100%;height:100%;overflow:hidden;}
+iframe{width:100%;height:100%;padding:0;margin:0;}
+img,body,html{border:0;}
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}
+*{font-family:Verdana, Geneva, sans-serif;font-size:12px;}
+html{height:100%;}
+body {margin:0;height:100%;padding:0; font-size:12px;font-family:Arial, Helvetica, sans-serif; border:0px;}
+ul{list-style:none;}
+textarea{overflow: auto;resize: none; }
+a:link,a:visited{color:#135ba6;text-decoration:none;}
+a:hover{color:#135ba6;text-decoration:underline;}
+th{font-weight: lighter;}
+.defaultColor{background-color:#F1F6FF;}
+/*default*/
+body {
+scrollbar-face-color:#ebf4fb;
+scrollbar-shadow-color:#FAFAFA;
+scrollbar-highlight-color:#FFFFFF;
+scrollbar-3dlight-color:#d3d3d4;
+scrollbar-darkshadow-color:#d3d3d4;
+scrollbar-track-color:#FAFAFA;
+scrollbar-arrow-color:#25add7;
+}
+a:link,a:visited{color:#117cc5;text-decoration:none;}
+a:hover{color:#117cc5;text-decoration:underline;}
+/*标题*/
+.title_content{float:left;background:url(images/panel_title.gif) repeat-x;width:100%;height:34px;}
+.title_left{float:left;font-weight:bold;font-size:13px;color:#15429f;padding-left:5px;}
+
+/*查询条件、详细表单、增加、编辑表单float:left;*/
+.formbasic{border:0px solid #A8CFEB;border-collapse:collapse;}
+.formbasic td{background:#F1F6FF;border:1px solid #A8CFEB;border-collapse:collapse;text-align:right;padding-right:5px;height:30px;word-wrap:break-word;word-break:break-all;}
+.formbasic th{background:#FAFCFF;border:1px solid #A8CFEB;border-collapse:collapse;text-align:left;padding-left:5px;word-wrap:break-word;word-break:break-all;}
+
+/*共用按纽*/
+.btn_hover{width:180px;margin:0;text-align:center; margin-right:auto;margin-left:auto;}
+.btn_hover li{line-height:22px;margin-right:20px;display:inline;width:70px;float:left;}
+.btn_hover li a{display:block;background:url(images/btn.gif) no-repeat;padding-left:13px;}
+.btn_hover li a span{display:block;background:url(images/btn.gif)  right 0 no-repeat;padding-right:13px;color:#000;}
+.btn_hover li a:link,.btn_hover li a:visited{display:block;text-decoration:none;}
+.btn_hover li a:link span,.btn_hover li a:visited span{display:block;line-height:22px;}
+.btn_hover li a:hover{display:block;background:url(images/btn.gif) 0 -22px no-repeat;padding-left:13px;cursor:pointer;}
+.btn_hover li a:hover span{display:block;background:url(images/btn.gif) right -22px no-repeat;padding-right:13px;}
+.btn_hover li a span .ok{background:url(../icons/ok.gif) no-repeat 0 center;padding-left:20px;}
+.btn_hover li a span .no{background:url(../icons/no.gif) no-repeat 0 center;padding-left:20px;}
