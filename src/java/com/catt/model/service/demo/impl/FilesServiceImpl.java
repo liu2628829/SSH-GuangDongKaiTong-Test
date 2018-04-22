@@ -1,7 +1,7 @@
 package com.catt.model.service.demo.impl;
 
 import com.catt.entity.TbEmployee;
-import com.catt.model.service.demo.DemoService;
+import com.catt.model.service.demo.FilesService;
 import org.springframework.stereotype.Service;
 import pub.dbDialectFactory.Dialect;
 import pub.dbDialectFactory.DialectFactory;
@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Service("demoService")
-public class DemoServiceImpl implements DemoService{
+@Service("FilesService")
+public class FilesServiceImpl implements FilesService{
 
 	/**
-	 * 查询人员集合
+	 * 查询文件集合
 	 */
-	public List getEmployeeList(Map map) {
+	public List getFilesList(Map map) {
 		//return demoDao.getEmployeeList(map);
 		String pageNo = (String)map.get("pageNo");
 		String limit = (String)map.get("limit");
@@ -102,9 +102,9 @@ public class DemoServiceImpl implements DemoService{
 	}
 
 	/**
-	 * 新增人员信息
+	 * 新增文件信息
 	 */
-	public int addEmployee(Map map) {
+	public int addFiles(Map map) {
 		/*实现方案1：
 		List<Data> datas = new ArrayList<Data>();
 		datas.add(Data.get("iEmployeeId", DataType.LONG, DatabaseUtil.getKeyId(null)));
@@ -120,13 +120,13 @@ public class DemoServiceImpl implements DemoService{
 		*/
 
 		//实现方案2：
-		return editEmployee(map);
+		return editFiles(map);
 	}
 
 	/**
-	 * 修改人员信息
+	 * 修改文件信息
 	 */
-	public int editEmployee(Map map) {
+	public int editFiles(Map map) {
 		List<Data> datas = new ArrayList<Data>();
 
 		String idField = TbEmployee.iEmployeeId.toString();
@@ -153,10 +153,10 @@ public class DemoServiceImpl implements DemoService{
 	}
 
 	/**
-	 * 删除人员信息
+	 * 删除文件信息
 	 */
-	public int deleteEmployee(String empId) {
-		String sql = "delete from tbEmployee where iEmployeeId in ("+empId+")";
+	public int deleteFiles(String filesId) {
+		String sql = "delete from tbFiles where IID in ("+filesId+")";
 		return DatabaseUtil.updateDateBase(sql,null);
 	}
 }

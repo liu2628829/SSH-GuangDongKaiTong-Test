@@ -1,53 +1,43 @@
 package pub.source;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.util.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import pub.dbDialectFactory.Dialect;
 import pub.dbDialectFactory.DialectFactory;
 import pub.servlet.ConfigInit;
 import util.BaseRuntimeException;
 import util.DateUtil;
 import util.StringUtil;
+
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.*;
+import java.util.Date;
 /**
- * 
- * ¸üĞÂËµÃ÷:
- * 2012/3/28 gaotao ¼ÓupdateByPrepareStatement updateByPrepareStatementBatch Á½¸ö·½·¨,ÓÃ·¨¼û·½·¨×¢ÊÍ
- * 2012/6/20 gaotao ²éÑ¯·½·¨£¬¶¼¼ÓÈëÁË¶ÔClob×Ö¶ÎµÄÌØ¶¨¶ÁÈ¡·½Ê½£¬¼ÓÈëÁË¶ÔClob,textµÄĞ´Èë·½Ê½
- * 2012/7/28 pengjiewen ĞÂÔöqueryForFetch£¬fetchNextÁ½¸ö·½·¨£¬ÊµÏÖ·ÖÅú×¥È¡Êı¾İ
- * 2012/9/26 qiaoqide ĞÂÔö¶Ô²éÑ¯½á¹û×öÏŞÖÆ
- * 2012/10/26 zhanweibin ĞŞ¸ÄupdateByPrepareStatementBatch()·½·¨£¬Ê¹ÓÃgetUpdateCount()»ñÈ¡¸üĞÂµÄ¼ÇÂ¼Êı
- * 2013/1/5 tangyj  ÔÚ²éÑ¯·½·¨ÖĞ£¬¶Ôoracle¿âµÄnumber×Ö¶ÎµÄ¸öÕûÊıÎ»Îª0µÄĞ¡Êı½øĞĞ´¦Àí£¬³ı¿ªfetchNext1()·½·¨£¬¸Ã·½·¨Ã»·¨»ñÈ¡Êı¾İ¿âÀàĞÍ¡£
- * 2013/5/17 gaotao ¸÷¸üĞÂ·½·¨ÖĞ£¬½øĞĞÊÂÎñÊÖ¶¯Ìá½»¡¢»Ø¹ö
- * 2013/5/21 gaotao ¼ÓÈësetObject·½·¨£¬¶Ô×Ö·û´®µÄÉèÖÃ½øĞĞÌØÊâ´¦Àí£¬²»È»oracle varchar2(4000),×î¶àÖ»ÄÜ²å666¸öÖĞÎÄ£¬¶øÊµ¼ÊÓ¦¸Ã¿ÉÒÔ²å2000¸ö²Å¶Ô
- * 2013/6/20 gaotao ¼ÓÈëgetRealSql·½·¨£¬²¢¶ÔËùÓĞº¬?ºÅµÄSQL£¬Ğ´ÈÕÖ¾Ê±£¬Ìæ»»³öÕæÊµÖµ¡£·â×°ÁËÖ´ĞĞÇ°¡¢ºóÈÕÖ¾¡£
- * 2013/9/7 gaotao Á½¸öÎŞlist²ÎÊıµÄ²éÑ¯·½·¨£¬µ÷ÓÃÓĞlist²ÎÊıµÄ·½·¨£¬Ê¹´úÂë½øÒ»²½ÖØÓÃ£»¼ÓÉÏÒ»¸öĞÂµÄ²éÑ¯·ÖÒ³·½·¨;
- * 2014/4/7 gaotao insertByPrepareStatementBatch·½·¨ÖØ¹¹£¬1²ğ³É3£¬Îª·½±ãÍ¨ÓÃµ¼ÈëÊ±µÄµ¥Ò»³¤Á¬½Ó´¦Àí
+ *
+ * æ›´æ–°è¯´æ˜:
+ * 2012/3/28 gaotao åŠ updateByPrepareStatement updateByPrepareStatementBatch ä¸¤ä¸ªæ–¹æ³•,ç”¨æ³•è§æ–¹æ³•æ³¨é‡Š
+ * 2012/6/20 gaotao æŸ¥è¯¢æ–¹æ³•ï¼Œéƒ½åŠ å…¥äº†å¯¹Clobå­—æ®µçš„ç‰¹å®šè¯»å–æ–¹å¼ï¼ŒåŠ å…¥äº†å¯¹Clob,textçš„å†™å…¥æ–¹å¼
+ * 2012/7/28 pengjiewen æ–°å¢queryForFetchï¼ŒfetchNextä¸¤ä¸ªæ–¹æ³•ï¼Œå®ç°åˆ†æ‰¹æŠ“å–æ•°æ®
+ * 2012/9/26 qiaoqide æ–°å¢å¯¹æŸ¥è¯¢ç»“æœåšé™åˆ¶
+ * 2012/10/26 zhanweibin ä¿®æ”¹updateByPrepareStatementBatch()æ–¹æ³•ï¼Œä½¿ç”¨getUpdateCount()è·å–æ›´æ–°çš„è®°å½•æ•°
+ * 2013/1/5 tangyj  åœ¨æŸ¥è¯¢æ–¹æ³•ä¸­ï¼Œå¯¹oracleåº“çš„numberå­—æ®µçš„ä¸ªæ•´æ•°ä½ä¸º0çš„å°æ•°è¿›è¡Œå¤„ç†ï¼Œé™¤å¼€fetchNext1()æ–¹æ³•ï¼Œè¯¥æ–¹æ³•æ²¡æ³•è·å–æ•°æ®åº“ç±»å‹ã€‚
+ * 2013/5/17 gaotao å„æ›´æ–°æ–¹æ³•ä¸­ï¼Œè¿›è¡Œäº‹åŠ¡æ‰‹åŠ¨æäº¤ã€å›æ»š
+ * 2013/5/21 gaotao åŠ å…¥setObjectæ–¹æ³•ï¼Œå¯¹å­—ç¬¦ä¸²çš„è®¾ç½®è¿›è¡Œç‰¹æ®Šå¤„ç†ï¼Œä¸ç„¶oracle varchar2(4000),æœ€å¤šåªèƒ½æ’666ä¸ªä¸­æ–‡ï¼Œè€Œå®é™…åº”è¯¥å¯ä»¥æ’2000ä¸ªæ‰å¯¹
+ * 2013/6/20 gaotao åŠ å…¥getRealSqlæ–¹æ³•ï¼Œå¹¶å¯¹æ‰€æœ‰å«?å·çš„SQLï¼Œå†™æ—¥å¿—æ—¶ï¼Œæ›¿æ¢å‡ºçœŸå®å€¼ã€‚å°è£…äº†æ‰§è¡Œå‰ã€åæ—¥å¿—ã€‚
+ * 2013/9/7 gaotao ä¸¤ä¸ªæ— listå‚æ•°çš„æŸ¥è¯¢æ–¹æ³•ï¼Œè°ƒç”¨æœ‰listå‚æ•°çš„æ–¹æ³•ï¼Œä½¿ä»£ç è¿›ä¸€æ­¥é‡ç”¨ï¼›åŠ ä¸Šä¸€ä¸ªæ–°çš„æŸ¥è¯¢åˆ†é¡µæ–¹æ³•;
+ * 2014/4/7 gaotao insertByPrepareStatementBatchæ–¹æ³•é‡æ„ï¼Œ1æ‹†æˆ3ï¼Œä¸ºæ–¹ä¾¿é€šç”¨å¯¼å…¥æ—¶çš„å•ä¸€é•¿è¿æ¥å¤„ç†
  */
 public class DatabaseUtil {
-	
-	/**ÏŞÖÆ²éÑ¯½á¹ûÊı¾İĞĞ*/
+
+	/**é™åˆ¶æŸ¥è¯¢ç»“æœæ•°æ®è¡Œ*/
 	private static final int TOTAL= StringUtil.toInteger(ConfigInit.Config.getProperty("DataBaseUtil_MaxResult", "10000"));
-	
+
 	/**
-	 * »ñÈ¡Á´½Ó
-	 * 
-	 * @param domain Êı¾İÔ´
-	 * @return Êı¾İ¿âÁ¬½Ó¶ÔÏó
+	 * è·å–é“¾æ¥
+	 *
+	 * @param domain æ•°æ®æº
+	 * @return æ•°æ®åº“è¿æ¥å¯¹è±¡
 	 */
 	public static synchronized Connection getConnection(String domain) {
 		Connection connection = null;
@@ -55,54 +45,54 @@ public class DatabaseUtil {
 				.getConnection(domain) : DatabaseConnection.getConnection();
 		return connection;
 	}
-	
+
 	/**
-	 * ¼òµ¥SQL²éÑ¯
-	 * 
-	 * @param sql ²éÑ¯SQL
-	 * @return ²éÑ¯½á¹û¼¯
+	 * ç®€å•SQLæŸ¥è¯¢
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @return æŸ¥è¯¢ç»“æœé›†
 	 */
 	public static List queryForList(String sql) {
 		return queryForList(sql, "");
 	}
-	
+
 	/**
-	 * ¼òµ¥SQL²éÑ¯
-	 * 
-	 * @param sql ²éÑ¯SQL	 
-	 * @param domain Êı¾İÔ´
-	 * @return ²éÑ¯½á¹û¼¯
+	 * ç®€å•SQLæŸ¥è¯¢
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param domain æ•°æ®æº
+	 * @return æŸ¥è¯¢ç»“æœé›†
 	 */
 	public static List queryForList(String sql, String domain) {
 		return queryForList(sql, null, domain);
 	}
-	
+
 	/**
-	 * PrepareStatement SQL²éÑ¯
-	 * 
-	 * @param sql ²éÑ¯SQL	
-	 * @param list ²éÑ¯²ÎÊı 
-	 * @param domain Êı¾İÔ´
-	 * @return ²éÑ¯½á¹û¼¯
+	 * PrepareStatement SQLæŸ¥è¯¢
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param list æŸ¥è¯¢å‚æ•°
+	 * @param domain æ•°æ®æº
+	 * @return æŸ¥è¯¢ç»“æœé›†
 	 */
 	public static List queryForList(String sql, List list, String domain) {
 		Map<String, String> params = before(sql, list, domain);
-		
+
 		List tempList = queryForList(sql, list, domain, params);
-		
+
 		after(params, tempList.size());
-		
+
 		return tempList;
 	}
-	
-	
+
+
 	/**
-	 * Ô¤´¦Àí·½Ê½²éÑ¯£¬½öÓÃÓÚµ±Ç°ÀàºÍÈÕÖ¾¹¤¾ßÀàµ÷ÓÃ, ²»¼ÇjdbcÈÕÖ¾£¬²»ÎªÒµÎñÏµÍ³¿ª·Å
-	 * 
-	 * @param sql ²éÑ¯SQL	
-	 * @param list ²éÑ¯²ÎÊı 
-	 * @param domain Êı¾İÔ´
-	 * @return ²éÑ¯½á¹û¼¯
+	 * é¢„å¤„ç†æ–¹å¼æŸ¥è¯¢ï¼Œä»…ç”¨äºå½“å‰ç±»å’Œæ—¥å¿—å·¥å…·ç±»è°ƒç”¨, ä¸è®°jdbcæ—¥å¿—ï¼Œä¸ä¸ºä¸šåŠ¡ç³»ç»Ÿå¼€æ”¾
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param list æŸ¥è¯¢å‚æ•°
+	 * @param domain æ•°æ®æº
+	 * @return æŸ¥è¯¢ç»“æœé›†
 	 */
 	protected static List queryForList(String sql, List list, String domain, Map<String, String> params) {
 		Connection conn = null;
@@ -113,7 +103,7 @@ public class DatabaseUtil {
 			conn = getConnection(domain);
 			st = conn.prepareStatement(sql);
 			if(list != null && list.size() > 0){
-				setObject(st, list, domain); //ÉèÖÃ²ÎÊı	
+				setObject(st, list, domain); //è®¾ç½®å‚æ•°
 			}
 			rs = st.executeQuery();
 			resultToList(tempList, domain, rs, null);
@@ -124,40 +114,40 @@ public class DatabaseUtil {
 		}
 		return tempList;
 	}
-	
-	
+
+
 	/**
-	 * ·ÖÒ³SQL²éÑ¯
-	 * 
-	 * @param sql ²éÑ¯SQL
-	 * @param page µ±Ç°Ò³
-	 * @param limit Ã¿Ò³¼ÇÂ¼Êı
-	 * @return ²éÑ¯½á¹û¼¯
+	 * åˆ†é¡µSQLæŸ¥è¯¢
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param page å½“å‰é¡µ
+	 * @param limit æ¯é¡µè®°å½•æ•°
+	 * @return æŸ¥è¯¢ç»“æœé›†
 	 */
 	public static List queryForListByPage(String sql, int page, int limit) {
 		return queryForListByPage(sql, page, limit, "");
 	}
-	
+
 	/**
-	 * ·ÖÒ³SQL²éÑ¯
-	 * @param sql ²éÑ¯SQL
-	 * @param page µ±Ç°Ò³
-	 * @param limit Ã¿Ò³¼ÇÂ¼Êı
-	 * @param domain Êı¾İÔ´
-	 * @return ²éÑ¯½á¹û¼¯
+	 * åˆ†é¡µSQLæŸ¥è¯¢
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param page å½“å‰é¡µ
+	 * @param limit æ¯é¡µè®°å½•æ•°
+	 * @param domain æ•°æ®æº
+	 * @return æŸ¥è¯¢ç»“æœé›†
 	 */
 	public static List queryForListByPage(String sql, int page, int limit, String domain) {
 		return queryForListByPage(sql, page,limit, null, domain);
 	}
-	
+
 	/**
-	 * PrepareStatementÔ¤´¦Àí·ÖÒ³²éÑ¯£¬½â¾öSQl×¢ÈëÎÊÌâ
-	 * @param sql ²éÑ¯SQL
-	 * @param page µ±Ç°Ò³
-	 * @param limit Ã¿Ò³¼ÇÂ¼Êı
-	 * @param list ²éÑ¯²ÎÊı
-	 * @param domain Êı¾İÔ´
-	 * @return ²éÑ¯½á¹û¼¯
+	 * PrepareStatementé¢„å¤„ç†åˆ†é¡µæŸ¥è¯¢ï¼Œè§£å†³SQlæ³¨å…¥é—®é¢˜
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param page å½“å‰é¡µ
+	 * @param limit æ¯é¡µè®°å½•æ•°
+	 * @param list æŸ¥è¯¢å‚æ•°
+	 * @param domain æ•°æ®æº
+	 * @return æŸ¥è¯¢ç»“æœé›†
 	 */
 	public static List queryForListByPage(String sql, int page, int limit, List list, String domain) {
 		Map<String, String> params = before(sql, list, domain);
@@ -168,9 +158,9 @@ public class DatabaseUtil {
 		Statement st = null;
 		int rowId = 0;
 		try {
-			//¼ÙÈçfromÇ°ÊÇÒ»¸ö»»ĞĞ·û¶ø²»ÊÇÒ»¸ö¿Õ¸ñ£¬»áµ¼ÖÂsybase·ÖÒ³·½ÑÔÀï±¨´í
+			//å‡å¦‚fromå‰æ˜¯ä¸€ä¸ªæ¢è¡Œç¬¦è€Œä¸æ˜¯ä¸€ä¸ªç©ºæ ¼ï¼Œä¼šå¯¼è‡´sybaseåˆ†é¡µæ–¹è¨€é‡ŒæŠ¥é”™
 			sql = sql.replace("\n", " ").replace("\r", " ");
-			// ·½ÑÔ
+			// æ–¹è¨€
 			Object objs[] = DialectFactory.getDialect(domain)
 					.getDataByPageEoms(conn, sql, page, limit, list);
 			if(objs != null){
@@ -186,18 +176,18 @@ public class DatabaseUtil {
 		after(params, rowId);
 		return tempList;
 	}
-	
+
 	/**
-	 * ·ÖÒ³²éÑ¯£ºº¬union¹Ø¼ü×Ö£¬Êı¾İÁ¿ÓÖ´óµÄÇé¿ö£¬¿É×Ô¼ºĞ´ÍêÕûµÄ·ÖÒ³SQL£¬¶ø²»ÓÃ·½ÑÔÀàÀïµÄÊµÏÖ£¬
-	 * ±ÜÃâ±»·½ÑÔÀàÀïÊµÏÖµÄ·ÖÒ³°ü×°Ò»²ãÁË²éÑ¯ºó£¬Ó°ÏìĞÔÄÜ¡£
-	 * ´Ë·½·¨¾ÖÏŞĞÔ£º
-	 *  1,´Ë·½·¨²»ÊÊÓÃÓÚSybase
-	 *  2,ÓÉÓÚ²ÎÊıÖĞµÄSQLÒÑ¾­°üº¬ÁË·ÖÒ³Âß¼­£¬Ò»µ©Êı¾İ¿âÀàĞÍ·¢Éú±ä»¯£¬¶ÔÓ¦µÄSQL£¬Ò²Òª¸ü¸Ä¡£
-	 *   £¨½â¾ö°ì·¨£ºÔÚ×ÔÒÑµÄDAOÀïÏÈÅĞ¶ÏºÃÊı¾İ¿âÀàĞÍ£¬¸ù¾İ²»Í¬Êı¾İ¿âÀàĞÍ£¬Ğ´¼¸Ì×²»Í¬µÄSQL£¬ÔÙ´«Èë´Ë·½·¨£© 
-	 * @param countSql ²éÑ¯×Ü¼ÇÂ¼ÊıµÄSQL
-	 * @param dataSql ²éÑ¯Ä³Ò»Ò³Êı¾İµÄSQL
-	 * @param list SQLÖĞ?ºÅ¶ÔÓ¦µÄ²ÎÊı
-	 * @param domain Êı¾İÔ´
+	 * åˆ†é¡µæŸ¥è¯¢ï¼šå«unionå…³é”®å­—ï¼Œæ•°æ®é‡åˆå¤§çš„æƒ…å†µï¼Œå¯è‡ªå·±å†™å®Œæ•´çš„åˆ†é¡µSQLï¼Œè€Œä¸ç”¨æ–¹è¨€ç±»é‡Œçš„å®ç°ï¼Œ
+	 * é¿å…è¢«æ–¹è¨€ç±»é‡Œå®ç°çš„åˆ†é¡µåŒ…è£…ä¸€å±‚äº†æŸ¥è¯¢åï¼Œå½±å“æ€§èƒ½ã€‚
+	 * æ­¤æ–¹æ³•å±€é™æ€§ï¼š
+	 *  1,æ­¤æ–¹æ³•ä¸é€‚ç”¨äºSybase
+	 *  2,ç”±äºå‚æ•°ä¸­çš„SQLå·²ç»åŒ…å«äº†åˆ†é¡µé€»è¾‘ï¼Œä¸€æ—¦æ•°æ®åº“ç±»å‹å‘ç”Ÿå˜åŒ–ï¼Œå¯¹åº”çš„SQLï¼Œä¹Ÿè¦æ›´æ”¹ã€‚
+	 *   ï¼ˆè§£å†³åŠæ³•ï¼šåœ¨è‡ªå·²çš„DAOé‡Œå…ˆåˆ¤æ–­å¥½æ•°æ®åº“ç±»å‹ï¼Œæ ¹æ®ä¸åŒæ•°æ®åº“ç±»å‹ï¼Œå†™å‡ å¥—ä¸åŒçš„SQLï¼Œå†ä¼ å…¥æ­¤æ–¹æ³•ï¼‰
+	 * @param countSql æŸ¥è¯¢æ€»è®°å½•æ•°çš„SQL
+	 * @param dataSql æŸ¥è¯¢æŸä¸€é¡µæ•°æ®çš„SQL
+	 * @param list SQLä¸­?å·å¯¹åº”çš„å‚æ•°
+	 * @param domain æ•°æ®æº
 	 * @return
 	 */
 	public static List queryForListByPage(String countSql, String dataSql, List list, String domain){
@@ -209,7 +199,7 @@ public class DatabaseUtil {
 		PreparedStatement st = null;
 		int rowId = 0;
 		try {
-			/**ÄÃ×Ü¼ÇÂ¼Êı*/
+			/**æ‹¿æ€»è®°å½•æ•°*/
 			st = conn.prepareStatement(countSql);
 			int size =0;
 			if(list != null){
@@ -223,12 +213,12 @@ public class DatabaseUtil {
 			if (rs != null && rs.next()) {
 				totalCount = rs.getString(1);
 			}
-			free(null, st, rs); //ÏÈ¹Ø±ÕÒÑ¾­ÎŞÓÃµÄ¶ÔÏó
-			if("0".equals(totalCount)){ //Ã»ÓĞ¼ÇÂ¼Êı£¬²»±Ø¼ÌĞø²éÑ¯Êı¾İ½á¹û¼¯
+			free(null, st, rs); //å…ˆå…³é—­å·²ç»æ— ç”¨çš„å¯¹è±¡
+			if("0".equals(totalCount)){ //æ²¡æœ‰è®°å½•æ•°ï¼Œä¸å¿…ç»§ç»­æŸ¥è¯¢æ•°æ®ç»“æœé›†
 				return tempList;
 			}
-			
-			/**µÃÊı¾İ½á¹û¼¯*/
+
+			/**å¾—æ•°æ®ç»“æœé›†*/
 			st =conn.prepareStatement(dataSql);
 			if(list != null){
 				for(int i=0; i<size; i++){
@@ -245,12 +235,12 @@ public class DatabaseUtil {
 		after(params, rowId);
 		return tempList;
 	}
-	
+
 	/**
-	 * °Ñ½á¹û¼¯×ª±ä³É List<Map>¶ÔÏó
-	 * @param tempList ÓÃÓÚ×°ÔØ½á¹ûµÄlist
-	 * @param domain Êı¾İÔ´
-	 * @param rs ½á¹û¼¯¶ÔÏó
+	 * æŠŠç»“æœé›†è½¬å˜æˆ List<Map>å¯¹è±¡
+	 * @param tempList ç”¨äºè£…è½½ç»“æœçš„list
+	 * @param domain æ•°æ®æº
+	 * @param rs ç»“æœé›†å¯¹è±¡
 	 */
 	public static int resultToList(List<Map> tempList, String domain, ResultSet rs, String totalCount) throws Exception{
 		boolean hasTotalCount = StringUtil.checkStr(totalCount);
@@ -271,22 +261,22 @@ public class DatabaseUtil {
 			if(map.containsKey("ROW_ID")){map.put("ROWID", map.get("ROW_ID"));}
 			map.put("rowId", rowId + "");
 			if(hasTotalCount){
-				map.put("totalCount", totalCount); //×°Èë×Ü¼ÇÂ¼Êı
-				map.put("iRecCount", totalCount); //×°Èë×Ü¼ÇÂ¼Êı
+				map.put("totalCount", totalCount); //è£…å…¥æ€»è®°å½•æ•°
+				map.put("iRecCount", totalCount); //è£…å…¥æ€»è®°å½•æ•°
 			}
 			tempList.add(map);
-			if(rowId>TOTAL)break;//Èç¹ûÊı¾İ³¬³öÖ¸¶¨µÄÌõÊı½«Ç¿ÖÆÍË³öÑ­»·
+			if(rowId>TOTAL)break;//å¦‚æœæ•°æ®è¶…å‡ºæŒ‡å®šçš„æ¡æ•°å°†å¼ºåˆ¶é€€å‡ºå¾ªç¯
 		}
-		
+
 		return rowId;
 	}
-	
-	
+
+
 	/**
-	 * ¸üĞÂÊı¾İ¿â
-	 * 
-	 * @param sql ¸üĞÂSQL
-	 * @return ¸üĞÂĞĞÊı
+	 * æ›´æ–°æ•°æ®åº“
+	 *
+	 * @param sql æ›´æ–°SQL
+	 * @return æ›´æ–°è¡Œæ•°
 	 */
 	public static int updateDateBase(String sql, String domain) {
 		Map<String, String> params = before(sql, null, domain);
@@ -307,21 +297,21 @@ public class DatabaseUtil {
 	}
 
 	/**
-	 * ¸üĞÂÊı¾İ¿â
-	 * 
-	 * @param sql ¸üĞÂSQL
-	 * @return ¸üĞÂĞĞÊı
+	 * æ›´æ–°æ•°æ®åº“
+	 *
+	 * @param sql æ›´æ–°SQL
+	 * @return æ›´æ–°è¡Œæ•°
 	 */
 	public static int updateDateBase(String sql) {
 		return updateDateBase(sql, "");
 	}
 
 	/**
-	 * Ô¤´¦Àí·½Ê½¸üĞÂ,½öÓÃÓÚµ±Ç°Àà´æÈÕÖ¾ĞÅÏ¢,²»ÎªÒµÎñÏµÍ³¿ª·Å
-	 * @param sql ¸üĞÂSQL
-	 * @param data £¿ºÅ²ÎÊı¼¯
-	 * @param domain Êı¾İÔ´
-	 * @return ¸üĞÂĞĞÊı
+	 * é¢„å¤„ç†æ–¹å¼æ›´æ–°,ä»…ç”¨äºå½“å‰ç±»å­˜æ—¥å¿—ä¿¡æ¯,ä¸ä¸ºä¸šåŠ¡ç³»ç»Ÿå¼€æ”¾
+	 * @param sql æ›´æ–°SQL
+	 * @param data ï¼Ÿå·å‚æ•°é›†
+	 * @param domain æ•°æ®æº
+	 * @return æ›´æ–°è¡Œæ•°
 	 */
 	protected static int updateDateBase(String sql, ArrayList data, String domain) {
 		Connection conn = null;
@@ -333,7 +323,7 @@ public class DatabaseUtil {
 			setObject(st, data, domain);
 			num = st.executeUpdate();
 		} catch (Exception e) {
-			LogOperateUtil.logSQLError(e, domain, sql, "´æÈÕÖ¾³ö´í");
+			LogOperateUtil.logSQLError(e, domain, sql, "å­˜æ—¥å¿—å‡ºé”™");
 		} finally {
 			free(conn, st, null);
 		}
@@ -341,10 +331,10 @@ public class DatabaseUtil {
 	}
 
 	/**
-	 * ÅúÁ¿¸üĞÂ
-	 * @param sqlArray ¸üĞÂĞĞÊıÊı×é
-	 * @param domain Êı¾İÔ´
-	 * @return ³É¹¦Óë·ñ 1³É¹¦£¬ÆäËüÊ§°Ü
+	 * æ‰¹é‡æ›´æ–°
+	 * @param sqlArray æ›´æ–°è¡Œæ•°æ•°ç»„
+	 * @param domain æ•°æ®æº
+	 * @return æˆåŠŸä¸å¦ 1æˆåŠŸï¼Œå…¶å®ƒå¤±è´¥
 	 */
 	public static int updateBatchBase(String[] sqlArray, String domain) {
 		int flg = 1;
@@ -356,17 +346,17 @@ public class DatabaseUtil {
 		}
 		return flg;
 	}
-	
+
 	public static int updateBatchBase(String[] sqlArray) {
 		return updateBatchBase(sqlArray, "");
 	}
-	
+
 	/**
-	 * ÅúÁ¿¸üĞÂ
-	 * 
-	 * @param sqlArray ¸üĞÂĞĞÊıÊı×é
-	 * @param domain Êı¾İÔ´
-	 * @return ¸üĞÂĞĞÊı
+	 * æ‰¹é‡æ›´æ–°
+	 *
+	 * @param sqlArray æ›´æ–°è¡Œæ•°æ•°ç»„
+	 * @param domain æ•°æ®æº
+	 * @return æ›´æ–°è¡Œæ•°
 	 */
 	public static int updateBatchBase1(String[] sqlArray, String domain) {
 		Map<String, String> params = before(sqlArray[0], null, domain);
@@ -380,14 +370,14 @@ public class DatabaseUtil {
 			int length = sqlArray.length;
 			for (int i = 0; i < length; i++) {
 				st.addBatch(sqlArray[i]);
-				// Ò»Åú×î¶à100Ìõ
+				// ä¸€æ‰¹æœ€å¤š100æ¡
 				if ((i + 1) % 100 == 0) {
 					num += sum(st.executeBatch());
 					st.clearBatch();
 					conn.commit();
 				}
 			}
-			if(length % 100 > 0){ //ÒòÎª¿ÕÊı¾İÖ´ĞĞ»á±¨´í
+			if(length % 100 > 0){ //å› ä¸ºç©ºæ•°æ®æ‰§è¡Œä¼šæŠ¥é”™
 				num += sum(st.executeBatch());
 			}
 			commit(conn);
@@ -400,12 +390,12 @@ public class DatabaseUtil {
 		after(params, num);
 		return num;
 	}
-	
+
 	/**
-	 * ÇóºÍ
-	 * 
-	 * @param arr ¸üĞÂĞĞÊıÊı×é
-	 * @return ×ÜĞĞÊı
+	 * æ±‚å’Œ
+	 *
+	 * @param arr æ›´æ–°è¡Œæ•°æ•°ç»„
+	 * @return æ€»è¡Œæ•°
 	 */
 	public static int sum(int[] arr) {
 		int num = 0;
@@ -416,20 +406,20 @@ public class DatabaseUtil {
 	}
 
 	/**
-	 * ÅúÁ¿¸üĞÂ
-	 * 
-	 * @param sqlArray SQLÊı×é
-	 * @return ¸üĞÂĞĞÊı
+	 * æ‰¹é‡æ›´æ–°
+	 *
+	 * @param sqlArray SQLæ•°ç»„
+	 * @return æ›´æ–°è¡Œæ•°
 	 */
 	public static int updateBatchBase1(String[] sqlArray) {
 		return updateBatchBase1(sqlArray, "");
 	}
 
 	/**
-	 * Ö´ĞĞSQL,°Ñµ¥ĞĞ½á¹ûÒÔMapÀàĞÍ·µ»Ø
-	 * 
-	 * @param sql ²éÑ¯SQL
-	 * @return Êı¾İ½á²é
+	 * æ‰§è¡ŒSQL,æŠŠå•è¡Œç»“æœä»¥Mapç±»å‹è¿”å›
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @return æ•°æ®ç»“æŸ¥
 	 */
 	public static Map<String, Object> queryForMap(String sql, String domain) {
 		Map<String, String> params = before(sql, null, domain);
@@ -462,43 +452,43 @@ public class DatabaseUtil {
 		after(params, 1);
 		return map;
 	}
-	
+
 	/**
-	 * Ö´ĞĞSQL,°Ñµ¥ĞĞ½á¹ûÒÔMapÀàĞÍ·µ»Ø
-	 * 
-	 * @param sql ²éÑ¯SQL
-	 * @return Êı¾İ½á²é
+	 * æ‰§è¡ŒSQL,æŠŠå•è¡Œç»“æœä»¥Mapç±»å‹è¿”å›
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @return æ•°æ®ç»“æŸ¥
 	 */
 	public static Map<String, Object> queryForMap(String sql) {
 		return queryForMap(sql, "");
 	}
 
 	/**
-	 * ²»´æJDBCÈÕÖ¾µÄÈ¡Ö÷¼ü,´Ë·½·¨½öÓÃÓÚ±£´æÈÕÖ¾
-	 * 
-	 * @param domain ÊıÔ­
-	 * @param path ³ÌĞòÂ·¾¶
-	 * @param sql Ö´ĞĞSQL
-	 * @return Ö÷¼ü
+	 * ä¸å­˜JDBCæ—¥å¿—çš„å–ä¸»é”®,æ­¤æ–¹æ³•ä»…ç”¨äºä¿å­˜æ—¥å¿—
+	 *
+	 * @param domain æ•°åŸ
+	 * @param path ç¨‹åºè·¯å¾„
+	 * @param sql æ‰§è¡ŒSQL
+	 * @return ä¸»é”®
 	 */
 	public static String getKeyId(String domain, String path, String sql) {
 		domain = StringUtil.checkStr(domain) ? domain : DialectFactory.getDefaultDatasrc();
-		String key = DialectFactory.getPrimaryKeys(domain);// ´Ó»º´æÈ¡
-		if (key == null) {//Èç¹û»º´æÄÚÎŞÖµ
+		String key = DialectFactory.getPrimaryKeys(domain);// ä»ç¼“å­˜å–
+		if (key == null) {//å¦‚æœç¼“å­˜å†…æ— å€¼
 			Connection conn = getConnection(domain);
 			Statement st = null;
 			ResultSet rs = null;
 			try {
 				int cachePrimaryKeys = Integer.parseInt(ConfigInit.Config.getProperty(
-						"cachePrimaryKeys", "100"));//»º´æÖ÷¼ü¸öÊı
+						"cachePrimaryKeys", "100"));//ç¼“å­˜ä¸»é”®ä¸ªæ•°
 				Object objs[] = DialectFactory.getDialect(domain).getKeyId(
-						conn,cachePrimaryKeys);// ·½ÑÔ
+						conn,cachePrimaryKeys);// æ–¹è¨€
 				st = (Statement) objs[0];
 				rs = (ResultSet) objs[1];
 				if (rs != null && rs.next()) {
 					key = rs.getString(1);
 				}
-				DialectFactory.setPrimaryKeys(domain, key);// ÖØÉè»º´æ
+				DialectFactory.setPrimaryKeys(domain, key);// é‡è®¾ç¼“å­˜
 			} catch (Exception e) {
 				LogOperateUtil.logSQLError(e, domain, sql, path);
 			} finally {
@@ -509,10 +499,10 @@ public class DatabaseUtil {
 	}
 
 	/**
-	 * »ñÈ¡Ö÷¼ü
-	 * tableName ÊÇÒ»¸öÎŞÓÃ²ÎÊı£¬ÎªÊÊÓ¦¹«Ë¾ÒÔÇ°°æ±¾£¬·½±ã¼¯³É£¬¹Ê±£Áô´Ë²ÎÊı
-	 * @param domain Êı¾İÔ´
-	 * @return Ö÷¼ü
+	 * è·å–ä¸»é”®
+	 * tableName æ˜¯ä¸€ä¸ªæ— ç”¨å‚æ•°ï¼Œä¸ºé€‚åº”å…¬å¸ä»¥å‰ç‰ˆæœ¬ï¼Œæ–¹ä¾¿é›†æˆï¼Œæ•…ä¿ç•™æ­¤å‚æ•°
+	 * @param domain æ•°æ®æº
+	 * @return ä¸»é”®
 	 */
 	public static String getKeyId(String domain, String tableName) {
 		String sql = "{call SP_GET_ID_EX2('" + tableName + "')}";
@@ -521,41 +511,41 @@ public class DatabaseUtil {
 		after(params, 1);
 		return key;
 	}
-	
+
 	/**
-	 * »ñÈ¡Ö÷¼ü
-	 * tableName ÊÇÒ»¸öÎŞÓÃ²ÎÊı£¬ÎªÊÊÓ¦¹«Ë¾ÒÔÇ°°æ±¾£¬·½±ã¼¯³É£¬¹Ê±£Áô´Ë²ÎÊı
-	 * @param domain Êı¾İÔ´
-	 * @return Ö÷¼ü
+	 * è·å–ä¸»é”®
+	 * tableName æ˜¯ä¸€ä¸ªæ— ç”¨å‚æ•°ï¼Œä¸ºé€‚åº”å…¬å¸ä»¥å‰ç‰ˆæœ¬ï¼Œæ–¹ä¾¿é›†æˆï¼Œæ•…ä¿ç•™æ­¤å‚æ•°
+	 * @param domain æ•°æ®æº
+	 * @return ä¸»é”®
 	 */
 	public static String getKeyId(String tableName) {
 		return getKeyId("", tableName);
 	}
-	
-	/**»ñÈ¡Ò»ÅúÖ÷¼ü
-	 * @param numbers Òª»ñÈ¡Ö÷¼üµÄ¸öÊı
-	 * @param domain Êı¾İÔ´£¬´«nullÔòÒÔÄ¬ÈÏÊı¾İÔ­Îª×¼
-	 * @param tableName ÊÇÒ»¸ö´ıÊµÏÖ²ÎÊı£¬ÎªÊÊÓ¦¹«Ë¾ÒÔÇ°°æ±¾£¬·½±ã¼¯³É£¬¹Ê±£Áô´Ë²ÎÊı£¬¿ÉÒÔ´«null
-	 * @return Ö÷¼üÊı×é
+
+	/**è·å–ä¸€æ‰¹ä¸»é”®
+	 * @param numbers è¦è·å–ä¸»é”®çš„ä¸ªæ•°
+	 * @param domain æ•°æ®æºï¼Œä¼ nullåˆ™ä»¥é»˜è®¤æ•°æ®åŸä¸ºå‡†
+	 * @param tableName æ˜¯ä¸€ä¸ªå¾…å®ç°å‚æ•°ï¼Œä¸ºé€‚åº”å…¬å¸ä»¥å‰ç‰ˆæœ¬ï¼Œæ–¹ä¾¿é›†æˆï¼Œæ•…ä¿ç•™æ­¤å‚æ•°ï¼Œå¯ä»¥ä¼ null
+	 * @return ä¸»é”®æ•°ç»„
 	 * */
 	public static String[] getKeyIds(int numbers, String domain, String tableName){
-		String sql = "ÅúÁ¿»ñÈ¡"+numbers+"¸öÖ÷¼ü{call SP_GET_ID_EX2('" + tableName + "')}";
+		String sql = "æ‰¹é‡è·å–"+numbers+"ä¸ªä¸»é”®{call SP_GET_ID_EX2('" + tableName + "')}";
 		Map<String, String> params = before(sql, null, domain);
-		
+
 		String[] keys = new String[numbers];
 		for(int i=0; i<numbers; i++){
 			keys[i] = getKeyId(domain, params.get("path"), sql);
 		}
-		
+
 		after(params, 1);
 		return keys;
 	}
 
 	/**
-	 * »ñÈ¡±í×Ö¶ÎĞÅÏ¢
-	 * 
-	 * @param sql ²éÑ¯SQL
-	 * @return ×Ö¶ÎĞÅÏ¢¼¯ºÏ
+	 * è·å–è¡¨å­—æ®µä¿¡æ¯
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @return å­—æ®µä¿¡æ¯é›†åˆ
 	 */
 	@Deprecated
 	public static List queryColumnsForList(String sql ,String domain) {
@@ -564,7 +554,7 @@ public class DatabaseUtil {
 		Statement st = null;
 		ResultSet rs = null;
 		List<Map> tempList = new ArrayList<Map>();
-		
+
 		int columnCount = 0;
 		try {
 			conn = getConnection(domain);
@@ -576,24 +566,24 @@ public class DatabaseUtil {
 				Map<String, String> map = new LinkedHashMap<String, String>();
 				String colName = meta.getColumnLabel(i);
 				String colType = meta.getColumnTypeName(i);
-				
+
 				map.put("colName", colName);
 				map.put("colType", colType);
 				map.put("colSize", meta.getColumnDisplaySize(i)+"");
 				map.put("colScale", meta.getScale(i) + "");
 				map.put("colNull", meta.isNullable(i) + "");
-				
+
 				try{
-					//Ä³Ğ©Êı¾İ¿â meta.getPrecision(i) È¡Öµ³¬¹ıintµÄ·¶Î§£¬Èç£ºÄ³Ğ©°æ±¾ oralce COLB×Ö¶Î·µ»ØÖµÊÇ 4294967295 
-					map.put("colPrecision", meta.getPrecision(i) + ""); 
+					//æŸäº›æ•°æ®åº“ meta.getPrecision(i) å–å€¼è¶…è¿‡intçš„èŒƒå›´ï¼Œå¦‚ï¼šæŸäº›ç‰ˆæœ¬ oralce COLBå­—æ®µè¿”å›å€¼æ˜¯ 4294967295
+					map.put("colPrecision", meta.getPrecision(i) + "");
 				}catch(Exception ex){
-					map.put("colPrecision", "-1");  
+					map.put("colPrecision", "-1");
 				}
-				
+
 				/*if(!"CLOB".equalsIgnoreCase(colType)){
-					map.put("colPrecision", meta.getPrecision(i) + ""); //Ä³Ğ©°æ±¾µÄ oralce COLB×Ö¶Î·µ»ØÖµÊÇ 4294967295 £¬³¬³öint·¶Î§, ÓĞĞ©·µ»Ø-1
+					map.put("colPrecision", meta.getPrecision(i) + ""); //æŸäº›ç‰ˆæœ¬çš„ oralce COLBå­—æ®µè¿”å›å€¼æ˜¯ 4294967295 ï¼Œè¶…å‡ºintèŒƒå›´, æœ‰äº›è¿”å›-1
 				}else{
-					map.put("colPrecision", "-1");  
+					map.put("colPrecision", "-1");
 				}*/
 				tempList.add(map);
 			}
@@ -605,40 +595,40 @@ public class DatabaseUtil {
 		after(params, columnCount);
 		return tempList;
 	}
-	
+
 	/**
-	 * »ñÈ¡±í×Ö¶ÎĞÅÏ¢
-	 * 
-	 * @param sql ²éÑ¯SQL
-	 * @return ×Ö¶ÎĞÅÏ¢¼¯ºÏ
+	 * è·å–è¡¨å­—æ®µä¿¡æ¯
+	 *
+	 * @param sql æŸ¥è¯¢SQL
+	 * @return å­—æ®µä¿¡æ¯é›†åˆ
 	 */
 	public static List queryColumnsForList(String sql) {
 		return queryColumnsForList(sql, null);
 	}
-	
+
 	/**
-	 * ¹Ø±ÕÁ¬½Ó×ÊÔ´
-	 * @param conn Á¬½Ó¶ÔÏó
-	 * @param st Ö´ĞĞ¶ÔÏó
-	 * @param rs ½á¹û¼¯¶ÔÏó
+	 * å…³é—­è¿æ¥èµ„æº
+	 * @param conn è¿æ¥å¯¹è±¡
+	 * @param st æ‰§è¡Œå¯¹è±¡
+	 * @param rs ç»“æœé›†å¯¹è±¡
 	 */
 	public static synchronized void free(Connection conn, Statement st, ResultSet rs) {
 		try {
-			if (rs != null) { //&& !rs.isClosed() jdk1.5»¹Ã»ÓĞ´Ë·½·¨
+			if (rs != null) { //&& !rs.isClosed() jdk1.5è¿˜æ²¡æœ‰æ­¤æ–¹æ³•
 				rs.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
-			if (st != null) { //&& !st.isClosed() jdk1.5»¹Ã»ÓĞ´Ë·½·¨
+			if (st != null) { //&& !st.isClosed() jdk1.5è¿˜æ²¡æœ‰æ­¤æ–¹æ³•
 				st.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			if (conn != null && !conn.isClosed()) {
 				conn.close();
@@ -647,12 +637,12 @@ public class DatabaseUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * 
-	 * ÊÂÎñÌá½»
-	 * @param conn Êı¾İÁ¬½Ó¶ÔÏó
-	 * @throws SQLException Å×³öSQLÒì³£
+	 *
+	 * äº‹åŠ¡æäº¤
+	 * @param conn æ•°æ®è¿æ¥å¯¹è±¡
+	 * @throws SQLException æŠ›å‡ºSQLå¼‚å¸¸
 	 */
 	public static void commit(Connection conn) throws SQLException{
 		if(conn!=null){
@@ -660,10 +650,10 @@ public class DatabaseUtil {
 			conn.setAutoCommit(true);
 		}
 	}
-	
+
 	/**
-	 * ÊÂÎñ»Ø¹ö
-	 * @param conn Á¬½Ó¶ÔÏó
+	 * äº‹åŠ¡å›æ»š
+	 * @param conn è¿æ¥å¯¹è±¡
 	 */
 	public static void rollback(Connection conn){
 		try {
@@ -674,12 +664,12 @@ public class DatabaseUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * ÓÃÔ¤´¦Àí·½Ê½½øĞĞ¸üĞÂ
-	 * @param sql ¸üĞÂSQLÓï¾ä
-	 * @param data dataÀïµÄÊı¾İÀàĞÍÓëÊı¾İ¿âÀïµÄÊı¾İÀàĞÍ¶ÔÓ¦ÆğÀ´
-	 * @param domain Êı¾İÔ´
+	 * ç”¨é¢„å¤„ç†æ–¹å¼è¿›è¡Œæ›´æ–°
+	 * @param sql æ›´æ–°SQLè¯­å¥
+	 * @param data dataé‡Œçš„æ•°æ®ç±»å‹ä¸æ•°æ®åº“é‡Œçš„æ•°æ®ç±»å‹å¯¹åº”èµ·æ¥
+	 * @param domain æ•°æ®æº
 	 */
 	public static int updateByPrepareStatement(String sql, List data, String domain){
 		Map<String, String> params = before(sql, data, domain);
@@ -702,13 +692,13 @@ public class DatabaseUtil {
 		after(params, num);
 		return num;
 	}
-	
+
 	/**
-	 * ÓÃÔ¤´¦Àí·½Ê½½øĞĞ"ÅúÁ¿"¸üĞÂ
-	 * @param sql ´ËÊ±SQLÖ»ÄÜÊÇÎ¨Ò»µÄ,Õâ¾ÍÒªÇó£¬Ã¿¸ö£¿ºÅÈë²Î£¬¶¼²»ÄÜÎª¿Õ
-     * @param datas ²ÎÊı¼¯ºÏ
-     * @param domain Êı¾İÔ´
-     * @return ¸üĞÂµÄĞĞÊı
+	 * ç”¨é¢„å¤„ç†æ–¹å¼è¿›è¡Œ"æ‰¹é‡"æ›´æ–°
+	 * @param sql æ­¤æ—¶SQLåªèƒ½æ˜¯å”¯ä¸€çš„,è¿™å°±è¦æ±‚ï¼Œæ¯ä¸ªï¼Ÿå·å…¥å‚ï¼Œéƒ½ä¸èƒ½ä¸ºç©º
+	 * @param datas å‚æ•°é›†åˆ
+	 * @param domain æ•°æ®æº
+	 * @return æ›´æ–°çš„è¡Œæ•°
 	 */
 	public static int updateByPrepareStatementBatch(String sql, List<List> datas, String domain){
 		Map<String, String> params = before(sql, ((datas!=null&&datas.size()>0)?datas.get(0):null), domain);
@@ -724,21 +714,21 @@ public class DatabaseUtil {
 			for(int i=0; i<size; i++){
 				List data=datas.get(i);
 				setObject(st, data, domain);
-				
-				/* was »·¾³ÏÂ£¬sybaseÊı¾İ¿â»áÓĞÒì³£·çÏÕ
+
+				/* was ç¯å¢ƒä¸‹ï¼Œsybaseæ•°æ®åº“ä¼šæœ‰å¼‚å¸¸é£é™©
 				st.addBatch();
-				if ((i + 1) % 100 == 0) {//Ã¿100ĞĞÖ´ĞĞÒ»´Î
+				if ((i + 1) % 100 == 0) {//æ¯100è¡Œæ‰§è¡Œä¸€æ¬¡
 					st.executeBatch();
-					num += st.getUpdateCount();//executeBatch()·½·¨ÔÚoracleÏÂÃ¿Ö´ĞĞÒ»ÌõµÄ·µ»ØÖµÎª-2¡£Ê¹ÓÃgetUpdateCount()»ñÈ¡¸üĞÂµÄ¼ÇÂ¼Êı
-					st.clearBatch();//Çå¿Õ
+					num += st.getUpdateCount();//executeBatch()æ–¹æ³•åœ¨oracleä¸‹æ¯æ‰§è¡Œä¸€æ¡çš„è¿”å›å€¼ä¸º-2ã€‚ä½¿ç”¨getUpdateCount()è·å–æ›´æ–°çš„è®°å½•æ•°
+					st.clearBatch();//æ¸…ç©º
 				}*/
-				
+
 				num+=st.executeUpdate();
 				st.clearParameters();
 			}
-			
+
 			/*
-			if((size % 100) > 0){ //ÒòÎª¿ÕÊı¾İÖ´ĞĞ»á±¨´í
+			if((size % 100) > 0){ //å› ä¸ºç©ºæ•°æ®æ‰§è¡Œä¼šæŠ¥é”™
 				st.executeBatch();
 				num += st.getUpdateCount();
 			}*/
@@ -753,13 +743,13 @@ public class DatabaseUtil {
 		after(params, num);
 		return num;
 	}
-	 
+
 	/**
-	 * ÓÃÔ¤´¦Àí·½Ê½½øĞĞ"ÅúÁ¿"¸üĞÂ(·ÇÕæÕıÅú´¦Àí)
-	 * @param sql ´ËÊ±SQLÊÇÎ¨Ò»µÄ,µ«»á¸ú¾İÊı¾İÊÇ·ñÎª¿Õ£¬½«¶ÔÓ¦µÄ"?"ºÅ»»Îª"null"
-     * @param datas ²ÎÊı¼¯ºÏ
-     * @param domain Êı¾İÔ´
-     * @return ¸üĞÂµÄĞĞÊı
+	 * ç”¨é¢„å¤„ç†æ–¹å¼è¿›è¡Œ"æ‰¹é‡"æ›´æ–°(éçœŸæ­£æ‰¹å¤„ç†)
+	 * @param sql æ­¤æ—¶SQLæ˜¯å”¯ä¸€çš„,ä½†ä¼šè·Ÿæ®æ•°æ®æ˜¯å¦ä¸ºç©ºï¼Œå°†å¯¹åº”çš„"?"å·æ¢ä¸º"null"
+	 * @param datas å‚æ•°é›†åˆ
+	 * @param domain æ•°æ®æº
+	 * @return æ›´æ–°çš„è¡Œæ•°
 	 */
 	public static int updateByPrepareStatementBatch2(String sql, List<List> datas, String domain){
 		Map<String, String> params = before(sql, ((datas!=null&&datas.size()>0)?datas.get(0):null), domain);
@@ -774,7 +764,7 @@ public class DatabaseUtil {
 				st=conn.prepareStatement(replaceSQL(sql,datas.get(i)));
 				setObject(st, datas.get(i), domain);
 				num+=st.executeUpdate();
-				//forÑ­»·ÖĞ£¬×¢Òâ¼°Ê±¹Ø±Õ
+				//forå¾ªç¯ä¸­ï¼Œæ³¨æ„åŠæ—¶å…³é—­
 				if(st != null){
 					st.close();
 				}
@@ -789,127 +779,127 @@ public class DatabaseUtil {
 		after(params, num);
 		return num;
 	}
-	
-	/**
-     * ÓÃÔ¤´¦Àí·½Ê½½øĞĞ"ÅúÁ¿"²åÈë£¬×÷ÎªupdateByPrepareStatementBatchµÄ²¹³ä£¬×Ô¶¯Ìá½»
-     * @param sql ²»µÃÊ¡ÂÔ²åÈëµÄÁĞÃû
-     * @param datas ²ÎÊı¼¯ºÏ
-     * @param domain Êı¾İÔ´
-     * @return ¸üĞÂµÄĞĞÊı
-   */
-    public static int insertByPrepareStatementBatch(String sql, List<List> datas, String domain){
-		Map<String, String> params = before(sql, ((datas!=null&&datas.size()>0)?datas.get(0):null), domain);
-		
-        int updateCount =0;
-        if(datas!=null && datas.size()>0 && datas.get(0).size()>0){
-        	String sql2 = sql.substring(sql.indexOf("into "));
-        	//±íÃû
-   		    String tableName = sql2.substring(sql2.indexOf("into ")+5, sql2.indexOf('(')).trim();
-            //×Ö¶Î
-   		    String selFields = sql2.substring(sql2.indexOf("(")+1, sql2.indexOf(')')).trim();
-   		    //×Ö¶ÎÖµ
-   		    String sql3 = sql.substring(sql.indexOf("values"));
-		    String[] setfs = sql3.substring(sql3.indexOf('(') +1, sql3.lastIndexOf(')')).split(",");
-		    
-   		    //String[] setfs = sql.substring(sql.lastIndexOf('(') +1, sql.lastIndexOf(')')).split(",");//µ±ÓĞ×ÔÔö³¤×Ö¶ÎÊ±£¬ÊÇ²»ÄÜÖ±½ÓÓÃsql.lastindexof("(")µÄ£¬ÒòÎª×ÔÔö³¤Êı¾İ¿âº¯ÊıÓĞ(
-            Map<Integer,Integer> fields = new LinkedHashMap<Integer,Integer>();
-            Map<Integer,Integer> columnTypes = new LinkedHashMap<Integer,Integer>();
-            //±êÊ¶?ºÅËùÔÚ×Ö¶ÎĞòºÅ
-            for(int i=0,j=0; i < setfs.length; i++){
-                if(setfs[i].contains("?")){
-                    fields.put(j++, i+1);
-                }
-            }
-            
-            Connection conn = getConnection(domain);
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            try{
-            	Statement st = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-                String sql1 ="select "+selFields+" from "+tableName+" where 1<0";
-                rs = st.executeQuery(sql1);
-                ResultSetMetaData md = rs.getMetaData();
-                for(int i=1;i<=md.getColumnCount();i++){
-                    columnTypes.put(i, md.getColumnType(i));
-                }
-                free(conn, st, rs);
 
-            	conn = getConnection(domain);
-                int size = datas.size();
-                for(int i=0;i<size;i++){
-                   ps = conn.prepareStatement(sql);
-                   List tList = datas.get(i);
-                   int size1 = tList.size(); 
-                   for (int j = 0; j < size1; j++) {
-                       int ft = columnTypes.get(fields.get(j));
-                       Object vle = tList.get(j);
-                       if(vle!=null){
-                            switch (ft) {
-                                case java.sql.Types.VARCHAR: ;
-                                case java.sql.Types.CHAR: ;
-                                case -15: ;
-                                case -9: ;
-                                case java.sql.Types.LONGVARCHAR: ;
-                                case -16: setString(ps, vle, j, domain); break;
-                                case java.sql.Types.INTEGER: ps.setInt(j+1, Integer.valueOf(vle.toString())); break;
-                                case java.sql.Types.SMALLINT: ps.setShort(j+1, Short.valueOf(vle.toString())); break;
-                                case java.sql.Types.TINYINT: ps.setShort(j+1, Short.valueOf(vle.toString())); break;
-                                case java.sql.Types.BIGINT: ps.setLong(j+1, Long.valueOf(vle.toString())); break;
-                                case java.sql.Types.DOUBLE: ps.setDouble(j+1, Double.valueOf(vle.toString())); break;    
-                                case java.sql.Types.DECIMAL: 
-                                	if(vle instanceof java.math.BigDecimal){ 
-                                		ps.setBigDecimal(j+1, (java.math.BigDecimal)vle);
-                                	}else{
-                                		ps.setDouble(j+1, Double.valueOf(vle.toString()));
-                                	}
-                                	break;
-                                case java.sql.Types.FLOAT: ps.setFloat(j+1, Float.valueOf(vle.toString())); break;
-                                case java.sql.Types.TIMESTAMP: ps.setTimestamp(j+1,new java.sql.Timestamp(((java.util.Date)vle).getTime())); break;
-                                case java.sql.Types.DATE: ps.setDate(j+1, new java.sql.Date(((java.util.Date)vle).getTime())); break;
-                                case java.sql.Types.NUMERIC: 
-                                        if(vle instanceof Integer)
-                                            ps.setInt(j+1, Integer.valueOf(vle.toString()));
-                                        else if(vle instanceof Long)
-                                            ps.setLong(j+1, Long.valueOf(vle.toString()));
-                                        else {
-                                        	if(vle instanceof java.math.BigDecimal) {
-                                        		ps.setBigDecimal(j+1, (java.math.BigDecimal)vle);
-											}else{
-												ps.setDouble(j+1, Double.valueOf(vle.toString()));
-											}
-                                        }
-                                        break;
-                                default: ps.setObject(j+1, vle);
-                            }
-                       }else{
-                           ps.setNull(j+1, ft);
-                       }
-                   }
-                   
-                   String tempSql = getRealSql(sql, tList, domain); 
-                   try{
-                	   updateCount += ps.executeUpdate();
-                   }catch(Exception ex){
-                	   LogOperateUtil.logException(ex, "µ¼ÈëÈë¿âÊ±Êı¾İinsertÖ´ĞĞÊ§°Ü£¬SQLÊÇ:"+tempSql);
-                   }finally{
-                	   free(null, ps, null);
-                   }
-               }
-    		} catch (Exception e) {
-    			LogOperateUtil.logSQLError(e, domain, params.get("sql1"), params.get("path"));
-            }finally{
-            	free(conn, ps, rs);
-            }
-        }
-        after(params, updateCount);
-        return updateCount;
-    }
-    
 	/**
-	 * sqlÖĞµÄ"?"ºÅ£¬Èç¹û¶ÔÓ¦Êı¾İÎªnull,Ôò×ª»»Îª"null",Í¬Ê±½«Êı¾İ¼¯ºÏÖĞµÄnullÖµÉ¾³ı
-	 * @param sql SQLÓï¾ä
-	 * @param list ²ÎÊı¼¯ºÏ
-	 * @return È¥nullµÄSQL
+	 * ç”¨é¢„å¤„ç†æ–¹å¼è¿›è¡Œ"æ‰¹é‡"æ’å…¥ï¼Œä½œä¸ºupdateByPrepareStatementBatchçš„è¡¥å……ï¼Œè‡ªåŠ¨æäº¤
+	 * @param sql ä¸å¾—çœç•¥æ’å…¥çš„åˆ—å
+	 * @param datas å‚æ•°é›†åˆ
+	 * @param domain æ•°æ®æº
+	 * @return æ›´æ–°çš„è¡Œæ•°
+	 */
+	public static int insertByPrepareStatementBatch(String sql, List<List> datas, String domain){
+		Map<String, String> params = before(sql, ((datas!=null&&datas.size()>0)?datas.get(0):null), domain);
+
+		int updateCount =0;
+		if(datas!=null && datas.size()>0 && datas.get(0).size()>0){
+			String sql2 = sql.substring(sql.indexOf("into "));
+			//è¡¨å
+			String tableName = sql2.substring(sql2.indexOf("into ")+5, sql2.indexOf('(')).trim();
+			//å­—æ®µ
+			String selFields = sql2.substring(sql2.indexOf("(")+1, sql2.indexOf(')')).trim();
+			//å­—æ®µå€¼
+			String sql3 = sql.substring(sql.indexOf("values"));
+			String[] setfs = sql3.substring(sql3.indexOf('(') +1, sql3.lastIndexOf(')')).split(",");
+
+			//String[] setfs = sql.substring(sql.lastIndexOf('(') +1, sql.lastIndexOf(')')).split(",");//å½“æœ‰è‡ªå¢é•¿å­—æ®µæ—¶ï¼Œæ˜¯ä¸èƒ½ç›´æ¥ç”¨sql.lastindexof("(")çš„ï¼Œå› ä¸ºè‡ªå¢é•¿æ•°æ®åº“å‡½æ•°æœ‰(
+			Map<Integer,Integer> fields = new LinkedHashMap<Integer,Integer>();
+			Map<Integer,Integer> columnTypes = new LinkedHashMap<Integer,Integer>();
+			//æ ‡è¯†?å·æ‰€åœ¨å­—æ®µåºå·
+			for(int i=0,j=0; i < setfs.length; i++){
+				if(setfs[i].contains("?")){
+					fields.put(j++, i+1);
+				}
+			}
+
+			Connection conn = getConnection(domain);
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try{
+				Statement st = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				String sql1 ="select "+selFields+" from "+tableName+" where 1<0";
+				rs = st.executeQuery(sql1);
+				ResultSetMetaData md = rs.getMetaData();
+				for(int i=1;i<=md.getColumnCount();i++){
+					columnTypes.put(i, md.getColumnType(i));
+				}
+				free(conn, st, rs);
+
+				conn = getConnection(domain);
+				int size = datas.size();
+				for(int i=0;i<size;i++){
+					ps = conn.prepareStatement(sql);
+					List tList = datas.get(i);
+					int size1 = tList.size();
+					for (int j = 0; j < size1; j++) {
+						int ft = columnTypes.get(fields.get(j));
+						Object vle = tList.get(j);
+						if(vle!=null){
+							switch (ft) {
+								case java.sql.Types.VARCHAR: ;
+								case java.sql.Types.CHAR: ;
+								case -15: ;
+								case -9: ;
+								case java.sql.Types.LONGVARCHAR: ;
+								case -16: setString(ps, vle, j, domain); break;
+								case java.sql.Types.INTEGER: ps.setInt(j+1, Integer.valueOf(vle.toString())); break;
+								case java.sql.Types.SMALLINT: ps.setShort(j+1, Short.valueOf(vle.toString())); break;
+								case java.sql.Types.TINYINT: ps.setShort(j+1, Short.valueOf(vle.toString())); break;
+								case java.sql.Types.BIGINT: ps.setLong(j+1, Long.valueOf(vle.toString())); break;
+								case java.sql.Types.DOUBLE: ps.setDouble(j+1, Double.valueOf(vle.toString())); break;
+								case java.sql.Types.DECIMAL:
+									if(vle instanceof java.math.BigDecimal){
+										ps.setBigDecimal(j+1, (java.math.BigDecimal)vle);
+									}else{
+										ps.setDouble(j+1, Double.valueOf(vle.toString()));
+									}
+									break;
+								case java.sql.Types.FLOAT: ps.setFloat(j+1, Float.valueOf(vle.toString())); break;
+								case java.sql.Types.TIMESTAMP: ps.setTimestamp(j+1,new java.sql.Timestamp(((java.util.Date)vle).getTime())); break;
+								case java.sql.Types.DATE: ps.setDate(j+1, new java.sql.Date(((java.util.Date)vle).getTime())); break;
+								case java.sql.Types.NUMERIC:
+									if(vle instanceof Integer)
+										ps.setInt(j+1, Integer.valueOf(vle.toString()));
+									else if(vle instanceof Long)
+										ps.setLong(j+1, Long.valueOf(vle.toString()));
+									else {
+										if(vle instanceof java.math.BigDecimal) {
+											ps.setBigDecimal(j+1, (java.math.BigDecimal)vle);
+										}else{
+											ps.setDouble(j+1, Double.valueOf(vle.toString()));
+										}
+									}
+									break;
+								default: ps.setObject(j+1, vle);
+							}
+						}else{
+							ps.setNull(j+1, ft);
+						}
+					}
+
+					String tempSql = getRealSql(sql, tList, domain);
+					try{
+						updateCount += ps.executeUpdate();
+					}catch(Exception ex){
+						LogOperateUtil.logException(ex, "å¯¼å…¥å…¥åº“æ—¶æ•°æ®insertæ‰§è¡Œå¤±è´¥ï¼ŒSQLæ˜¯:"+tempSql);
+					}finally{
+						free(null, ps, null);
+					}
+				}
+			} catch (Exception e) {
+				LogOperateUtil.logSQLError(e, domain, params.get("sql1"), params.get("path"));
+			}finally{
+				free(conn, ps, rs);
+			}
+		}
+		after(params, updateCount);
+		return updateCount;
+	}
+
+	/**
+	 * sqlä¸­çš„"?"å·ï¼Œå¦‚æœå¯¹åº”æ•°æ®ä¸ºnull,åˆ™è½¬æ¢ä¸º"null",åŒæ—¶å°†æ•°æ®é›†åˆä¸­çš„nullå€¼åˆ é™¤
+	 * @param sql SQLè¯­å¥
+	 * @param list å‚æ•°é›†åˆ
+	 * @return å»nullçš„SQL
 	 */
 	public static String replaceSQL(String sql,List list){
 		StringBuffer sb=new StringBuffer();
@@ -927,25 +917,25 @@ public class DatabaseUtil {
 			sb.append(s[i]);
 		return sb.toString();
 	}
-	
+
 	/**
-	 * CLOB×Ö¶Î¶ÁÈ¡
-	 * @param obj Êı¾İ¶ÔÏó
-	 * @return ½á¹ûÎÄ±¾
+	 * CLOBå­—æ®µè¯»å–
+	 * @param obj æ•°æ®å¯¹è±¡
+	 * @return ç»“æœæ–‡æœ¬
 	 */
 	private static String readClob(Object obj){
 		if(obj==null)return "";
-		StringBuffer mystr=new StringBuffer(""); 
+		StringBuffer mystr=new StringBuffer("");
 		String str = "";
 		BufferedReader a=null;
 		try{
-			a=new BufferedReader(((Clob)obj).getCharacterStream()); //ÒÔ×Ö·ûÁ÷µÄ·½Ê½¶ÁÈëBufferedReader 
+			a=new BufferedReader(((Clob)obj).getCharacterStream()); //ä»¥å­—ç¬¦æµçš„æ–¹å¼è¯»å…¥BufferedReader
 			int flg = 0;
 			while ((str = a.readLine()) != null) {
 				if(flg > 0){
 					mystr.append("\n");
 				}
-				mystr.append(str); 
+				mystr.append(str);
 				flg++;
 			}
 		}catch(Exception e){
@@ -957,17 +947,17 @@ public class DatabaseUtil {
 		}
 		return mystr.toString();
 	}
-	
+
 	/**
-	 * ClOB×Ö¶ÎĞ´Èë
-	 * @param tableName ±íÃû
-	 * @param where ¸üĞÂÊ±µÄwhereÌõ¼ş£¬È·¶¨Òª¸üĞÂµÄĞĞ
-	 * @param cols ×Ö¶ÎÃûÊı×é
-	 * @param val ÖµÊı×é
-	 * @param domain Êı¾İÔ´
+	 * ClOBå­—æ®µå†™å…¥
+	 * @param tableName è¡¨å
+	 * @param where æ›´æ–°æ—¶çš„whereæ¡ä»¶ï¼Œç¡®å®šè¦æ›´æ–°çš„è¡Œ
+	 * @param cols å­—æ®µåæ•°ç»„
+	 * @param val å€¼æ•°ç»„
+	 * @param domain æ•°æ®æº
 	 */
 	public static void writeClobOrText(String tableName, String where, String cols[], String val[], String domain){
-		String sql="¸ü¸Ä"+tableName+"±íµÄCLOB»òText×Ö¶Î";
+		String sql="æ›´æ”¹"+tableName+"è¡¨çš„CLOBæˆ–Textå­—æ®µ";
 		Map<String, String> params = before(sql, null, domain);
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -987,14 +977,14 @@ public class DatabaseUtil {
 		}
 		after(params, 1);;
 	}
-	
+
 	/**
-	 * ClOB×Ö¶ÎÅúÁ¿Ğ´Èë
-	 * @param list Êı¾İ¼¯ºÏ
-	 * @param domain Êı¾İÔ´
+	 * ClOBå­—æ®µæ‰¹é‡å†™å…¥
+	 * @param list æ•°æ®é›†åˆ
+	 * @param domain æ•°æ®æº
 	 */
 	public static void writeClobOrTextBatch(List list, String domain){
-		String sql = "ÅúÁ¿¸ü¸Ä±íµÄCLOB»òText×Ö¶Î";
+		String sql = "æ‰¹é‡æ›´æ”¹è¡¨çš„CLOBæˆ–Textå­—æ®µ";
 		Map<String, String> params = before(sql, null, domain);
 		Connection conn = null;
 		PreparedStatement st = null;
@@ -1013,7 +1003,7 @@ public class DatabaseUtil {
 				Object objs[] = dia.writeClobOrText(conn, tableName,where,cols, val);
 				st = (PreparedStatement)objs[0];
 				rs = (ResultSet)objs[1];
-				//forÑ­»·ÖĞ£¬×¢Òâ¼°Ê±¹Ø±Õ
+				//forå¾ªç¯ä¸­ï¼Œæ³¨æ„åŠæ—¶å…³é—­
 				if(rs !=null){
 					rs.close();
 				}
@@ -1030,15 +1020,15 @@ public class DatabaseUtil {
 		}
 		after(params, size);
 	}
-	
+
 	/**
-	 * ·ÖÅú×¥È¡²éÑ¯
-	 * Èç¹ûÊ¹ÓÃ´Ë·½·¨£¬¼ÇµÃÔÚÊ¹ÓÃÍêºó£¬Ò»¶¨Òª¼ÇµÃÊÖ¶¯½øĞĞÁ¬½Ó×ÊÔ´µÄ¹Ø±Õ£¬Í¨¹ırsµÃ¿ÉµÃµ½Á¬½Ó¶ÔÏó
-	 * ÀıÈç£ºDatabaseUtil.free(rs.getStatement().getConnection(),rs.getStatement(),rs);
-	 * @param sql ²éÑ¯SQL
-	 * @param domain Êı¾İÔ´
-	 * @param fs Ò»´Î×î´ó×¥È¡ĞĞÊı
-	 * @return ½á¹û¼¯
+	 * åˆ†æ‰¹æŠ“å–æŸ¥è¯¢
+	 * å¦‚æœä½¿ç”¨æ­¤æ–¹æ³•ï¼Œè®°å¾—åœ¨ä½¿ç”¨å®Œåï¼Œä¸€å®šè¦è®°å¾—æ‰‹åŠ¨è¿›è¡Œè¿æ¥èµ„æºçš„å…³é—­ï¼Œé€šè¿‡rså¾—å¯å¾—åˆ°è¿æ¥å¯¹è±¡
+	 * ä¾‹å¦‚ï¼šDatabaseUtil.free(rs.getStatement().getConnection(),rs.getStatement(),rs);
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param domain æ•°æ®æº
+	 * @param fs ä¸€æ¬¡æœ€å¤§æŠ“å–è¡Œæ•°
+	 * @return ç»“æœé›†
 	 */
 	public static ResultSet queryForFetch(String sql, String domain, int fs) {
 		Connection conn = null;
@@ -1049,46 +1039,46 @@ public class DatabaseUtil {
 			conn.setAutoCommit(false);
 			st = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_READ_ONLY);
-			//Ã¿´Î×¥È¡Êı¾İÁ¿
+			//æ¯æ¬¡æŠ“å–æ•°æ®é‡
 			fs = fs > st.getMaxRows() ? fs : st.getMaxRows();
 			st.setFetchSize(fs);
 			st.setFetchDirection(ResultSet.FETCH_FORWARD);
 			rs = st.executeQuery(sql);
 			rs.setFetchSize(fs);
 		} catch (Exception e) {
-			free(conn, st, rs); 
+			free(conn, st, rs);
 			String path = LogOperateUtil.logCallStack();
 			LogOperateUtil.logSQLError(e, domain, sql, path);
-		} 
+		}
 		return rs;
 	}
 
 	/**
-	 * ·ÖÅú×¥È¡²éÑ¯
-	 * Èç¹ûÊ¹ÓÃ´Ë·½·¨£¬¼ÇµÃÔÚÊ¹ÓÃÍêºó£¬Ò»¶¨Òª¼ÇµÃÊÖ¶¯½øĞĞÁ¬½Ó×ÊÔ´µÄ¹Ø±Õ£¬Í¨¹ırsµÃ¿ÉµÃµ½Á¬½Ó¶ÔÏó
-	 * ÀıÈç£ºDatabaseUtil.free(rs.getStatement().getConnection(),rs.getStatement(),rs);
-	 * @param sql ²éÑ¯SQL
-	 * @param fs Ò»´Î×î´ó×¥È¡ĞĞÊı
-	 * @return ½á¹û¼¯
+	 * åˆ†æ‰¹æŠ“å–æŸ¥è¯¢
+	 * å¦‚æœä½¿ç”¨æ­¤æ–¹æ³•ï¼Œè®°å¾—åœ¨ä½¿ç”¨å®Œåï¼Œä¸€å®šè¦è®°å¾—æ‰‹åŠ¨è¿›è¡Œè¿æ¥èµ„æºçš„å…³é—­ï¼Œé€šè¿‡rså¾—å¯å¾—åˆ°è¿æ¥å¯¹è±¡
+	 * ä¾‹å¦‚ï¼šDatabaseUtil.free(rs.getStatement().getConnection(),rs.getStatement(),rs);
+	 * @param sql æŸ¥è¯¢SQL
+	 * @param fs ä¸€æ¬¡æœ€å¤§æŠ“å–è¡Œæ•°
+	 * @return ç»“æœé›†
 	 */
 	public static ResultSet queryForFetch(String sql, int fs){
 		return queryForFetch(sql,"",fs);
 	}
 
 	/**
-	 * 
-	 * ·ÖÅú×¥È¡ÖğĞĞ¼ÓÔØ
-	 * @param rs ½á¹û¼¯
-	 * @param rowId ĞĞºÅ
-	 * @param sql Ö´ĞĞµÄSQL
-	 * @param domain Êı¾İÔ´
-	 * @return Ò»ĞĞ½á¹û
+	 *
+	 * åˆ†æ‰¹æŠ“å–é€è¡ŒåŠ è½½
+	 * @param rs ç»“æœé›†
+	 * @param rowId è¡Œå·
+	 * @param sql æ‰§è¡Œçš„SQL
+	 * @param domain æ•°æ®æº
+	 * @return ä¸€è¡Œç»“æœ
 	 */
 	public static Map fetchNext(ResultSet rs, int rowId, String sql, String domain){
 		Map<String, String> map = null;
 		String colValue =null;
 		try {
-			//ÓĞÏÂÒ»ĞĞÊ±returnĞĞ£¬Ã»ÓĞÔònull
+			//æœ‰ä¸‹ä¸€è¡Œæ—¶returnè¡Œï¼Œæ²¡æœ‰åˆ™null
 			if (rs.next()) {
 				map = new LinkedHashMap<String, String>();
 				map.put("rowId", rowId + "");
@@ -1104,10 +1094,10 @@ public class DatabaseUtil {
 		}
 		return map;
 	}
-	
+
 	/**
-	 * È¡UUIDÖ÷¼ü
-	 * @return UUIDÖ÷¼ü
+	 * å–UUIDä¸»é”®
+	 * @return UUIDä¸»é”®
 	 */
 	public static String getUUID(){
 		String uuId=java.util.UUID.randomUUID().toString().replaceAll("-", "");
@@ -1115,21 +1105,21 @@ public class DatabaseUtil {
 	}
 
 	/**
-	 * ¸ù¾İ²ÎÊı»ñÈ¡in(?)Óï¾ä
-	 * @param param ¶ººÅÆ´ÆğÀ´µÄ²ÎÊı´®  
-	 * @param list ×ª»»ºóµÄ²ÎÊı½«×°Èë´Ë¼¯ºÏ
-	 * @return Ìæ»»ºóµÄSQL,Ã¿¸ö²ÎÊı×ª³ÉÁË?ºÅ
+	 * æ ¹æ®å‚æ•°è·å–in(?)è¯­å¥
+	 * @param param é€—å·æ‹¼èµ·æ¥çš„å‚æ•°ä¸²
+	 * @param list è½¬æ¢åçš„å‚æ•°å°†è£…å…¥æ­¤é›†åˆ
+	 * @return æ›¿æ¢åçš„SQL,æ¯ä¸ªå‚æ•°è½¬æˆäº†?å·
 	 */
 	public static String inParameterLoader(String param,List list){
 		return inParameterLoader(param, list, null);
 	}
-	
+
 	/**
-	 * ¸ù¾İ²ÎÊı»ñÈ¡in(?)Óï¾ä
-	 * @param param ¶ººÅÆ´ÆğÀ´µÄ²ÎÊı´®  
-	 * @param list ×ª»»ºóµÄ²ÎÊı½«×°Èë´Ë¼¯ºÏ
-	 * @param filedType Êı¾İÀàĞÍ 1ÊÇÊıÖµ£¬·ñÔòÎª×Ö·û´® 
-	 * @return Ìæ»»ºóµÄSQL,Ã¿¸ö²ÎÊı×ª³ÉÁË?ºÅ
+	 * æ ¹æ®å‚æ•°è·å–in(?)è¯­å¥
+	 * @param param é€—å·æ‹¼èµ·æ¥çš„å‚æ•°ä¸²
+	 * @param list è½¬æ¢åçš„å‚æ•°å°†è£…å…¥æ­¤é›†åˆ
+	 * @param filedType æ•°æ®ç±»å‹ 1æ˜¯æ•°å€¼ï¼Œå¦åˆ™ä¸ºå­—ç¬¦ä¸²
+	 * @return æ›¿æ¢åçš„SQL,æ¯ä¸ªå‚æ•°è½¬æˆäº†?å·
 	 */
 	public static String inParameterLoader(String param,List list,String filedType){
 		StringBuffer sql = new StringBuffer();
@@ -1147,33 +1137,33 @@ public class DatabaseUtil {
 		sql.append(")");
 		return sql.toString();
 	}
-	
+
 	/**
-	 * 
-	 * ÅĞ¶¨×Ö·û´®ÀàĞÍ
-	 * @param param ²ÎÊı 
-	 * @param fileType Êı¾İÀàĞÍ 1»òÕß¿ÕÊÇÊıÖµ£¬·ñÔòÎª×Ö·û´®
-	 * @return Ìæ»»ºóµÄ²ÎÊı
+	 *
+	 * åˆ¤å®šå­—ç¬¦ä¸²ç±»å‹
+	 * @param param å‚æ•°
+	 * @param fileType æ•°æ®ç±»å‹ 1æˆ–è€…ç©ºæ˜¯æ•°å€¼ï¼Œå¦åˆ™ä¸ºå­—ç¬¦ä¸²
+	 * @return æ›¿æ¢åçš„å‚æ•°
 	 */
 	public static Object getTargetType(String param, String fileType){
 		Object obj;
-		if(StringUtil.isInteger(param) && ("1".equals(fileType) || fileType == null)){ //ÕûÊı (longĞÍ×î´ó19Î»Êı)
+		if(StringUtil.isInteger(param) && ("1".equals(fileType) || fileType == null)){ //æ•´æ•° (longå‹æœ€å¤§19ä½æ•°)
 			obj = (param.length() >= 10) ? Long.parseLong(param) : Integer.parseInt(param);
-		}else if(StringUtil.isNum(param) && ("1".equals(fileType) || fileType == null)){ //¸¡µãÊı
+		}else if(StringUtil.isNum(param) && ("1".equals(fileType) || fileType == null)){ //æµ®ç‚¹æ•°
 			obj = (param.length() >= 7) ? new BigDecimal(param) : Double.parseDouble(param);
-		}else{ //×Ö·û´®
+		}else{ //å­—ç¬¦ä¸²
 			obj = param.replace("'", "");
 		}
 		return obj;
 	}
-	
+
 	/**
-	 * ´¦ÀíoracleÊıÖµĞÍÎªĞ¡ÊıÊ±»áÊ¡µôĞ¡ÊıµãÇ°ÃæµÄ0µÄÇé¿ö£¬ÔÚÇ°Ãæ×Ô¶¯¼ÓÉÏ0 
+	 * å¤„ç†oracleæ•°å€¼å‹ä¸ºå°æ•°æ—¶ä¼šçœæ‰å°æ•°ç‚¹å‰é¢çš„0çš„æƒ…å†µï¼Œåœ¨å‰é¢è‡ªåŠ¨åŠ ä¸Š0
 	 * tangyj 2013-01-06
-	 * @param columnTypeName  ÁĞÀàĞÍÃû³Æ
-	 * @param columnValue ÁĞÖµ
-	 * @param dbType Êı¾İ¿âÀàĞÍ
-	 * @return Èç£º0.12
+	 * @param columnTypeName  åˆ—ç±»å‹åç§°
+	 * @param columnValue åˆ—å€¼
+	 * @param dbType æ•°æ®åº“ç±»å‹
+	 * @return å¦‚ï¼š0.12
 	 */
 	private static String formatNumberValue(String columnTypeName,String columnValue,String dbType) {
 		if("Oracle".equalsIgnoreCase(dbType)){
@@ -1186,70 +1176,70 @@ public class DatabaseUtil {
 		}
 		return columnValue;
 	}
-	
+
 	/**
-	 * Ô¤´¦ÀíÊ±£¬ÉèÖÃ£¿ºÅ²ÎÊı
-	 * @param st PreparedStatement¶ÔÏó
-	 * @param data Êı¾İ¼¯ºÏ
-	 * @throws Exception Å×³öÈÎºÎ¿ÉÄÜ·¢ÉúµÄÒì³£
+	 * é¢„å¤„ç†æ—¶ï¼Œè®¾ç½®ï¼Ÿå·å‚æ•°
+	 * @param st PreparedStatementå¯¹è±¡
+	 * @param data æ•°æ®é›†åˆ
+	 * @throws Exception æŠ›å‡ºä»»ä½•å¯èƒ½å‘ç”Ÿçš„å¼‚å¸¸
 	 */
 	public static void setObject(PreparedStatement st, List data, String domain)throws Exception{
 		if(data != null){
 			int size = data.size();
-			
+
 			for (int i = 0; i < size; i++) {
 				Object obj = data.get(i);
 				if (obj instanceof String){
-					setString(st, obj, i, domain); 
+					setString(st, obj, i, domain);
 				}else{
 					st.setObject(i + 1, obj);
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Ô¤´¦ÀíÊ±£¬ÉèÖÃString²ÎÊı£¬½â¾öÎÊÌâ:oracle varchar2(4000)Ö»ÄÜ²åÈë666¸öÖĞÎÄ£¬Êµ¼ÊÓ¦¸Ã¿É²åÈë2000¸ö²ÅÕıÈ·
-	 * @param st PreparedStatement¶ÔÏó
-	 * @param obj Êı¾İ¶ÔÏó
-	 * @param j £¿ºÅĞòºÅ
-	 * @throws Exception Å×³öÈÎºÎ¿ÉÄÜ·¢ÉúµÄÒì³£
+	 * é¢„å¤„ç†æ—¶ï¼Œè®¾ç½®Stringå‚æ•°ï¼Œè§£å†³é—®é¢˜:oracle varchar2(4000)åªèƒ½æ’å…¥666ä¸ªä¸­æ–‡ï¼Œå®é™…åº”è¯¥å¯æ’å…¥2000ä¸ªæ‰æ­£ç¡®
+	 * @param st PreparedStatementå¯¹è±¡
+	 * @param obj æ•°æ®å¯¹è±¡
+	 * @param j ï¼Ÿå·åºå·
+	 * @throws Exception æŠ›å‡ºä»»ä½•å¯èƒ½å‘ç”Ÿçš„å¼‚å¸¸
 	 */
 	public static void setString(PreparedStatement st, Object obj, int j, String domain)throws Exception{
-		String s = (String)obj; //²»ÄÜÓÃStringUtil.toString(obj),ÒòÎª»áÖÃ¿Õ¿Õ´®£¬µ¼ÖÂclob×Ö¶Î³õÊ¼²åÈëÊ±±¨´í.
-    	if("oracle".equals(DialectFactory.getDialect(domain).getDBType()))
-    		st.setCharacterStream(j+1, new StringReader(s),s.length()); //sybaseÈç¹ûÒ²ÓÃ´ËÃû£¬Åöµ½text×Ö¶Î£¬»á±¨´í£¬ËùÒÔ»¹ÊÇÇø·ÖÒ»ÏÂÊı¾İ¿âÀàĞÍ
-    	else
-    		st.setObject(j+1, obj);
+		String s = (String)obj; //ä¸èƒ½ç”¨StringUtil.toString(obj),å› ä¸ºä¼šç½®ç©ºç©ºä¸²ï¼Œå¯¼è‡´clobå­—æ®µåˆå§‹æ’å…¥æ—¶æŠ¥é”™.
+		if("oracle".equals(DialectFactory.getDialect(domain).getDBType()))
+			st.setCharacterStream(j+1, new StringReader(s),s.length()); //sybaseå¦‚æœä¹Ÿç”¨æ­¤åï¼Œç¢°åˆ°textå­—æ®µï¼Œä¼šæŠ¥é”™ï¼Œæ‰€ä»¥è¿˜æ˜¯åŒºåˆ†ä¸€ä¸‹æ•°æ®åº“ç±»å‹
+		else
+			st.setObject(j+1, obj);
 	}
-	
+
 	/**
-	 * Õë¶Ô?ºÅ´«²ÎµÄSQL£¬ÎªÈ·±£´òÓ¡ÈÕÖ¾Ê±ÄÜ´òÓ¡ÕæÊµÖµ£¬ËùÒÔÕâÀï½øĞĞ?ºÅÌæ»»
-	 * @param sql º¬?ºÅµÄSQL
-	 * @param list ?ºÅ¶ÔÓ¦µÄÊı¾İ¼¯ºÏ
-	 * @param domain Êı¾İ¿â
-	 * @return Ìæ»»ºóµÄSQL
+	 * é’ˆå¯¹?å·ä¼ å‚çš„SQLï¼Œä¸ºç¡®ä¿æ‰“å°æ—¥å¿—æ—¶èƒ½æ‰“å°çœŸå®å€¼ï¼Œæ‰€ä»¥è¿™é‡Œè¿›è¡Œ?å·æ›¿æ¢
+	 * @param sql å«?å·çš„SQL
+	 * @param list ?å·å¯¹åº”çš„æ•°æ®é›†åˆ
+	 * @param domain æ•°æ®åº“
+	 * @return æ›¿æ¢åçš„SQL
 	 */
 	public static String getRealSql(String sql, List list, String domain){
 		if(list == null || list.size()==0){
 			return sql;
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		Dialect dia = DialectFactory.getDialect(domain);
 		String s[]=sql.split("\\?");
 		int size = list.size()-1;
 		for(int i=size; i>=0; i--){
 			Object obj = list.get(i);
-			if(obj == null){//¿ÕÖµ
+			if(obj == null){//ç©ºå€¼
 				s[i] = s [i] + "null";
-			}else if(obj instanceof Number) { //ÊıÖµÀàĞÍ
+			}else if(obj instanceof Number) { //æ•°å€¼ç±»å‹
 				s[i] = s[i] + obj;
-			}else if(obj instanceof Date) { //Ê±¼äÀàĞÍ
+			}else if(obj instanceof Date) { //æ—¶é—´ç±»å‹
 				s[i] = s[i] + dia.stringToDatetime(DateUtil.parseToString((Date)obj, "yyyy-MM-dd HH:mm:ss"));
-			}else{ //×Ö·û´®£¬Ì«³¤Ôò½ØÈ¡µô£¬SQLÖĞ²»ĞèÒªÈ«Á¿ÏÔÊ¾
+			}else{ //å­—ç¬¦ä¸²ï¼Œå¤ªé•¿åˆ™æˆªå–æ‰ï¼ŒSQLä¸­ä¸éœ€è¦å…¨é‡æ˜¾ç¤º
 				String str = obj.toString();
-				s[i] = s[i] +"'" + (str.length() > 50 ? (str.substring(0, 50) + "...") : str) + "'"; 
+				s[i] = s[i] +"'" + (str.length() > 50 ? (str.substring(0, 50) + "...") : str) + "'";
 			}
 		}
 		for(int i=0;i<s.length;i++){
@@ -1257,13 +1247,13 @@ public class DatabaseUtil {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
-	 * Ö´ĞĞÇ°ÈÕÖ¾
-	 * @param sql Ö´ĞĞµÄSQL
-	 * @param list SQL£¿¶ÔÓ¦Êı¾İ
-	 * @param domain Êı¾İÔ´
-	 * @return MapÀàĞÍ£¬Ö´ĞĞºóÈÕÖ¾ĞèÒªµÄ²ÎÊı
+	 * æ‰§è¡Œå‰æ—¥å¿—
+	 * @param sql æ‰§è¡Œçš„SQL
+	 * @param list SQLï¼Ÿå¯¹åº”æ•°æ®
+	 * @param domain æ•°æ®æº
+	 * @return Mapç±»å‹ï¼Œæ‰§è¡Œåæ—¥å¿—éœ€è¦çš„å‚æ•°
 	 */
 	public static Map<String,String> before(String sql, List list, String domain){
 		String sMd5 = getUUID();//MD5Tool.getMD5String();
@@ -1278,20 +1268,20 @@ public class DatabaseUtil {
 		mp.put("domain", domain);
 		return mp;
 	}
-	
+
 	/**
-	 * Ö´ĞĞÇ°ÈÕÖ¾
-	 * @param countSql ²é×Ü¼ÇÂ¼ÊıSQL
-	 * @param dataSql ²é½á¹ûÊı¾İSQL
-	 * @param list SQL£¿¶ÔÓ¦Êı¾İ
-	 * @param domain Êı¾İÔ´
-	 * @return MapÀàĞÍ£¬Ö´ĞĞºóÈÕÖ¾ĞèÒªµÄ²ÎÊı
+	 * æ‰§è¡Œå‰æ—¥å¿—
+	 * @param countSql æŸ¥æ€»è®°å½•æ•°SQL
+	 * @param dataSql æŸ¥ç»“æœæ•°æ®SQL
+	 * @param list SQLï¼Ÿå¯¹åº”æ•°æ®
+	 * @param domain æ•°æ®æº
+	 * @return Mapç±»å‹ï¼Œæ‰§è¡Œåæ—¥å¿—éœ€è¦çš„å‚æ•°
 	 */
 	public static Map<String,String> before(String countSql, String dataSql, List list, String domain){
 		String sMd5 = getUUID();//MD5Tool.getMD5String();
 		String sql1 = (list == null)? countSql : getRealSql(countSql, list ,domain);
 		String sql2 = (list == null)? dataSql : getRealSql(dataSql, list ,domain);
-		
+
 		String path = LogOperateUtil.logSQLBefor(sql1, sMd5, domain);
 		long timeBefore = System.currentTimeMillis();
 		Map<String, String> mp = new HashMap<String, String>();
@@ -1302,11 +1292,11 @@ public class DatabaseUtil {
 		mp.put("domain", domain);
 		return mp;
 	}
-	
+
 	/**
-	 * Ö´ĞĞºóÈÕÖ¾
-	 * @param params ¼ÇÈÕÖ¾ËùĞè²ÎÊı
-	 * @param num Ó°ÏìĞĞÊı»ò½á¹ûĞĞÊı
+	 * æ‰§è¡Œåæ—¥å¿—
+	 * @param params è®°æ—¥å¿—æ‰€éœ€å‚æ•°
+	 * @param num å½±å“è¡Œæ•°æˆ–ç»“æœè¡Œæ•°
 	 */
 	public static void after(Map<String,String> params, int num){
 		String sMd5 = params.get("sMd5");
@@ -1315,41 +1305,41 @@ public class DatabaseUtil {
 		String domain = params.get("domain");
 		long timeBefore = Long.valueOf(params.get("timeBefore"));
 		long iCostTime = LogOperateUtil.logSQLAfter(sql1, sMd5, timeBefore, num);
-		//ËùÓĞJDBCÈÕÖ¾¶¼²»Ö±½ÓÈë¿â
+		//æ‰€æœ‰JDBCæ—¥å¿—éƒ½ä¸ç›´æ¥å…¥åº“
 		if(LogOperateUtil.isLogRuntime()){
 			LogOperateUtil.logSQLToDb(sMd5, sql1, iCostTime, num, domain, path);
 		}
 	}
 
 	/**
-	 * ¸ù¾İData map²åÈëÊı¾İ
-	 * @param table ±íÃû
-	 * @param map ×Ö¶ÎÃûÓëÊı¾İ
-	 * @param pks Ö÷¼ü×Ö¶ÎÃû£¬¶à¸öÓÃ¶ººÅ¸ô¿ª¡£ ´Ë²Î¸ø¿ÕÊ±×öinsert²Ù×÷£¬·ñÔò×öupdate²Ù×÷¡£
-	 * @param domain Êı¾İÔ´
-	 * @return ²Ù×÷³É¹¦µÄ¼ÇÂ¼Êı
+	 * æ ¹æ®Data mapæ’å…¥æ•°æ®
+	 * @param table è¡¨å
+	 * @param map å­—æ®µåä¸æ•°æ®
+	 * @param pks ä¸»é”®å­—æ®µåï¼Œå¤šä¸ªç”¨é€—å·éš”å¼€ã€‚ æ­¤å‚ç»™ç©ºæ—¶åšinsertæ“ä½œï¼Œå¦åˆ™åšupdateæ“ä½œã€‚
+	 * @param domain æ•°æ®æº
+	 * @return æ“ä½œæˆåŠŸçš„è®°å½•æ•°
 	 */
 	public static int saveByDataMap(String table, List<Data> map, String pks, String ... domain){
 		if(map==null || map.size()==0){return 0;}
-		
+
 		String dm = checkArgs(domain, 0)? domain[0] : "";
 		String sql = getSqlByDataTypeMap(table, map, pks, dm);
 		List data = getDatasByDataTypeMap(map, pks, dm);
 		return updateByPrepareStatement(sql, data, dm);
-		//»¹Ğè¿¼ÂÇoracleÏÂµÄclobÀàĞÍ
+		//è¿˜éœ€è€ƒè™‘oracleä¸‹çš„clobç±»å‹
 	}
-	
+
 	/**
-	 * ¸ù¾İData map ÅúÁ¿²åÈëÊı¾İ
-	 * @param table ±íÃû
-	 * @param list ¼¯ºÏÊı¾İ£¬¼¯ºÏÄÚmap·Å×Ö¶ÎÃûÓëÊı¾İ¡£(listÄÚËùÓĞmapµÄ¼ü±ØĞëÒ»ÖÂ£¬±ÈÈçµÚ1¸ömapÓĞA,B¼ü£¬µÚ¶ş¸ömapÒ²µÃÓĞA,B¼ü£¬²»ÄÜ¶àÒ²²»ÄÜÉÙ¡£¼ü¶ÔÓ¦µÄÖµ¿ÉÒÔ¸ø¿Õ¡£)
-	 * @param pks Ö÷¼ü×Ö¶ÎÃû£¬¶à¸öÓÃ¶ººÅ¸ô¿ª¡£ ´Ë²Î¸ø¿ÕÊ±×öinsert²Ù×÷£¬·ñÔò×öupdate²Ù×÷¡£
- 	 * @param domain Êı¾İÔ´
-	 * @return ²Ù×÷³É¹¦µÄ¼ÇÂ¼Êı
+	 * æ ¹æ®Data map æ‰¹é‡æ’å…¥æ•°æ®
+	 * @param table è¡¨å
+	 * @param list é›†åˆæ•°æ®ï¼Œé›†åˆå†…mapæ”¾å­—æ®µåä¸æ•°æ®ã€‚(listå†…æ‰€æœ‰mapçš„é”®å¿…é¡»ä¸€è‡´ï¼Œæ¯”å¦‚ç¬¬1ä¸ªmapæœ‰A,Bé”®ï¼Œç¬¬äºŒä¸ªmapä¹Ÿå¾—æœ‰A,Bé”®ï¼Œä¸èƒ½å¤šä¹Ÿä¸èƒ½å°‘ã€‚é”®å¯¹åº”çš„å€¼å¯ä»¥ç»™ç©ºã€‚)
+	 * @param pks ä¸»é”®å­—æ®µåï¼Œå¤šä¸ªç”¨é€—å·éš”å¼€ã€‚ æ­¤å‚ç»™ç©ºæ—¶åšinsertæ“ä½œï¼Œå¦åˆ™åšupdateæ“ä½œã€‚
+	 * @param domain æ•°æ®æº
+	 * @return æ“ä½œæˆåŠŸçš„è®°å½•æ•°
 	 */
 	public static int saveByDataMapList(String table, List<List<Data>> list, String pks, String ... domain){
 		if(list==null || list.size()==0){return 0;}
-		
+
 		String dm = checkArgs(domain, 0)? domain[0] : "";
 		String sql = getSqlByDataTypeMap(table, list.get(0), pks, dm);
 		List<List> datas = new ArrayList<List>();
@@ -1357,96 +1347,96 @@ public class DatabaseUtil {
 			List data = getDatasByDataTypeMap(map, pks, dm);
 			datas.add(data);
 		}
-		
+
 		return updateByPrepareStatementBatch2(sql, datas, dm);
-		//»¹Ğè¿¼ÂÇoracleÏÂµÄclobÀàĞÍ
+		//è¿˜éœ€è€ƒè™‘oracleä¸‹çš„clobç±»å‹
 	}
-	
+
 	/***
-	 * ¸ù¾İData mapÆ´²Ù×÷Óï¾ä
-	 * @param table ±íÃû
-	 * @param map ×Ö¶ÎÃûÓëÊı¾İ
-	 * @param pks Ö÷¼ü×Ö¶ÎÃû£¬¶à¸öÓÃ¶ººÅ¸ô¿ª¡£ ´Ë²ÎÊı¸øÖµ£¬Ôò×öupdate²Ù×÷£¬·ñÔò×öinsert²Ù×÷
-	 * @param domain Êı¾İÔ´
+	 * æ ¹æ®Data mapæ‹¼æ“ä½œè¯­å¥
+	 * @param table è¡¨å
+	 * @param map å­—æ®µåä¸æ•°æ®
+	 * @param pks ä¸»é”®å­—æ®µåï¼Œå¤šä¸ªç”¨é€—å·éš”å¼€ã€‚ æ­¤å‚æ•°ç»™å€¼ï¼Œåˆ™åšupdateæ“ä½œï¼Œå¦åˆ™åšinsertæ“ä½œ
+	 * @param domain æ•°æ®æº
 	 * @return
 	 */
 	public static String getSqlByDataTypeMap(String table, List<Data> map, String pks, String domain){
 		StringBuilder sb1 = new StringBuilder();
-		
+
 		Dialect dia = DialectFactory.getDialect(domain);
 		if(StringUtil.checkStr(pks)){
 			pks=","+pks+",";
 			StringBuilder sb2 = new StringBuilder(" where 1=1");
 			sb1.append("update ").append(table).append(" set ");
-			
-			for(Data entry : map){ 
-				  String key = entry.getFiledName();
-				  
-				  if(pks.contains(","+key+",")){//ËµÃ÷ÊÇĞŞ¸ÄÌõ¼ş×Ö¶Î
-					  sb2.append(" and ").append(key).append("= ? "); 
-				  }else{
-					  sb1.append(" ").append(key).append("= ");
-					  if(entry.getDataType()==DataType.SYSDATE){ sb1.append(dia.getDate());}else{ sb1.append("?");} //È¡Êı¾İ¿âÏµÍ³Ê±¼ä
-					  sb1.append(",");//","ºó±ß²»ÒªÔÙ´ò¿Õ¸ñ
-				  }
-			} 
+
+			for(Data entry : map){
+				String key = entry.getFiledName();
+
+				if(pks.contains(","+key+",")){//è¯´æ˜æ˜¯ä¿®æ”¹æ¡ä»¶å­—æ®µ
+					sb2.append(" and ").append(key).append("= ? ");
+				}else{
+					sb1.append(" ").append(key).append("= ");
+					if(entry.getDataType()==DataType.SYSDATE){ sb1.append(dia.getDate());}else{ sb1.append("?");} //å–æ•°æ®åº“ç³»ç»Ÿæ—¶é—´
+					sb1.append(",");//","åè¾¹ä¸è¦å†æ‰“ç©ºæ ¼
+				}
+			}
 			sb1.deleteCharAt(sb1.length()-1);
 			sb1.append(sb2);
 		}else{
 			StringBuilder sb2 = new StringBuilder();
 			sb1.append("insert into ").append(table).append("(");
-			for(Data entry : map){ 
-		          sb1.append(entry.getFiledName()).append(",");
-		          if(entry.getDataType()==DataType.SYSDATE){ sb2.append(dia.getDate()).append(","); }else{ sb2.append("?,");} //È¡Êı¾İ¿âÏµÍ³Ê±¼ä
-			} 
+			for(Data entry : map){
+				sb1.append(entry.getFiledName()).append(",");
+				if(entry.getDataType()==DataType.SYSDATE){ sb2.append(dia.getDate()).append(","); }else{ sb2.append("?,");} //å–æ•°æ®åº“ç³»ç»Ÿæ—¶é—´
+			}
 			sb1.deleteCharAt(sb1.length()-1);
 			sb2.deleteCharAt(sb2.length()-1);
-			
+
 			sb1.append(")").append(" values (").append(sb2).append(")");
 		}
-		
+
 		return sb1.toString();
 	}
-	
+
 	/**
-	 * ¸ù¾İData map ÕûÀíÊı¾İ¼¯ºÏ
-	 * @param map ×Ö¶ÎÃûÓëÊı¾İ
-	 * @param pks Ö÷¼ü×Ö¶ÎÃû£¬¶à¸öÓÃ¶ººÅ¸ô¿ª¡£ ´Ë²ÎÊı¸øÖµ£¬Ôò×öupdate²Ù×÷£¬·ñÔò×öinsert²Ù×÷
-	 * @param domain Êı¾İÔ´
+	 * æ ¹æ®Data map æ•´ç†æ•°æ®é›†åˆ
+	 * @param map å­—æ®µåä¸æ•°æ®
+	 * @param pks ä¸»é”®å­—æ®µåï¼Œå¤šä¸ªç”¨é€—å·éš”å¼€ã€‚ æ­¤å‚æ•°ç»™å€¼ï¼Œåˆ™åšupdateæ“ä½œï¼Œå¦åˆ™åšinsertæ“ä½œ
+	 * @param domain æ•°æ®æº
 	 * @return
 	 */
 	public static List<Object> getDatasByDataTypeMap(List<Data> map, String pks, String domain){
 		List<Object> datas = new ArrayList<Object>();
-		if(StringUtil.checkStr(pks)){ //ĞŞ¸Ä
+		if(StringUtil.checkStr(pks)){ //ä¿®æ”¹
 			List<Object> datas2 = new ArrayList<Object>();
 			pks=","+pks+",";
 
-			for(Data entry : map){ 
-				  Object val = entry.getVal();
-				  if(entry.getDataType()==DataType.SYSDATE){continue;} //È¡Êı¾İ¿âÊ±¼ä£¬Ìø¹ı
-				  String key = entry.getFiledName();
-				  if(pks.contains(","+key+",")){//ËµÃ÷ÊÇĞŞ¸ÄÌõ¼ş×Ö¶Î
-					  datas2.add(val);
-				  }else{
-					  datas.add(val);
-				  }
-			} 
-			datas.addAll(datas2);
-		}else{//ĞÂÔö
-			for(Data entry : map){ 
+			for(Data entry : map){
 				Object val = entry.getVal();
-				if(entry.getDataType()==DataType.SYSDATE){continue;} //È¡Êı¾İ¿âÊ±¼ä£¬Ìø¹ı
+				if(entry.getDataType()==DataType.SYSDATE){continue;} //å–æ•°æ®åº“æ—¶é—´ï¼Œè·³è¿‡
+				String key = entry.getFiledName();
+				if(pks.contains(","+key+",")){//è¯´æ˜æ˜¯ä¿®æ”¹æ¡ä»¶å­—æ®µ
+					datas2.add(val);
+				}else{
+					datas.add(val);
+				}
+			}
+			datas.addAll(datas2);
+		}else{//æ–°å¢
+			for(Data entry : map){
+				Object val = entry.getVal();
+				if(entry.getDataType()==DataType.SYSDATE){continue;} //å–æ•°æ®åº“æ—¶é—´ï¼Œè·³è¿‡
 				datas.add(val);
-			} 
+			}
 		}
 		return datas;
 	}
-	
-	/**¼ì²éÊı×éÖĞµÚn¸ö²ÎÊıÊÇ·ñÎª¿Õ*/
+
+	/**æ£€æŸ¥æ•°ç»„ä¸­ç¬¬nä¸ªå‚æ•°æ˜¯å¦ä¸ºç©º*/
 	public static boolean checkArgs(String args[], int index){
 		return args!=null && args.length>index && StringUtil.checkStr(args[index]);
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(queryForList("select * from A2 where F in ('ff  ')").size());
 	}

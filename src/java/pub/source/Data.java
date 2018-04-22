@@ -4,7 +4,7 @@ import java.util.Map;
 
 /**数据对象定义*/
 public class Data {
-	
+
 	/**字段英文名*/
 	private String filedName;
 	/**数据类型*/
@@ -17,22 +17,22 @@ public class Data {
 		this.dataType = dataType;
 		this.val = val;
 	}
-	
-	/**得实例*/
+
+	//	/**得实例*/
 	public static Data get(String filedName, DataType dataType, Object val){
 		return new Data(filedName, dataType, val);
 	}
-	
-	/**得实例*/
+
+	//	/**得实例*/
 	public static Data get(Field field, Object val){
 		return get(field.name(), field.getDataType(), val);
 	}
 
-	/**得实例*/
+	//	/**得实例*/
 	public static Data get(Field field, Map map){
 		return get(field.name(), field.getDataType(), map.get(field.name()));
 	}
-	
+
 	public String getFiledName() {
 		return filedName;
 	}

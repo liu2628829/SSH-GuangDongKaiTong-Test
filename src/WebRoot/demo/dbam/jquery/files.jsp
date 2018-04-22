@@ -6,7 +6,7 @@
 %>
 <html>
 <head>
-	<title>人员管理</title>
+	<title>文件管理</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=GBK">
 	<%@include file="/admin/common/skinCss.jsp" %>
 	<link rel="stylesheet" type="text/css" href="<%=path%>/css/find.css">

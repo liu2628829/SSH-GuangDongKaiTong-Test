@@ -13,48 +13,48 @@ import com.opensymphony.xwork2.ModelDriven;
 @SuppressWarnings("serial")
 public abstract class BaseAction extends ActionSupport implements ModelDriven {
 	/**
-	 * »ñÈ¡requestÄÚÖÃ¶ÔÏó
+	 * è·å–requestå†…ç½®å¯¹è±¡
 	 * @return
 	 * @throws Exception
 	 */
 	public HttpServletRequest getRequest() throws Exception {
-		ActionContext ctx = ActionContext.getContext();        
-		HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST); 
+		ActionContext ctx = ActionContext.getContext();
+		HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST);
 		return request;
 	}
 
 	/**
-	 * »ñÈ¡responseÄÚÖÃ¶ÔÏó
+	 * è·å–responseå†…ç½®å¯¹è±¡
 	 * @return
 	 * @throws Exception
 	 */
 	public HttpServletResponse getResponse() throws Exception {
-		ActionContext ctx = ActionContext.getContext();        
-		HttpServletResponse response = (HttpServletResponse)ctx.get(ServletActionContext.HTTP_RESPONSE); 
+		ActionContext ctx = ActionContext.getContext();
+		HttpServletResponse response = (HttpServletResponse)ctx.get(ServletActionContext.HTTP_RESPONSE);
 		return response;
 	}
-	
+
 	/**
-	 * »ñÈ¡sessionÄÚÖÃ¶ÔÏó
+	 * è·å–sessionå†…ç½®å¯¹è±¡
 	 * @return
 	 * @throws Exception
 	 */
 	public HttpSession getSession() throws Exception {
-		ActionContext ctx = ActionContext.getContext();        
-		HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST); 
+		ActionContext ctx = ActionContext.getContext();
+		HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST);
 		HttpSession session = request.getSession();
 		return session;
 	}
-	
-	
-	
+
+
+
 	/**
-	 * ¼ÇÂ¼²Ù×÷ÈÕÖ¾
-	 * @param iLogType   ²Ù×÷Ä£¿é
-	 * @param systemId   ÏµÍ³ID
-	 * @param remark     ²Ù×÷ĞÅÏ¢
+	 * è®°å½•æ“ä½œæ—¥å¿—
+	 * @param iLogType   æ“ä½œæ¨¡å—
+	 * @param systemId   ç³»ç»ŸID
+	 * @param remark     æ“ä½œä¿¡æ¯
 	 * @throws Exception
-	 
+
 	@Deprecated
 	public void logOperation(int iLogType, int systemId, String remark) throws Exception {
 		HttpSession session = getSession();
@@ -63,9 +63,9 @@ public abstract class BaseAction extends ActionSupport implements ModelDriven {
 			LogUtil.setLogForStaff(logStaff, iLogType, remark, systemId);
 		}
 	}*/
-	
+
 	/**
-	 * ¼ÇÂ¼²Ù×÷ÈÕÖ¾£¬×îºóÒ»¸ö²ÎÊı5¹Ì¶¨ÎªÊ¡¼¯ÖĞ¸æ¾¯ÏµÍ³
+	 * è®°å½•æ“ä½œæ—¥å¿—ï¼Œæœ€åä¸€ä¸ªå‚æ•°5å›ºå®šä¸ºçœé›†ä¸­å‘Šè­¦ç³»ç»Ÿ
 	 * Added by Zhanweibin 2011-12-20
 	 * @param iLogType
 	 * @param remark
