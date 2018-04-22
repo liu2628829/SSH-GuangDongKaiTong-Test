@@ -1,0 +1,403 @@
+html,body{width:100%;height:100%;overflow:hidden;}
+iframe{width:100%;height:100%;padding:0;margin:0;}
+img,body,html{border:0;}
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}
+*{font-family:Verdana, Geneva, sans-serif;font-size:12px;}
+/*新建*/
+.new{background:url(../images/core/add-row.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*修改*/
+.edit{background:url(../images/core/edit.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*保存*/
+.save {background:url(../images/core/save.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*删除*/
+.delete{background:url(../images/core/delete.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*查找*/
+.search{background:url(../images/core/search.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*确定*/
+.confirm{background:url(../images/core/ok.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*取消*/
+.reset{background:url(../images/core/reset.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*权限设置*/
+.role-setup{background:url(../images/core/role-setup.gif) no-repeat 0 2px !important;padding-left:20px !important;}
+/*已关联*/
+.linked {background:url(../images/core/linked.gif) no-repeat 0 3px !important;padding-left:20px !important;}
+/*附件上传*/
+.up-load{background:url(../images/core/up_01.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*附件下传*/
+.down-load{background:url(../images/core/down_01.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*设置个性域*/
+.fav_special{background:url(../images/core/fav.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*批量增加*/
+.batch_add{background:url(../images/core/add2.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*复制*/
+.copy{background:url(../images/core/copy.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*移动*/
+.move{background:url(../images/core/move.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*初始密码*/
+.change_pwd{background:url(../images/core/change_pwd.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*更改部门*/
+.change_dept{background:url(../images/core/change_dept.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*设置领导*/
+.change_leader{background:url(../images/core/change_leader.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*详情*/
+.detail{background:url(../images/core/detail_info.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*建单*/
+.add_page{background:url(../images/core/add_page.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*新建文件夹*/
+.add_folder{background:url(../images/core/add_geng.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*新建更多*/
+.add_more{background:url(../images/core/add_more.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*派单*/
+.paidang{background:url(../images/core/application_go.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*区域*/
+.quyu{background:url(../images/core/area.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*前进*/
+.forward{background:url(../images/core/arrow-forward-next.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*后退*/
+.arrow-back-previous{background:url(../images/core/arrow-back-previous.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*上传*/
+.up{background:url(../images/core/arrow-up-top.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*下载*/
+.down{background:url(../images/core/arrow-down-bottom.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*开始*/
+.start{background:url(../images/core/arrow-triangle-go-start.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*结束*/
+.end{background:url(../images/core/arrow-triangle-go-end.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*通用*/
+.tongyong{background:url(../images/core/asterisk.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*写单*/
+.xiedang{background:url(../images/core/audit.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*奖状*/
+.xingji{background:url(../images/core/award_star_bronze.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*退单*/
+.chargeback{background:url(../images/core/tuidang.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*返回*/
+.back{background:url(../images/core/back.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*基地*/
+.jidi{background:url(../images/core/base.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*错误*/
+.error{background:url(../images/core/error.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*自定义*/
+.custom{background:url(../images/core/book_custom.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*建库*/
+.set_library{background:url(../images/core/library.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*建库*/
+.set_library{background:url(../images/core/library.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*故障*/
+.fault{background:url(../images/core/break.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*事务*/
+.affairs{background:url(../images/core/brick_edit.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*浏览*/
+.look{background:url(../images/core/browse.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*大楼*/
+.building{background:url(../images/core/building.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*锁定*/
+.key{background:url(../images/core/bullet_key.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*星级*/
+.star{background:url(../images/core/bullet_star.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*报告*/
+.baogao{background:url(../images/core/report.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*日期*/
+.date{background:url(../images/core/calendar_view_day.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*催单*/
+.cuidang{background:url(../images/core/calendar_view_week.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*柱状图表*/
+.chart_zhu{background:url(../images/core/chart_bar.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*饼状图表*/
+.chart_bing{background:url(../images/core/chart_pie.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*曲状图表*/
+.chart_qu{background:url(../images/core/chart_qu.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*线状图表*/
+.chart_xian{background:url(../images/core/chart_xian.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*拓朴*/
+.tuopu{background:url(../images/core/topology.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*部门*/
+.department{background:url(../images/core/chengbao.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*清除*/
+.clean{background:url(../images/core/clean.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*管理员*/
+.manage{background:url(../images/core/clientview.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*集团*/
+.group{background:url(../images/core/group.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*用户*/
+.user{background:url(../images/core/user.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*评论*/
+.evaluate{background:url(../images/core/comment_edit.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*系统管理*/
+.system{background:url(../images/core/computer.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*废件*/
+.scrap{background:url(../images/core/garbage.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*服务器*/
+.service{background:url(../images/core/service.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*维护*/
+.maintain{background:url(../images/core/config.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*链路*/
+.connect{background:url(../images/core/connect.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*断路*/
+.disconnect{background:url(../images/core/disconnect.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*终端*/
+.terminal{background:url(../images/core/zhongduang.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*终端*/
+.terminal{background:url(../images/core/zhongduang.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*剪切*/
+.cut{background:url(../images/core/cut.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*时间*/
+.time{background:url(../images/core/date.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*选取*/
+.select{background:url(../images/core/select.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*选取*/
+.select{background:url(../images/core/select.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*机构*/
+.agency{background:url(../images/core/pcde.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*数据*/
+.digital{background:url(../images/core/digital.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*硬盘*/
+.hard_disk{background:url(../images/core/drive_network.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*通讯*/
+.email{background:url(../images/core/email.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*禁止*/
+.ban{background:url(../images/core/scrap.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*导出excel*/
+.excel{background:url(../images/core/excel.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*导出word*/
+.word{background:url(../images/core/word.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*退出*/
+.exit{background:url(../images/core/exit.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*鹰眼*/
+.eyes{background:url(../images/core/eyes.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*防火墙*/
+.firewall{background:url(../images/core/firewall.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*刷新*/
+.fresh{background:url(../images/core/fresh.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*折叠*/
+.close{background:url(../images/core/folder_close.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*展开*/
+.open{background:url(../images/core/folder_open.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*转派*/
+.zhuangpai{background:url(../images/core/zhuangpai.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*传递*/
+.from{background:url(../images/core/from.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*附件*/
+.attachment{background:url(../images/core/fujian.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*应急*/
+.emergency{background:url(../images/core/yingji.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*告警*/
+.alarm{background:url(../images/core/gaojing.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*同步*/
+.tongbu{background:url(../images/core/tongbu.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*工单*/
+.gongdang{background:url(../images/core/gongdang.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*远程*/
+.yuancheng{background:url(../images/core/yuancheng.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*帮助*/
+.help{background:url(../images/core/help.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*等待*/
+.waitting{background:url(../images/core/hourglass.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*友好*/
+.hello{background:url(../images/core/smail.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*电话*/
+.phone{background:url(../images/core/tel.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*提示*/
+.tips{background:url(../images/core/tips.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*图层*/
+.layers{background:url(../images/core/layers.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*预警*/
+.yujing{background:url(../images/core/lightbulb.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*超链接*/
+.chaolink{background:url(../images/core/link.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*加载*/
+.loading{background:url(../images/core/loading.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*加锁*/
+.lock{background:url(../images/core/lock.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*解锁*/
+.unlock{background:url(../images/core/lock_open.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*应急车*/
+.yingji{background:url(../images/core/lorry.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*信令*/
+.xingling{background:url(../images/core/xingling.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*值班*/
+.onduty{background:url(../images/core/member.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*搜索*/
+.find{background:url(../images/core/map_search.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*移动*/
+.mobile{background:url(../images/core/mobile.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*监测*/
+.jianche{background:url(../images/core/monitor_edit.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*平移*/
+.pingyi{background:url(../images/core/pan.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*放大*/
+.put{background:url(../images/core/put.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*缩小*/
+.narrow{background:url(../images/core/narrow.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*网元*/
+.wangyuan{background:url(../images/core/ne.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*网络*/
+.net{background:url(../images/core/net.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*公告*/
+.notice{background:url(../images/core/notice.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*导出PDF*/
+.pdf{background:url(../images/core/pdf.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*评审*/
+.pingsheng{background:url(../images/core/pingsheng.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*定位*/
+.position{background:url(../images/core/position.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*打印*/
+.print{background:url(../images/core/print.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*日历*/
+.print{background:url(../images/core/calendar_edit.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*中调*/
+.zhongdiao{background:url(../images/core/room.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*高级查询*/
+.top_search{background:url(../images/core/search_top.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*服务器*/
+.server{background:url(../images/core/server_chart.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*设置*/
+.set{background:url(../images/core/setting.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*运行*/
+.run{background:url(../images/core/run.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*工具*/
+.tool{background:url(../images/core/tool.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*共享*/
+.share{background:url(../images/core/share.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*购买*/
+.shopping{background:url(../images/core/shopping.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*插座*/
+.chazuo{background:url(../images/core/socket.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*基站*/
+.stations{background:url(../images/core/stations.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*列表*/
+.table{background:url(../images/core/table.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*指引*/
+.teach{background:url(../images/core/teach.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*时钟*/
+.time{background:url(../images/core/time.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*统计*/
+.tongji{background:url(../images/core/tongji.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*传输*/
+.transmission{background:url(../images/core/transmission.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*u盘*/
+.udisk{background:url(../images/core/udisk.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*注意*/
+.note{background:url(../images/core/warning.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*压缩*/
+.yasuobao{background:url(../images/core/yasuobao.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*云*/
+.yun{background:url(../images/core/yun.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*阅读*/
+.book_read{background:url(../images/core/book_read.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*生成*/
+.shencheng{background:url(../images/core/shencheng.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+
+/*以下是9-6号加的新图标，与综合网管一致*/
+/*A端端口拓扑连接*/
+.port_A_topo{background:url(../images/core/port_A_topo.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*Z端端口拓扑连接*/
+.port_Z_topo{background:url(../images/core/port_Z_topo.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*光路N-X分析*/
+.road_nx_analysis{background:url(../images/core/road_nx_analysis.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*关联传输段*/
+.associate_trans{background:url(../images/core/associate_trans.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*关联光路*/
+.associate_road{background:url(../images/core/associate_road.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*关联接入链路*/
+.associate_an_link{background:url(../images/core/associate_an_link.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*地图定位*/
+.map_position{background:url(../images/core/map_position.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*展示地图*/
+.map_show{background:url(../images/core/map_show.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*成端信息查询*/
+.search_terminal{background:url(../images/core/search_terminal.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*拓扑连接*/
+.topo_link{background:url(../images/core/topo_link.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看传输插板列表*/
+.trans_board_list{background:url(../images/core/trans_board_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看传输机框列表*/
+.trans_shelf_list{background:url(../images/core/trans_shelf_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看传输槽道列表*/
+.trans_slot_list{background:url(../images/core/trans_slot_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看传输端口列表*/
+.trans_port_list{background:url(../images/core/trans_port_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看光缆全局视图*/
+.browse_cable_gis{background:url(../images/core/browse_cable_gis.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看光缆接头列表*/
+.op_join_list{background:url(../images/core/op_join_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看光缆段*/
+.browse_cable_seg{background:url(../images/core/browse_cable_seg.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看光缆段列表*/
+.cable_seg_list{background:url(../images/core/cable_seg_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看光缆纤芯*/
+.browse_op_segfiber{background:url(../images/core/browse_op_segfiber.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看光路路由管理列表*/
+.road_route_list{background:url(../images/core/road_route_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看子框列表*/
+.sub_shelf_list{background:url(../images/core/sub_shelf_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属传输插板*/
+.browse_trans_board{background:url(../images/core/browse_trans_board.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属传输机框*/
+.browse_trans_shelf{background:url(../images/core/browse_trans_shelf.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属传输槽道*/
+.browse_trans_slot{background:url(../images/core/browse_trans_slot.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属传输网元*/
+.browse_trans_ne{background:url(../images/core/browse_trans_ne.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属光缆*/
+.op_cable{background:url(../images/core/op_cable.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属光缆模板*/
+.cable_template{background:url(../images/core/cable_template.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属光缆段*/
+.cable_segment{background:url(../images/core/cable_segment.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属地理区域*/
+.region{background:url(../images/core/region.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属子框*/
+.browse_sub_shelf{background:url(../images/core/browse_sub_shelf.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属机房*/
+.browse_room{background:url(../images/core/browse_room.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属机架*/
+.browse_rack{background:url(../images/core/browse_rack.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属机架位置*/
+.browse_rack_position{background:url(../images/core/browse_rack_position.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属站点*/
+.browse_site{background:url(../images/core/browse_site.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属输电线*/
+.browse_power_line{background:url(../images/core/browse_power_line.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看所属配线模块*/
+.browse_wiring_module{background:url(../images/core/browse_wiring_module.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看机房列表*/
+.room_list{background:url(../images/core/room_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看机房平面图*/
+.room_plan{background:url(../images/core/room_plan.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看机房平面图02*/
+.room_plan02{background:url(../images/core/room_plan02.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看机架位置列表*/
+.rack_position_list{background:url(../images/core/rack_position_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看机架列表*/
+.rack_list{background:url(../images/core/rack_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看站点列表*/
+.site_list{background:url(../images/core/site_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看站点剖面图*/
+.site_section{background:url(../images/core/site_section.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看配线模块列表*/
+.wiring_module_list{background:url(../images/core/wiring_module_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*查看配线端子列表*/
+.wiring_port_list{background:url(../images/core/wiring_port_list.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*熔纤*/
+.fiber_melting{background:url(../images/core/fiber_melting.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*熔纤操作*/
+.fiber_melte_operate{background:url(../images/core/fiber_melte_operate.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*配置成端*/
+.config_terminal{background:url(../images/core/config_terminal.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*流程*/
+.wf{background:url(../images/core/wf.png) no-repeat 0px 2px !important;padding-left:20px !important;}
+/*批量执行*/
+.batch_exec{background:url(../images/core/batchExec.gif) no-repeat 0px 2px !important;padding-left:20px !important;}
+
+
+/*下面是过滤组件用到的样式*/
+.filter-read-y{background:url(../images/core/read-y.gif) no-repeat 2px 2px !important;}
+.filter-read-n{background:url(../images/core/read-n.gif) no-repeat 2px 2px !important;}
+.filter-sended{background:url(../images/core/sended.gif) no-repeat 2px 2px !important;}
+.btn-all{background:url(../images/core/all.gif) no-repeat 2px 2px !important;}
+.filter-add{background:url(../images/core/filter-add.png) no-repeat 2px 2px !important;padding-left:20px !important;}
+.filter-edit{background:url(../images/core/filter-edit.png) no-repeat 2px 2px !important;padding-left:20px !important;}
+.filter-remove{background:url(../images/core/filter-remove.png) no-repeat 2px 2px !important;padding-left:20px !important;}
+.filter-reset{background:url(../images/core/reset.gif) no-repeat 2px 2px !important;padding-left:20px !important;}
+.filter-report{background:url(../images/core/report.gif) no-repeat 2px 2px !important;padding-left:20px !important;}

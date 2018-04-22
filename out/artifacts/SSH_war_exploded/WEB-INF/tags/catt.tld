@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>catt</shortname>
+
+	<!--国际化输出-->
+	<tag>
+		<name>MS</name>
+		<tag-class>util.commonModule.messageSource.MessageSourceTag</tag-class>
+		<body-content>jsp</body-content>
+		<attribute>
+			<name>code</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>args</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<!--国际化JS-->
+	<tag>
+		<name>MJS</name>
+		<tag-class>util.commonModule.messageSource.MessageSourceJsTag</tag-class>
+		<body-content>empty</body-content>
+	</tag>
+</taglib>

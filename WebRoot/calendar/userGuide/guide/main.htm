@@ -97,9 +97,9 @@ google_ad_height = 90;
   <SPAN class=STYLE1>onClick="WdatePicker()"</SPAN>/&gt;</P></DIV>
   <DIV>
   <H4>示例1-1-2 图标触发</H4>
-  <P><INPUT id=d12> <IMG style="CURSOR: pointer" 
-  onclick="WdatePicker({el:$dp.$('d12')})" height=22 
-  src="main.files/datePicker.gif" width=16 align=absMiddle> <BR>&lt;input 
+  <P><INPUT id=d12> <IMG style="CURSOR: pointer"
+                         onclick="WdatePicker({el:$dp.$('d12')})" height=22
+                         src="main.files/datePicker.gif" width=16 align=absMiddle> <BR>&lt;input
   id="<SPAN class=STYLE1>d12</SPAN>" type="text"/&gt;<BR>&lt;img 
   onclick="WdatePicker({<SPAN class=STYLE2>el:</SPAN><SPAN 
   class=STYLE1>$dp.$('d12')</SPAN>})" src="../skin/datePicker.gif" width="16" 
@@ -107,10 +107,10 @@ google_ad_height = 90;
   document.getElementById <BR><SPAN class=STYLE1>$dp.$</SPAN> 的详细用法可以参考<A 
   href="http://www.my97.net/dp/demo/resource/main.asp#m5">内置函数</A></P></DIV>
   <LI>下拉,输入,导航选择日期<A id=m212 name=m212></A> 
-  <P>年月时分秒输入框都具备以下三种特性 <BR>1. 通过导航图标选择<BR><IMG height=197 
-  src="main.files/pic1.jpg" width=180><BR><BR>2. 直接使用键盘输入数字<BR><IMG height=197 
-  src="main.files/pic2.jpg" width=180><BR><BR>3. 直接从弹出的下拉框中选择<BR><IMG height=197 
-  src="main.files/pic3.jpg" width=180><BR><BR><SPAN 
+  <P>年月时分秒输入框都具备以下三种特性 <BR>1. 通过导航图标选择<BR><IMG height=197
+                                               src="main.files/pic1.jpg" width=180><BR><BR>2. 直接使用键盘输入数字<BR><IMG height=197
+                                                                                                                 src="main.files/pic2.jpg" width=180><BR><BR>3. 直接从弹出的下拉框中选择<BR><IMG height=197
+                                                                                                                                                                                     src="main.files/pic3.jpg" width=180><BR><BR><SPAN
   class=STYLE2>另:年份输入框有智能提示功能,当用户连续点击同一个导航按钮5次时,会自动弹出年份下拉框</SPAN></P>
   <LI>支持周显示 <A id=m213 name=m213></A>
   <P>可以通过配置isShowWeek属性决定是否限制周,并且在返回日期的时候还可以通过自带的自定义事件和API函数返回选择的周</P><BR>
@@ -180,10 +180,10 @@ WdatePicker({eCont:'div1',onpicked:function(dp){alert('你选择的日期是:'+dp.cal.g
   <P>除了可以将值返回给input以外,还可以通过配置el属性将值返回给其他的元素(如:textarea,div,span)等,带有innerHTML属性的HTML元素</P>
   <DIV>
   <H4>示例2-2 将日期返回到&lt;span&gt;中</H4>
-  <P><SPAN id=demospan>2008-01-01</SPAN> <IMG style="CURSOR: pointer" 
-  onclick="WdatePicker({el:'demospan'})" height=22 
-  src="main.files/datePicker.gif" width=16 
-  align=absMiddle><BR><BR>代码:<BR>&lt;span id="<SPAN 
+  <P><SPAN id=demospan>2008-01-01</SPAN> <IMG style="CURSOR: pointer"
+                                              onclick="WdatePicker({el:'demospan'})" height=22
+                                              src="main.files/datePicker.gif" width=16
+                                              align=absMiddle><BR><BR>代码:<BR>&lt;span id="<SPAN
   class=STYLE1>demospan</SPAN>"&gt;2008-01-01&lt;/span&gt; <BR>&lt;img 
   onClick="WdatePicker({<SPAN class=STYLE2>el:</SPAN><SPAN 
   class=STYLE1>'demospan'</SPAN>})" 
@@ -783,9 +783,9 @@ return '^'+H;
   <H4>示例5-2-3 将选择的值拆分到文本框 </H4>
   <P><INPUT id=d523_y size=5> 年 <INPUT id=d523_M size=3> 月 <INPUT id=d523_d 
   size=3> 日 <INPUT id=d523_HH size=3> 时 <INPUT id=d523_mm size=3> 分 <INPUT 
-  id=d523_ss size=3> 秒 <INPUT id=d523> <IMG style="CURSOR: pointer" 
-  onclick="WdatePicker({el:'d523',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:pickedFunc})" 
-  height=22 src="main.files/datePicker.gif" width=16 align=absMiddle>
+  id=d523_ss size=3> 秒 <INPUT id=d523> <IMG style="CURSOR: pointer"
+                                            onclick="WdatePicker({el:'d523',dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked:pickedFunc})"
+                                            height=22 src="main.files/datePicker.gif" width=16 align=absMiddle>
   <SCRIPT>
 			function pickedFunc(){
 				$dp.$('d523_y').value=$dp.cal.getP('y');

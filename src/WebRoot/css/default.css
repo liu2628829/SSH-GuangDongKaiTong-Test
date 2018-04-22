@@ -1,0 +1,97 @@
+html,body{width:100%;height:100%;overflow:hidden;}
+iframe{width:100%;height:100%;padding:0;margin:0;}
+img,body,html{border:0;}
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}
+*{font-family:Verdana, Geneva, sans-serif;font-size:12px;}
+html{height:100%;}
+body {margin:0;height:100%;padding:0; font-size:12px;font-family:Arial, Helvetica, sans-serif; 
+scrollbar-face-color:#EBF4FB;
+scrollbar-shadow-color:#FAFAFA;
+scrollbar-highlight-color:#FFFFFF;
+scrollbar-3dlight-color:#BED9EC;
+scrollbar-darkshadow-color:#BED9EC;
+scrollbar-track-color:#FAFAFA;
+scrollbar-arrow-color:#BED9EC;
+border:0px;
+}
+ul{list-style:none;}
+textarea{overflow: auto;resize: none; }
+a:link,a:visited{color:#135ba6;text-decoration:none;}
+a:hover{color:#135ba6;text-decoration:underline;}
+th{font-weight: lighter;}
+div{overflow: hidden;}
+
+/*换肤小按纽*/
+.bs{float:right;}
+.bs a{  float:left; width:10px; height:9px; margin-right:10px;}
+.bs .a1{ background:url(../images/easyui/hua.gif) no-repeat;margin-top:8px;}
+.bs .a2{ background:url(../images/easyui/lv.gif) no-repeat;margin-top:8px;}
+.bs .a3{ background:url(../images/easyui/lan.gif) no-repeat;margin-top:8px;}
+.bs .a4{ background:url(../images/easyui/hui.gif) no-repeat;margin-top:8px;}
+.bs .a5{ background:url(../images/easyui/fen.gif) no-repeat;margin-top:8px;}
+.bs .a6{ background:url(../images/easyui/qianlan.gif) no-repeat;margin-top:8px;}
+.bs .a7{ background:url(../images/easyui/nanlu.gif) no-repeat;margin-top:8px;}
+
+/*单行或者双行查询条件样式*/
+.formbasic{background:url(../images/easyui/bg.gif) repeat-x;border:0px #a8cfeb solid;font-size:12px;}
+.formbasic td{text-align:right;height:28px;word-wrap:break-word;word-break:break-all;}
+.formbasic th{text-align:left;word-wrap:break-word;word-break:break-all;}
+
+/*多行表单样式*/
+.formbasic2{background:#d6e3f2;border:0px #a8cfeb solid;font-size:12px;}
+.formbasic2 td{text-align:right;height:28px;word-wrap:break-word;word-break:break-all;}
+.formbasic2 th{text-align:left;word-wrap:break-word;word-break:break-all;}
+
+/*查找
+.search_btn{background: url(../images/search.gif) no-repeat;display:block;width:16px;height:16px;white-space:nowrap;padding-left:18px;}
+*/
+.search_btn{background: url(../images/easyui/search.gif) no-repeat;display:block;width:16px;height:16px;float:left;}
+/*保存*/
+.icon-save{background-image: url(../images/core/save.gif) !important;}
+/*关闭*/
+.icon-close{background-image: url(../images/core/delete.gif) !important;}
+
+/*htc控件列表样式*/
+.treelist{selectedBgColor: #AFDAFF; behaviorPath:/SSH3/htc/TreeList/;}
+
+/*htc tab控件样式*/
+.tab_mac {
+		  behavior: url("/SSH3/htc/Tabstrip/Tabstrip.htc");
+		  skinPath: /SSH3/htc/Tabstrip/images/mac/;
+		  maxtabHeight: 20;
+		  mintabHeight: 19;
+		  fontColor: #000000;
+		  fontColorOver: #135ba6;
+		  fontColorSelect: #000000;
+		  lightShadow: #fcfcfe;
+		  midShadow: #d0cebf;
+		  pageBorder: #919b9c;
+		  lightColor: #ffffff;
+		  darkColor: #ffffff;
+}
+
+/**加载等待条*/
+.bar_div{z-index: 20000;width:200px;position:absolute;border:1px #000000 dashed;margin-top:-16px; margin-left:-100px;top:40%; left:50%; padding:5px;}
+.bar_icons{background:url(../images/easyui/large-loading.gif) no-repeat;
+		width:32px;
+		height:32px;
+		margin-right:8px;
+		float:left;
+		margin-left:6px;
+		vertical-align:middle;
+}
+.bar_font{font-size:9pt;color:#000000;line-height:32px; }
+
+/*分隔栏*/
+.separatorbar-close{background:url(../images/core/ico_have2.gif) no-repeat;cursor:pointer;}
+.separatorbar-open{background:url(../images/core/ico_nohave2.gif) no-repeat;cursor:pointer;}
+
+.business{border:0px solid #45b6d7;border-radius:6px;float:right;margin:2px 2px 0px 10px;}
+.business li{background:rgba(2, 131, 194, 1);border-radius:5px;margin-right:10px;float:left;padding:0 20px;line-height:30px;color:#fff;cursor:pointer;border-right:0px solid #65c9e6;text-align:center;position:relative;}
+.business li:hover{background:rgba(41, 50, 224, 1);border-radius:5px;transition:background 0.5s ease;}
+.business li a{color:#fff;cursor:pointer;}
+
+.business1{background:#45b6d7;border:1px solid #45b6d7;border-radius:6px;float:right;margin:10px 5px 0 0;}
+.business1 li{float:left;padding:0 10px;line-height:20px;color:#fff;cursor:pointer;border-right:1px solid #65c9e6;text-align:center;position:relative;}
+.business1 li:hover{background:#209ec4;border-radius:8px;transition:background 0.5s ease;}
+.business1 li a{color:#fff;cursor:pointer;}

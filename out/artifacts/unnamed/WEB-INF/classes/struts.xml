@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.locale" value="zh_CN" /> 
+
+	<!-- 国际化资源文件名称 -->
+	<constant name="struts.custom.i18n.resources" value="i18n" />
+	<!-- 文件上传时的临时目录 -->
+	<constant name="struts.multipart.saveDir" value="/home/WAS/SSH3/temp" /> 
+	<!-- <constant name="struts.multipart.saveDir" value="/home/gt/uploadFiles" />-->
+	<!-- 是否自动加载国际化资源文件
+	<constant name="struts.i18n.reload" value="true" />
+	  -->
+	<constant name="struts.i18n.encoding" value="gbk" />
+	<!-- 设置上传文件最大的字节数 -->
+	<constant name="struts.multipart.maxSize" value="1000000000" />
+	<!-- 设置允许的action名格式（覆盖较严格的默认格式） -->
+	<constant name="struts.allowed.action.names" value="[a-zA-Z0-9.\-_!/]*" />
+	<!-- websphere下无法找到jar包内action的问题-->
+	<constant name="struts.convention.action.packages" value="com.catt.view.action" />
+	<constant name="struts.convention.action.includeJars" value=".*" />
+	<constant name="struts.convention.action.fileProtocols" value="jar,wsjar,file" />
+	<!-- 升级struts2.3.28后必须加入此行 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />  
+	<constant name="struts.devMode" value="false"/>
+	<constant name="struts.i18n.reload" value="false" />
+	<constant name="struts.configuration.xml.reload" value="false" />
+	
+	<package name="struts-base" extends="struts-default">
+	    <interceptors>
+	    	<!-- 异步请求，监控登录与否
+	    	<interceptor name="sessionOut" class="pub.servlet.SessionInterceptor" >
+	    		<param name="allow"> 
+	    		com.catt.view.action.CommonEnumAction;
+	    		com.catt.view.action.demo.DemoAction;
+	    		com.catt.view.action.safeMgr.LoginAction;
+	    		com.catt.view.action.commonModule.optLog.LogAction;
+	    		com.catt.view.action.dataIO.ExportFileLisenerAction;
+	    		com.catt.view.action.commonModule.knowledgeMgr.KbsKnowledgeReviewingAction;
+	    		com.catt.view.action.commonModule.knowledgeMgr.KbsTypeAction;
+	    		com.catt.view.action.commonModule.knowledgeMgr.KbsKnowledgeAction;
+	    		com.catt.view.action.commonModule.knowledgeMgr.KbsMyKnowledgeAction;
+	    		com.catt.view.action.commonModule.knowledgeMgr.KbsKnowledgeCheckingAction;
+	            com.catt.view.action.fastDfs.FastDfsAction;
+	            com.catt.view.action.commonModule.license.LicenseAppAction;
+	            
+	    		</param>
+	    		<param name="allowAccessInLocation"> 
+	    		</param>
+	    	</interceptor> -->
+	    	<!-- 操作日志拦截器 
+	    	<interceptor name="oprationLog" class="pub.servlet.OprationInterceptor"></interceptor>-->
+	    	<!-- 账号同一时间只允许一个地点登录 
+	    	<interceptor name="singleLogin" class="pub.servlet.SingleLoginInterceptor"></interceptor>-->
+	    	<interceptor-stack name="myStack">
+	    		<!-- <interceptor-ref name="singleLogin"></interceptor-ref> -->
+	    		<!-- <interceptor-ref name="sessionOut"></interceptor-ref>  -->
+	    		<!-- <interceptor-ref name="oprationLog"></interceptor-ref> -->
+	    		<interceptor-ref name="defaultStack"></interceptor-ref>
+	    	</interceptor-stack>
+	    </interceptors>
+	    
+	    <default-interceptor-ref name="myStack"></default-interceptor-ref>
+	    
+		<global-results>
+		   <!--  <result name="Login">/login1.jsp</result>  type="redirect" 重定向,否则转发-->
+		    <result name="error">/error.jsp</result>
+			<result name="Exception">/Exception.jsp</result>
+		</global-results>
+		
+		<!-- 捕获到Exception,跳转到Exception.jsp,result="Exception" 对应global-results中name="Exception" -->
+		<global-exception-mappings>
+			<exception-mapping result="Exception" exception="java.lang.Exception" /> 
+		</global-exception-mappings>
+		
+	</package>
+
+</struts>

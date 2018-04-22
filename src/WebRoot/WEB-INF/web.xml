@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5"><!-- xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" -->
+	<display-name>SSH</display-name>
+	<!-- web.xml的初始化顺序 ServletContext -> context-param -> listener -> filter -> servlet  -->
+	
+	<!-- **上下文参数******************************************************************************* -->
+	<!-- 增加applicationContext.xml -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- <param-value>classpath:applicationContext.xml</param-value> -->
+		<!-- 流程引擎必须加上,classpath:dwfContext.xml,classpath:dwfOrgContext.xml-->
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	
+	<!-- 指定log4j日志文件生成的目录，若不配置则默认生成在应用中间件安装根目录，如tomcat在D:\Program Files\..，那日志目录就会生成在D盘
+	     此参数与 pub.servlet.Log4jListener 监听器共用 -->
+	<context-param>
+		<param-name>Log_savePath</param-name>
+		<param-value>D:\RunLog1\</param-value> 
+	</context-param> 
+	 
+	 <!-- log4j监听器: 
+		日志文件存放目录在log4j.properties中进行配置，但此目录中有相对位置 参数占位符(${SSH_WORKDIR} 或 ${SSH3.root})。
+		在未始用此监听器前，依赖于Log4jInit.java 这个servlet 对占位符参数进行初始化，但由于Log4jInit这个servlet初始化晚于spring监听器，
+		所以spring启动时，${SSH_WORKDIR}还是空，输出的日志在一个目录，待到Log4jInit初始化完后，再产生的日志就会是另一个目录了。
+		
+		将此监听器放置于spring监听器之前，这样能保证系统启动时的打印的启动日志，与后序的生产日志在相同的目录下。
+		
+		有此兼听器，则不再需要 Log4jInit.java 这个servlet。
+		此功能从正式发布的SSH3 36 版才开始有。
+	 -->
+	 <listener>
+		<listener-class>pub.servlet.Log4jListener</listener-class>
+	 </listener>
+	 
+	<!-- **监听器*********************************************************************************** -->
+	<!-- spring监听(建议放到过滤器前) -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- License -->
+	<filter>
+		<filter-name>LicenseFilter</filter-name>
+		<filter-class>pub.servlet.LicenseFilter</filter-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/classes/config.properties</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>LicenseFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 中文传递乱码过滤器-->
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>pub.servlet.EncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- struts2核心过滤器 -->
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>
+				org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+		</filter-class>
+		<init-param>
+			<param-name>actionPackages</param-name>
+			<!-- 所有action所在的包 -->
+			<param-value>com.catt.view.action</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>*.action</url-pattern>
+		<!-- 若需要在java中使用Dispatcher跳转action，必须配置此项 -->
+		<dispatcher>REQUEST</dispatcher>  
+		<dispatcher>FORWARD</dispatcher>  
+	</filter-mapping>
+	
+	
+	<!-- 基础参数 -->
+	<servlet>
+		<servlet-name>ConfigInit</servlet-name>
+		<servlet-class>pub.servlet.ConfigInit</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/classes/config.properties</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+
+	
+  	<!-- **其它项*********************************************************************************** -->
+  	<!-- 禁用不安全的http方法  -->
+	<security-constraint>     
+  	 <web-resource-collection> 
+  	  <web-resource-name></web-resource-name><!-- 必须有此节点，不然weblogic布署无法启动 -->  
+      <url-pattern>/*</url-pattern>  
+      <http-method>PUT</http-method>     
+ 	  <http-method>DELETE</http-method>     
+	  <http-method>HEAD</http-method>     
+      <http-method>OPTIONS</http-method>     
+      <http-method>TRACE</http-method> 
+     </web-resource-collection>     
+    <auth-constraint> </auth-constraint>     
+    </security-constraint>     
+	<login-config>     
+	   <auth-method>BASIC</auth-method>     
+	</login-config>
+	
+	<!-- 首页 -->
+	<welcome-file-list>
+		<welcome-file>demo/dbam/jquery/index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 错误页面 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error.jsp?err=404</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error.jsp?err=500</location>
+	</error-page>
+	
+	<!-- session超时时长设置 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+</web-app>

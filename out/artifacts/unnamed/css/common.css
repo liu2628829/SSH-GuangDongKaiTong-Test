@@ -1,0 +1,34 @@
+td{font-size:12px;}
+.BUTTON_UP
+{
+	BORDER-LEFT      : 1px solid #7898c3;
+	BORDER-TOP       : 1px solid #7898c3;
+	BORDER-RIGHT     : 1px solid #7898c3;
+	BORDER-BOTTOM    : 1px solid #7898c3;
+	BACKGROUND-COLOR : #d1e1f3;
+	background-image:url(../images/bg-img.jpg);
+	font-family:"ËÎÌו";
+	font-size:12px;
+	padding-top:2px;
+	cursor:pointer;
+}
+
+.BUTTON_DOWN
+{
+	BORDER-LEFT      : 1px solid #808080;
+	BORDER-TOP       : 1px solid #808080;
+	BORDER-RIGHT     : 1px solid #FFFFFF;
+	BORDER-BOTTOM    : 1px solid #FFFFFF;
+}
+
+.msviFooter1
+{
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr= "#D2D2FF" ,endColorStr= "#FFFFFF" ,gradientType= "0");
+	background-color: #FFFFFF;
+}
+
+.cwf_title{
+		line-height:24px;
+		background:url(../images/title_bg.gif) repeat-x;
+		color:#1C568A;font-weight:bold;text-align:left;padding-left:5px;font-size:13px;"
+}

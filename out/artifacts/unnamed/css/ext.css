@@ -1,0 +1,24 @@
+#loading{
+	position:absolute;
+	left:45%;
+	top:40%;
+	padding:2px;
+	z-index:20001;
+	height:auto;
+	border:1px solid #ccc;
+}
+.search_pic {
+    background-image: url(../images/icons/main/search.gif) !important;
+}
+.excel_pic {
+    background-image: url(../images/excel.gif) !important;
+}
+.node_pic {
+	background-image:url(../images/icons/main/config.gif) !important;
+}
+.tab_pic {
+    background-image: url(../images/icons/main/tabs.gif) !important;
+}
+td{
+	font-size:9pt
+}
