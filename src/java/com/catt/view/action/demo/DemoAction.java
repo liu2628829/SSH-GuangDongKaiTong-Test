@@ -1,69 +1,67 @@
 package com.catt.view.action.demo;
 
-import java.util.List;
-import java.util.Map;
-
+import com.catt.model.service.demo.DemoService;
+import com.catt.view.action.BaseAction;
 import org.apache.struts2.config.ParentPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
 import util.JackJson;
 import util.RequestUtil;
 import util.StringUtil;
 
-import com.catt.model.service.demo.DemoService;
-import com.catt.view.action.BaseAction;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("serial")
 @Component("demoAction")
 @Scope("prototype")
 @ParentPackage("struts-base")
 public class DemoAction extends BaseAction{
-	
+
 	@Autowired
 	private DemoService demoService;
-	
+
 	private final String encoding = "GBK";
-	
+
 	public Object getModel() {
 		return null;
 	}
 
-	/**ÒÔÏÂ3¸ö·½·¨ÓÃÓÚÊµÏÖÔöÉ¾¸Ä²é¹¦ÄÜ**************************/
+	/**ä»¥ä¸‹3ä¸ªæ–¹æ³•ç”¨äºå®ç°å¢åˆ æ”¹æŸ¥åŠŸèƒ½**************************/
 
 	/**
-	 * »ñÈ¡ÈËÔ±ÁĞ±íĞÅÏ¢
-	 * Í¬ÊÇÒ²¿ÉÓÃÓÚµ¼³ö
+	 * è·å–äººå‘˜åˆ—è¡¨ä¿¡æ¯
+	 * åŒæ˜¯ä¹Ÿå¯ç”¨äºå¯¼å‡º
 	 */
 	public String getEmployeeList() throws Exception{
 		Map<String, String> mp=RequestUtil.getMapByRequest(this.getRequest());
 		List list = demoService.getEmployeeList(mp);
-		String json = JackJson.getBasetJsonData(list); 
+		String json = JackJson.getBasetJsonData(list);
 		RequestUtil.responseOut(encoding, json, this.getResponse());
-		
+
 		return null;
 	}
-	
+
 	/**
-	 * ĞÂÔö¡¢ĞŞ¸ÄÈËÔ±ĞÅÏ¢
+	 * æ–°å¢ã€ä¿®æ”¹äººå‘˜ä¿¡æ¯
 	 */
 	public String addEditEmployee() throws Exception{
 		int num = 0;
 		Map map=RequestUtil.getMapByRequest(this.getRequest());
-		
-		if(StringUtil.checkObj(map.get("iEmployeeId"))){//Êı¾İ¶ÔÏóÒÑ¾­ÓĞID£ºĞŞ¸Ä
+
+		if(StringUtil.checkObj(map.get("iEmployeeId"))){//æ•°æ®å¯¹è±¡å·²ç»æœ‰IDï¼šä¿®æ”¹
 			num = demoService.editEmployee(map);
-		}else{//ĞÂÔö
+		}else{//æ–°å¢
 			//map.put("dEmployDate",new Date());
 			num = demoService.addEmployee(map);
 		}
 		RequestUtil.responseOut(encoding, num+"", this.getResponse());
 		return null;
 	}
-	
+
 	/**
-	 * É¾³ıÈËÔ±ĞÅÏ¢
+	 * åˆ é™¤äººå‘˜ä¿¡æ¯
 	 */
 	public String deleteEmployee() throws Exception{
 		Map<String, String> mp=RequestUtil.getMapByRequest(this.getRequest());

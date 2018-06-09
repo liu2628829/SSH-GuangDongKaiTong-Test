@@ -830,7 +830,9 @@ a.m-btn-plain-active{
 	height:25px;
 	padding:0px;
 	zoom:1;
-	height:20px;
+	/*height:20px;*/
+	/*修改样式*/
+	height:40px;
 }
 .pagination table{
 	float:right;

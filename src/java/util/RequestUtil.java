@@ -1,33 +1,28 @@
 package util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
-/**Request¶ÔÏóµÄ¹¤¾ßÀà
- * modify on Jul 2, 2013 11:22:43 AM 
+/**Requestå¯¹è±¡çš„å·¥å…·ç±»
+ * modify on Jul 2, 2013 11:22:43 AM
  * @author tangyj
  */
 public class RequestUtil {
 
-	/**Òì²½ÇëÇó·µ»Ø
-	 * @param encoding ±àÂë¸ñÊ½
+	/**å¼‚æ­¥è¯·æ±‚è¿”å›
+	 * @param encoding ç¼–ç æ ¼å¼
 	 * @param data data
 	 * @param response HttpServletResponse
 	 */
 	public static void responseOut(String encoding, String data,
-			HttpServletResponse response) {
+								   HttpServletResponse response) {
 		response.setContentType("text/html; charset=" + encoding);
 		try {
 			PrintWriter pw = response.getWriter();
@@ -38,9 +33,9 @@ public class RequestUtil {
 		}
 	}
 
-	/**»ñÈ¡request¶ÔÏóÖĞËùÓĞ²ÎÊı£¬²¢ÉèÖÃµ½mapÖĞ
+	/**è·å–requestå¯¹è±¡ä¸­æ‰€æœ‰å‚æ•°ï¼Œå¹¶è®¾ç½®åˆ°mapä¸­
 	 * @param request HttpServletRequest
-	 * @return ½«requestµÄÇëÇó²ÎÊı·â×°³Émap£¨°üÀ¨URL´«ºÍÍ¨¹ıform±íµ¥Ìá½»µÄ²ÎÊı£©
+	 * @return å°†requestçš„è¯·æ±‚å‚æ•°å°è£…æˆmapï¼ˆåŒ…æ‹¬URLä¼ å’Œé€šè¿‡formè¡¨å•æäº¤çš„å‚æ•°ï¼‰
 	 */
 	public static Map getMapByRequest(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -58,58 +53,58 @@ public class RequestUtil {
 		return map;
 	}
 
-	// ¸ù¾İKEY»ñÈ¡session¶ÔÓ¦µÄ¶ÔÏó
+	// æ ¹æ®KEYè·å–sessionå¯¹åº”çš„å¯¹è±¡
 	public static Object getSessionObject(HttpServletRequest request, String key) {
 		HttpSession session = request.getSession();
 		return SessionUtil.getAttribute(key, session);
 	}
 
-	/**ÒÔÁ÷µÄ·½Ê½½«ÎÄ¼şÏìÓ¦µ½¿Í»§¶Ë£¬Ò»°ãÓÃÓÚÎÄ¼şÏÂÔØ ´ËÊ±µÄÎÄ¼ş£¬
-	 * ÊÇ·ÅÔÚÁËÓ¦ÓÃ·şÎñÆ÷ÒÔÍâµÄµÄÄ¿Â¼£¬ĞèÒªÏÈ¶Áµ½£¬
-	 * È»ºóÔÙĞ´³ö(¼´²»ÊÇA±êÇ©ÄÜÖ±½ÓÏÂÔØµÄ)
-	 * @param path ÎÄ¼şÂ·¾¶
-	 * @param fileName ÎÄ¼şÃû³Æ
+	/**ä»¥æµçš„æ–¹å¼å°†æ–‡ä»¶å“åº”åˆ°å®¢æˆ·ç«¯ï¼Œä¸€èˆ¬ç”¨äºæ–‡ä»¶ä¸‹è½½ æ­¤æ—¶çš„æ–‡ä»¶ï¼Œ
+	 * æ˜¯æ”¾åœ¨äº†åº”ç”¨æœåŠ¡å™¨ä»¥å¤–çš„çš„ç›®å½•ï¼Œéœ€è¦å…ˆè¯»åˆ°ï¼Œ
+	 * ç„¶åå†å†™å‡º(å³ä¸æ˜¯Aæ ‡ç­¾èƒ½ç›´æ¥ä¸‹è½½çš„)
+	 * @param path æ–‡ä»¶è·¯å¾„
+	 * @param fileName æ–‡ä»¶åç§°
 	 * @param response HttpServletResponse
 	 * @throws Exception
 	 */
 	public static void readFile(String path, String fileName,
-			HttpServletResponse response) throws Exception {
+								HttpServletResponse response) throws Exception {
 		InputStream inStream = null;
 		try {
 			File pathsavefile = new File(path);
 			if (!StringUtil.checkStr(fileName)) {
 				String pths[] = path.replaceAll("/", "\\\\").split("\\\\");
-				fileName = pths[pths.length - 1];// ±£´æ´°¿ÚÖĞÏÔÊ¾µÄÎÄ¼şÃû
+				fileName = pths[pths.length - 1];// ä¿å­˜çª—å£ä¸­æ˜¾ç¤ºçš„æ–‡ä»¶å
 			}
 			inStream = new FileInputStream(pathsavefile);
-			
+
 			readFile(inStream, fileName, response);
 		} catch (IOException ex) {
 			throw ex;
-		} 
+		}
 	}
-	
-	/**ÒÔÁ÷µÄ·½Ê½½«ÎÄ¼şÏìÓ¦µ½¿Í»§¶Ë£¬Ò»°ãÓÃÓÚÎÄ¼şÏÂÔØ ´ËÊ±µÄÎÄ¼ş£¬
-	 * ÊÇ·ÅÔÚÁËÓ¦ÓÃ·şÎñÆ÷ÒÔÍâµÄµÄÄ¿Â¼£¬ĞèÒªÏÈ¶Áµ½£¬
-	 * È»ºóÔÙĞ´³ö(¼´²»ÊÇA±êÇ©ÄÜÖ±½ÓÏÂÔØµÄ)
-	 * @param inStream ÎÄ¼şÁ÷¶ÔÏó
-	 * @param fileName ÎÄ¼şÃû³Æ
+
+	/**ä»¥æµçš„æ–¹å¼å°†æ–‡ä»¶å“åº”åˆ°å®¢æˆ·ç«¯ï¼Œä¸€èˆ¬ç”¨äºæ–‡ä»¶ä¸‹è½½ æ­¤æ—¶çš„æ–‡ä»¶ï¼Œ
+	 * æ˜¯æ”¾åœ¨äº†åº”ç”¨æœåŠ¡å™¨ä»¥å¤–çš„çš„ç›®å½•ï¼Œéœ€è¦å…ˆè¯»åˆ°ï¼Œ
+	 * ç„¶åå†å†™å‡º(å³ä¸æ˜¯Aæ ‡ç­¾èƒ½ç›´æ¥ä¸‹è½½çš„)
+	 * @param inStream æ–‡ä»¶æµå¯¹è±¡
+	 * @param fileName æ–‡ä»¶åç§°
 	 * @param response HttpServletResponse
 	 * @throws Exception
 	 */
 	public static void readFile(InputStream inStream, String fileName,
-			HttpServletResponse response) throws Exception {
+								HttpServletResponse response) throws Exception {
 		ServletOutputStream out = null;
 		try {
-			
+
 			response.setHeader("Expires", "0");
 			response.setHeader("Cache-Control",
 					"must-revalidate, post-check=0, pre-check=0");
 			response.setHeader("Pragma", "public");
 			response.setContentType("application/force-download;charset=GBK");
 			// fileName=new
-			// String(fileName.getBytes(),"UTF-8");//response.encodeURL();//×ªÂë
-			fileName = fileName.replace(";", "£»"); 
+			// String(fileName.getBytes(),"UTF-8");//response.encodeURL();//è½¬ç 
+			fileName = fileName.replace(";", "ï¼›");
 			fileName = new String(fileName.getBytes("GBK"), "ISO8859-1");//
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 			out = response.getOutputStream();
@@ -122,7 +117,7 @@ public class RequestUtil {
 		} catch (IOException ex) {
 			throw ex;
 		} finally {
-			/*´ËÊ±²»¹Ø±Õ£¬Ó¦ÎªÒì³£»áÍâÅ×£¬Å×¸øactionºó£¬out»¹ÓĞÆäËü×÷ÓÃ
+			/*æ­¤æ—¶ä¸å…³é—­ï¼Œåº”ä¸ºå¼‚å¸¸ä¼šå¤–æŠ›ï¼ŒæŠ›ç»™actionåï¼Œoutè¿˜æœ‰å…¶å®ƒä½œç”¨
 			if (out != null){
 				out.close();
 			}
@@ -133,16 +128,16 @@ public class RequestUtil {
 		}
 	}
 
-	/**Õë¶ÔjqueryµÄajaxÇëÇó
+	/**é’ˆå¯¹jqueryçš„ajaxè¯·æ±‚
 	 * @param request HttpServletRequest
-	 * @return true:ÊÇAjaxÇëÇó
+	 * @return true:æ˜¯Ajaxè¯·æ±‚
 	 */
 	public static boolean isAjaxRequest(HttpServletRequest request) {
 		String header = request.getHeader("X-Requested-With");
 		return (header != null && "XMLHttpRequest".equals(header));
 	}
 
-	/**»ñµÃÇëÇó¿Í»§¶ËµÄIP
+	/**è·å¾—è¯·æ±‚å®¢æˆ·ç«¯çš„IP
 	 * @param request HttpServletRequest
 	 * @return IP
 	 */
@@ -155,91 +150,91 @@ public class RequestUtil {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 		}
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr(); //È¡Öµ¿ÉÄÜÎª0:0:0:0:0:0:0:1
+			ip = request.getRemoteAddr(); //å–å€¼å¯èƒ½ä¸º0:0:0:0:0:0:0:1
 		}
-		
+
 		if (ip != null && (ip.indexOf("127.0.0.1") >= 0 || ip.indexOf("0:0:0:0:0:0:0:1") >= 0
 				|| ip.indexOf("localhost") >= 0)) {
 			ip = StringUtil.getIPAddress();
 		}
 		return ip;
 	}
-	
+
 	/**
-	 * »ñÈ¡¾ø¶ÔÂ·¾¶
-	 * @param request HttpServletRequest¶ÔÏó
-	 * @return Ó¦ÓÃ¾ø¶ÔÂ·¾¶
+	 * è·å–ç»å¯¹è·¯å¾„
+	 * @param request HttpServletRequestå¯¹è±¡
+	 * @return åº”ç”¨ç»å¯¹è·¯å¾„
 	 */
 	public static String getRealPath(HttpServletRequest request){
 		String realPath = RequestUtil.getRealPath(request.getSession().getServletContext());
 		return realPath;
 	}
-	
+
 	/**
-	 * »ñÈ¡¾ø¶ÔÂ·¾¶
-	 * @param context ServletContext¶ÔÏó
-	 * @return Ó¦ÓÃ¾ø¶ÔÂ·¾¶
+	 * è·å–ç»å¯¹è·¯å¾„
+	 * @param context ServletContextå¯¹è±¡
+	 * @return åº”ç”¨ç»å¯¹è·¯å¾„
 	 */
 	public static String getRealPath(ServletContext context){
-		//ÏµÍ³ÎÄ¼ş·Ö¸ô·û
+		//ç³»ç»Ÿæ–‡ä»¶åˆ†éš”ç¬¦
 		String separator = System.getProperty("file.separator");
 		String realPath = context.getRealPath("/");
 		realPath = realPath.endsWith(separator) ? realPath : (realPath + separator);
 		return realPath;
 	}
-	
+
 	/**
-	 * gmURLºÍURLËù´ø²ÎÊıµÄ±È½Ï
-	 * @param targetUrl Ä¿±êURL
-	 * @param comparedUrl ĞèÒª±È½ÏµÄURL
-	 * @param paramNames null£º²»Ğè¶Ô²ÎÊı½øĞĞÑéÖ¤£»
-	 * 										   size==0£ºĞèÒª¶ÔcomparedUrlÖĞËùÓĞ²ÎÊı½øĞĞÑéÖ¤£»
-	 * 										   size>0£ºÖ»Ğè±£Ö¤²¿·Ö²ÎÊıµÄÖµÒ»ÖÂ
-	 * @return true£ºÆ¥Åä³É¹¦; false:Æ¥ÅäÊ§°Ü
+	 * gmURLå’ŒURLæ‰€å¸¦å‚æ•°çš„æ¯”è¾ƒ
+	 * @param targetUrl ç›®æ ‡URL
+	 * @param comparedUrl éœ€è¦æ¯”è¾ƒçš„URL
+	 * @param paramNames nullï¼šä¸éœ€å¯¹å‚æ•°è¿›è¡ŒéªŒè¯ï¼›
+	 * 										   size==0ï¼šéœ€è¦å¯¹comparedUrlä¸­æ‰€æœ‰å‚æ•°è¿›è¡ŒéªŒè¯ï¼›
+	 * 										   size>0ï¼šåªéœ€ä¿è¯éƒ¨åˆ†å‚æ•°çš„å€¼ä¸€è‡´
+	 * @return trueï¼šåŒ¹é…æˆåŠŸ; false:åŒ¹é…å¤±è´¥
 	 */
 	public static boolean compareURL(String targetUrl, String comparedUrl,
-			String[] paramNames) {
+									 String[] paramNames) {
 		boolean resultFlag = false;
-		// Èç¹ûÁ½¸ö±È½ÏµÄURLÓĞÒ»¸öÎª¿ÕÔòÖ±½Ó·µ»ØÊ§°Ü
+		// å¦‚æœä¸¤ä¸ªæ¯”è¾ƒçš„URLæœ‰ä¸€ä¸ªä¸ºç©ºåˆ™ç›´æ¥è¿”å›å¤±è´¥
 		if (!(StringUtil.checkStr(targetUrl) && StringUtil
 				.checkStr(comparedUrl))) {
 			return false;
 		}
-		// Á½¸öURLÍêÈ«Ò»ÖÂ¾ÍÖ±½Ó·µ»ØÕæ
+		// ä¸¤ä¸ªURLå®Œå…¨ä¸€è‡´å°±ç›´æ¥è¿”å›çœŸ
 		// if(targetUrl.equals(comparedUrl)){
 		// return true;
 		// }
-		// Ä¿Ç°URLºÍ±È½ÏURL
+		// ç›®å‰URLå’Œæ¯”è¾ƒURL
 		String[] urlSplit_1 = getUrlAndParam(targetUrl);
 		String url_1 = urlSplit_1[0];// URL
-		String paramStr_1 = urlSplit_1[1];// ²ÎÊı
+		String paramStr_1 = urlSplit_1[1];// å‚æ•°
 		String[] urlSplit_2 = getUrlAndParam(comparedUrl);
 		String url_2 = urlSplit_2[0];// URL
-		String paramStr_2 = urlSplit_2[1];// ²ÎÊı
+		String paramStr_2 = urlSplit_2[1];// å‚æ•°
 
-		// ´¿URL¶Ô±È
+		// çº¯URLå¯¹æ¯”
 		if (url_1.equals(url_2)) {
-			// ²»ÓÃ±È½Ï²ÎÊı
+			// ä¸ç”¨æ¯”è¾ƒå‚æ•°
 			if (paramNames == null) {
 				return true;
 			}
-		} else {// URL¶¼²»Ò»ÖÂ¾ÍÖ±½Ó·µ»Ø£¬²»ÔÙ½øĞĞ²ÎÊıÑéÖ¤
+		} else {// URLéƒ½ä¸ä¸€è‡´å°±ç›´æ¥è¿”å›ï¼Œä¸å†è¿›è¡Œå‚æ•°éªŒè¯
 			return false;
 		}
-		// ¿ªÊ¼½øĞĞ²ÎÊı±È½Ï
-		Map<String, String> paramMap_1 = getParamMap(paramStr_1, "&", "=");// ²ÎÊı¼¯ºÏ
-		Map<String, String> paramMap_2 = getParamMap(paramStr_2, "&", "=");// ²ÎÊı¼¯ºÏ
+		// å¼€å§‹è¿›è¡Œå‚æ•°æ¯”è¾ƒ
+		Map<String, String> paramMap_1 = getParamMap(paramStr_1, "&", "=");// å‚æ•°é›†åˆ
+		Map<String, String> paramMap_2 = getParamMap(paramStr_2, "&", "=");// å‚æ•°é›†åˆ
 		boolean paramAllEqual = true;
-		if (paramNames.length == 0) {// ĞèÒªÈ«²¿²ÎÊı±È½ÏÊ±£¬ÏÈÒªÈ¡±È½ÏURLµÄ²ÎÊı
+		if (paramNames.length == 0) {// éœ€è¦å…¨éƒ¨å‚æ•°æ¯”è¾ƒæ—¶ï¼Œå…ˆè¦å–æ¯”è¾ƒURLçš„å‚æ•°
 			paramNames = paramMap_2.keySet().toArray(paramNames);
 		}
 		String paramMap2Value = null;
 		for (String paramName : paramNames) {
 			paramMap2Value = paramMap_2.get(paramName);
-			// paramMap_2 Ã»ÓĞ¸Ã×Ö¶Î£¬»òÁ½×Ö¶ÎµÄÖµ²»ÏàµÈ¾ÍÎª¼Ù
+			// paramMap_2 æ²¡æœ‰è¯¥å­—æ®µï¼Œæˆ–ä¸¤å­—æ®µçš„å€¼ä¸ç›¸ç­‰å°±ä¸ºå‡
 			if (paramMap2Value == null
 					|| false == paramMap2Value
-							.equals(paramMap_1.get(paramName))) {
+					.equals(paramMap_1.get(paramName))) {
 				paramAllEqual = false;
 				break;
 			}
@@ -252,15 +247,15 @@ public class RequestUtil {
 	}
 
 	/**
-	 * ½«²ÎÊıÀàĞÍµÄ·û´®½âÎö³ÉMap¼¯ºÏ
-	 * 
-	 * @param paramStr a=1·Ö¸ô·ûb=2
-	 * @param paramSplitRegex ²ÎÊı·Ö¸ô·û
-	 * @param paramValueSplitRegex  ²ÎÊıÓëÖµµÄ·Ö¸ô·û
-	 * @return ·â×°µÄmapÊı¾İ
+	 * å°†å‚æ•°ç±»å‹çš„ç¬¦ä¸²è§£ææˆMapé›†åˆ
+	 *
+	 * @param paramStr a=1åˆ†éš”ç¬¦b=2
+	 * @param paramSplitRegex å‚æ•°åˆ†éš”ç¬¦
+	 * @param paramValueSplitRegex  å‚æ•°ä¸å€¼çš„åˆ†éš”ç¬¦
+	 * @return å°è£…çš„mapæ•°æ®
 	 */
 	public static Map<String, String> getParamMap(String paramStr,
-			String paramSplitRegex, String paramValueSplitRegex) {
+												  String paramSplitRegex, String paramValueSplitRegex) {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		if (paramStr != null && paramStr.length() > 0) {
 			String[] paramAndValueStrSplit = paramStr.split(paramSplitRegex);
@@ -279,10 +274,10 @@ public class RequestUtil {
 	}
 
 	/**
-	 * Í¨¹ıurl»ñÈ¡urlºÍ²ÎÊı
-	 * 
+	 * é€šè¿‡urlè·å–urlå’Œå‚æ•°
+	 *
 	 * @param url URL
-	 * @return µÚÒ»¸öÔªËØÎªURL£»µÚ¶ş¸öÔªËØÎª²ÎÊı
+	 * @return ç¬¬ä¸€ä¸ªå…ƒç´ ä¸ºURLï¼›ç¬¬äºŒä¸ªå…ƒç´ ä¸ºå‚æ•°
 	 */
 	public static String[] getUrlAndParam(String url) {
 		String[] returnValue = { "", "" };
@@ -295,14 +290,14 @@ public class RequestUtil {
 		}
 		return returnValue;
 	}
-	
+
 	public static String mergeURIAndParma(HttpServletRequest request){
 		StringBuilder sb = new StringBuilder();
 		String appPath = request.getContextPath();
 		String url = request.getRequestURI();
-        String queryStr = request.getQueryString();
-        if(StringUtil.checkStr(url)){
-        	//ĞŞ¸´ÎŞÓ¦ÓÃÃûµÄÇé¿ö tangyj 2014-11-28
+		String queryStr = request.getQueryString();
+		if(StringUtil.checkStr(url)){
+			//ä¿®å¤æ— åº”ç”¨åçš„æƒ…å†µ tangyj 2014-11-28
 			if(StringUtil.checkStr(appPath)){
 				url = url.substring(appPath.length() + 1);
 			}
@@ -310,14 +305,14 @@ public class RequestUtil {
 				url = url.substring(1);
 			}
 			sb.append(url);
-        }
-        if(StringUtil.checkStr(url) && StringUtil.checkStr(queryStr)){
-        	sb.append("?");
-        	sb.append(StringUtil.checkStr(queryStr) ? queryStr : "");
-        }
+		}
+		if(StringUtil.checkStr(url) && StringUtil.checkStr(queryStr)){
+			sb.append("?");
+			sb.append(StringUtil.checkStr(queryStr) ? queryStr : "");
+		}
 		return sb.toString();
-		
+
 	}
-	
-	
+
+
 }

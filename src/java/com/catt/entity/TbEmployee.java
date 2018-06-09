@@ -5,19 +5,19 @@ import pub.source.Field;
 
 /**
  * <PRE>
- * ÈËÔ±¶ÔÏó×Ö¶Î¶¨ÒåÃ¶¾Ù
+ * äººå‘˜å¯¹è±¡å­—æ®µå®šä¹‰æšä¸¾
  * </PRE>
  *
- * ÏîÄ¿Ãû³Æ£ºSSH</BR>
- * ¼¼ÊõÖ§³Ö£º¹ã¶«¿­Í¨¿Æ¼¼¹É·İÓĞÏŞ¹«Ë¾ (c) 2017</BR>
- * 
- * @version 1.0 2017Äê9ÔÂ27ÈÕ
+ * é¡¹ç›®åç§°ï¼šSSH</BR>
+ * æŠ€æœ¯æ”¯æŒï¼šå¹¿ä¸œå‡¯é€šç§‘æŠ€è‚¡ä»½æœ‰é™å…¬å¸ (c) 2017</BR>
+ *
+ * @version 1.0 2017å¹´9æœˆ27æ—¥
  * @author gaotao
  * @since JDK1.8
  */
 public enum TbEmployee implements Field{
 
-	/**Ã¶¾Ù×Ö¶Î¶¨Òå*/
+	/**æšä¸¾å­—æ®µå®šä¹‰*/
 	iEmployeeId(DataType.LONG),
 	cEmployeeName(DataType.STRING),
 	iSex(DataType.INTEGER),
@@ -28,21 +28,21 @@ public enum TbEmployee implements Field{
 	iDeptId(DataType.LONG),
 	remark(DataType.STRING)
 	;
-	
-	/**¹¹Ôì*/
+
+	/**æ„é€ */
 	private TbEmployee(DataType dataType){
 		this.dataType = dataType;
 	}
-	
-	/**ÊôĞÔ£º×Ö¶ÎÀàĞÍ*/
+
+	/**å±æ€§ï¼šå­—æ®µç±»å‹*/
 	private DataType dataType;
-	
-	/**get·½·¨, ²»¿ª·Åset·½·¨*/
+
+	/**getæ–¹æ³•, ä¸å¼€æ”¾setæ–¹æ³•*/
 	public DataType getDataType(){
 		return this.dataType;
 	}
-	
-	/**¿É¿¼ÂÇ¼ÓÒ»¸ö´Ë·½·¨£¬·µ»Ø±íÃû£¬ÕâÑù¾Í²»ÓÃµ½´¦Ó²±àÂëĞ´±íÃûÁË£¬A.A.getTableName()¾ÍÄÜÈ¡µ½Öµ*/
+
+	/**å¯è€ƒè™‘åŠ ä¸€ä¸ªæ­¤æ–¹æ³•ï¼Œè¿”å›è¡¨åï¼Œè¿™æ ·å°±ä¸ç”¨åˆ°å¤„ç¡¬ç¼–ç å†™è¡¨åäº†ï¼ŒA.A.getTableName()å°±èƒ½å–åˆ°å€¼*/
 	public String getTableName(){
 		return "TbEmployee";
 	}

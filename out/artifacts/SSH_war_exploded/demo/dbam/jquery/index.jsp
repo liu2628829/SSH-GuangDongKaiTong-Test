@@ -19,6 +19,7 @@
 <body style="overflow: hidden;">
 <div id="main" region="center"  class="easyui-layout" fit="true" style="border:0px">
 <div region="center"  style="overflow: hidden;border:0px" id="mainCenter"  fit="true"><!-- title="人员管理" -->
+	<%--输入表单--%>
 	<form id="form1" name="form1" style="margin-bottom:0px;">
 		<table width="100%" class="formbasic">
 		   <tr>

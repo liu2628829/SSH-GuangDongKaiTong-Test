@@ -21,33 +21,33 @@ import java.util.regex.Pattern;
 //import util.MD5Tool;
 
 /**
- * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ËùÓÐÈÕÖ¾±£´æ²Ù×÷Àà
  *
  * @author gaotao 2011-08-18
  *
  */
 public class LogOperateUtil {
-    /**ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+    /**ÈÕÖ¾Êä³ö²Ù×÷¶ÔÏó*/
 	private static Logger log = Logger.getLogger(LogOperateUtil.class);
-	/**ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½Ä²Ëµï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½Î²Ëµï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Þ±ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½**/
+	/**»º´æÒÑ¾­×öÁËÆ¥ÅäµÄ²Ëµ¥Á´½Ó£¬²»ÓÃÃ¿´Î²Ëµ¥¶¼ºÍÈ¨ÏÞ±í²Ëµ¥½øÐÐÆ¥Åä**/
 	private static Map<String, String> matchedMenu = new HashMap<String, String>();
-	/**ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´	 */
+	/**°²È«¹ÜÀíÄ£¿éÊý¾ÝÔ´	 */
 	private static String safeMgrDataSource = ConfigInit.Config.getProperty(
 	           "safeManagerDataSource", ""); 
 	
 	private static String SYSTEM_NAME = ConfigInit.Config.getProperty("SYSTEM_NAME");
 	/**
-	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
-	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+	 * »ñÈ¡³ÌÐòÔËÐÐÂ·¾¶
+	 * @return ³ÌÐòÔËÐÐÂ·¾¶×Ö·û´®
 	 */
 	public static String logCallStack() {
 		Throwable ste = new Throwable();
 		return logCallStack(ste);
 	}
 
-	/**ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
-	 * @param t ï¿½ì³£ï¿½ï¿½ï¿½ï¿½
-	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+	/**»ñÈ¡³ÌÐòÔËÐÐÂ·¾¶
+	 * @param t Òì³£¶ÔÏó
+	 * @return ³ÌÐòÔËÐÐÂ·¾¶×Ö·û´®
 	 */
 	public static String logCallStack(Throwable t){
 		StringBuffer CallStack = new StringBuffer();
@@ -72,11 +72,11 @@ public class LogOperateUtil {
 		return CallStack.toString();
 	}
 	
-    /**ï¿½ï¿½Ö¾ï¿½ï¿½Â¼SQLÖ´ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ï¢
-     * @param sql Ö´ï¿½Ðµï¿½SQLï¿½ï¿½ï¿½
-     * @param sMd5 ï¿½ï¿½Ç°ï¿½ï¿½Ö¾ï¿½ï¿½MD5ï¿½ï¿½Ê¶
-     * @param domain ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½Ô´
-     * @return ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½Â·ï¿½ï¿½
+    /**ÈÕÖ¾¼ÇÂ¼SQLÖ´ÐÐÇ°µÄÐÅÏ¢
+     * @param sql Ö´ÐÐµÄSQLÓï¾ä
+     * @param sMd5 µ±Ç°ÈÕÖ¾µÄMD5±êÊ¶
+     * @param domain µ±Ç°Á¬½ÓµÄÊý¾ÝÔ´
+     * @return ³ÌÐòÖ´ÐÐÂ·¾¶
      */
     public static String logSQLBefor(String sql, String sMd5, String domain) {
     	String path = logCallStack().toString();
@@ -95,11 +95,11 @@ public class LogOperateUtil {
         return path;
     }
 
-    /**ï¿½ï¿½Ö¾ï¿½ï¿½Â¼SQLÖ´ï¿½Ðºï¿½ï¿½ï¿½ï¿½Ï¢
-     * @param sql Ö´ï¿½Ðµï¿½SQLï¿½ï¿½ï¿½
-     * @param sMd5 ï¿½ï¿½Ç°ï¿½ï¿½Ö¾ï¿½ï¿½MD5ï¿½ï¿½Ê¶
-     * @param timeBefore Ö´ï¿½ï¿½Ç°ï¿½ï¿½Â¼ï¿½ï¿½Ê±ï¿½ï¿½
-     * @return Ö´ï¿½ï¿½Ê±ï¿½ï¿½
+    /**ÈÕÖ¾¼ÇÂ¼SQLÖ´ÐÐºóµÄÐÅÏ¢
+     * @param sql Ö´ÐÐµÄSQLÓï¾ä
+     * @param sMd5 µ±Ç°ÈÕÖ¾µÄMD5±êÊ¶
+     * @param timeBefore Ö´ÐÐÇ°¼ÇÂ¼µÄÊ±¼ä
+     * @return Ö´ÐÐÊ±³¤
      */
     public static Long logSQLAfter(String sql, String sMd5, long timeBefore) {
     	long timeDiff = System.currentTimeMillis() - timeBefore;
@@ -110,19 +110,19 @@ public class LogOperateUtil {
         
         Map map = new HashMap<String, String>();
         map.put("excuteCostTime", timeDiff);
-        map.put("rowCount", "0");//ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á´«Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½0 tangyj
+        map.put("rowCount", "0");//¸Ã·½·¨²»»á´«Ó°ÏìÌõÊý£¬Ä¬ÈÏÓÃ0 tangyj
         LogPrintExt.getInstance().logSQLExcuteAfter(log, sMd5, map);
         
         return timeDiff;
     }
     
-    /**ï¿½ï¿½Ö¾ï¿½ï¿½Â¼SQLÖ´ï¿½Ðºï¿½ï¿½ï¿½ï¿½Ï¢
-     *  ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  modify by tangyujun 2013-04-11
-     * @param sql Ö´ï¿½Ðµï¿½SQLï¿½ï¿½ï¿½
-     * @param sMd5 ï¿½ï¿½Ç°ï¿½ï¿½Ö¾ï¿½ï¿½MD5ï¿½ï¿½Ê¶
-     * @param timeBefore Ö´ï¿½ï¿½Ç°ï¿½ï¿½Â¼ï¿½ï¿½Ê±ï¿½ï¿½
-     * @param rowCount Ó°ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½
-     * @return Ö´ï¿½ï¿½Ê±ï¿½ï¿½
+    /**ÈÕÖ¾¼ÇÂ¼SQLÖ´ÐÐºóµÄÐÅÏ¢
+     *  Ôö¼ÓÒ»¸ö²ÎÊý£¬¼ÇÂ¼Ó°ÏìÌõÊý  modify by tangyujun 2013-04-11
+     * @param sql Ö´ÐÐµÄSQLÓï¾ä
+     * @param sMd5 µ±Ç°ÈÕÖ¾µÄMD5±êÊ¶
+     * @param timeBefore Ö´ÐÐÇ°¼ÇÂ¼µÄÊ±¼ä
+     * @param rowCount Ó°ÏìÊý¾ÝµÄÌõÊý
+     * @return Ö´ÐÐÊ±³¤
      */
     public static Long logSQLAfter(String sql, String sMd5,long timeBefore, long rowCount) {
     	long timeDiff = System.currentTimeMillis() - timeBefore;
@@ -139,18 +139,18 @@ public class LogOperateUtil {
         return timeDiff;
     }
 
-    /**ï¿½ï¿½ï¿½ï¿½SQLï¿½ì³£ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ì³£
-     * @param e ï¿½ì³£ï¿½ï¿½ï¿½ï¿½
-     * @param domain ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½Ê¶
-     * @param sql Ö´ï¿½Ðµï¿½SQLï¿½ï¿½ï¿½
-     * @param path Ö´ï¿½ï¿½Â·ï¿½ï¿½
-     * @return ï¿½ï¿½×°ï¿½ï¿½ï¿½BaseRuntimeExceptionï¿½ï¿½ï¿½ï¿½
+    /**´¦ÀíSQLÒì³£ÐÅÏ¢£¬ÈÕÖ¾¼ÇÂ¼¡¢´òÓ¡¡¢Å×Òì³£
+     * @param e Òì³£¶ÔÏó
+     * @param domain Êý¾ÝÔ´±êÊ¶
+     * @param sql Ö´ÐÐµÄSQLÓï¾ä
+     * @param path Ö´ÐÐÂ·¾¶
+     * @return ·â×°ºóµÄBaseRuntimeException¶ÔÏó
      */
     public static BaseRuntimeException logSQLError(Exception e, String domain,
             String sql, String path) {
-        String path1 = logCallStack(e); //ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ÊµÂ·ï¿½ï¿½
+        String path1 = logCallStack(e); //Òì³£µÄÕæÊµÂ·¾¶
         
-        String msg = "ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿â½»ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ì³£!";
+        String msg = "µ×²ãÓëÊý¾Ý¿â½»»¥Ê±·¢ÉúÒì³£!";
         domain = StringUtil.checkStr(domain) ? domain
                 : DialectFactory.getDefaultDatasrc();
         Map<String, String> m = new HashMap<String, String>();
@@ -161,21 +161,21 @@ public class LogOperateUtil {
         throw new BaseRuntimeException(e, m);
     }
 
-    /**ï¿½ï¿½Ö´ï¿½Ð³ï¿½Ê±Ò»ï¿½ï¿½Ê±ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½Â¼
-     * @param sMd5 ï¿½ï¿½Ç°ï¿½ï¿½Ö¾ï¿½ï¿½MD5ï¿½ï¿½Ê¶
-     * @param sSql Ö´ï¿½Ðµï¿½SQLï¿½ï¿½ï¿½
-     * @param iCostTime Ö´ï¿½ï¿½Ê±ï¿½ï¿½
-     * @param iRowCount Ó°ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½
-     * @param sDataSource ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½Ê¶
-     * @param sPath ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
+    /**½«Ö´ÐÐ³¬Ê±Ò»¶¨Ê±¼äµÄSQLÈë¿â¼ÇÂ¼
+     * @param sMd5 µ±Ç°ÈÕÖ¾µÄMD5±êÊ¶
+     * @param sSql Ö´ÐÐµÄSQLÓï¾ä
+     * @param iCostTime Ö´ÐÐÊ±³¤
+     * @param iRowCount Ó°ÏìÊý¾ÝµÄÌõÊý
+     * @param sDataSource Êý¾ÝÔ´±êÊ¶
+     * @param sPath ³ÌÐòÂ·¾¶
      */
     @Deprecated
     public static void logSQLToDb(String sMd5, String sSql, long iCostTime,
             int iRowCount, String sDataSource, String sPath) {
         String SQL_LOG_DB = ConfigInit.Config.getProperty(
-        		"SQL_LOG_DB", "off");// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
+        		"SQL_LOG_DB", "off");// ÊÇ·ñÈë¿â
         int SQL_LOG_TIME = StringUtil.toInt(ConfigInit.Config.getProperty(
-                "SQL_LOG_TIME", "1"));// SQLÖ´ï¿½ï¿½Ê±ï¿½ï¿½
+                "SQL_LOG_TIME", "1"));// SQLÖ´ÐÐÊ±³¤
         if (("on".equals(SQL_LOG_DB) ||  "1".equals(SQL_LOG_DB)) && iCostTime > SQL_LOG_TIME) {//
         	sDataSource = StringUtil.checkStr(sDataSource) ? sDataSource
                     : DialectFactory.getDefaultDatasrc();
@@ -192,21 +192,21 @@ public class LogOperateUtil {
                     .append("')");
             ArrayList data = new ArrayList();
             if(sSql != null && sSql.length() > 2000){
-            	sSql = sSql.substring(0, 2000)+"...ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ó³¤¶ï¿½(2000ï¿½Ö½ï¿½)ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½ï¿½È¡ï¿½ï¿½";
+            	sSql = sSql.substring(0, 2000)+"...³¬³ö×Ö¶Î×î´ó³¤¶È(2000×Ö½Ú)£¬ÒÑ±»½ØÈ¡£¡";
     		}
             data.add(sSql);
-            // ï¿½ï¿½ï¿½ï¿½
+            // ±£´æ
             save(sb.toString(), data);
         }
     }
 
-    /**ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½
-     * @param mp ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢
+    /**½«Òì³£ÈÕÖ¾Êä³öµ½ÈÕÖ¾ÎÄ¼þ
+     * @param mp Òì³£ÈÕÖ¾ÐÅÏ¢
      */
     private static void logException(Map<String, String> mp) {
     	String exceptionLog = ConfigInit.Config.getProperty(
-    			"exceptionLog", "0");// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ö¾
+    			"exceptionLog", "0");// ÊÇ·ñÈë¿â
+        // Èç¹ûÅäÖÃ²»±£´æÒì³£ÈÕÖ¾
         if (!("on".equals(exceptionLog) || "1".equals(exceptionLog))) {
             return;
         }
@@ -220,29 +220,29 @@ public class LogOperateUtil {
         
     }
     
-	/**ï¿½ï¿½ï¿½Ãºï¿½ï¿½Â¼ï¿½ì³£ï¿½ï¿½Ö¾
-	 * ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½catchï¿½ì³£ï¿½ï¿½Â¼ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	 * @param exception ï¿½ì³£ï¿½ï¿½ï¿½ï¿½
-	 * @param message ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-	 * @return ï¿½ï¿½ï¿½Ø¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ï¢
+	/**µ÷ÓÃºó¼ÇÂ¼Òì³£ÈÕÖ¾
+	 * ¸Ã·½·¨Ö÷ÒªÓÃÓÚ³ÌÐòÖÐ×Ô¼ºcatchÒì³£¼ÇÂ¼Òì³£ÈÕÖ¾£¬²»»áÖÐ¶Ï³ÌÐòµÄÔËÐÐ
+	 * @param exception Òì³£¶ÔÏó
+	 * @param message ×Ô¶¨ÒåÒì³£ÃèÊöÐÅÏ¢
+	 * @return ·µ»Ø¿Í»§¶ËÌáÊ¾ÐÅÏ¢
 	 */
 	public static String logException(Throwable exception, String message, HttpServletRequest req) {
 		String sMd5 = getUUID(); //MD5Tool.getMD5String();
 		
-		//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ì³£ï¿½ï¿½ï¿½ï¿½
+		//·´»Øµ½½çÃæÏÔÊ¾Òì³£ÃèÊö
 		String sSysExceptionMessage = "";
-		String mKey = null; //ï¿½ï¿½I18NConfig.propertiesï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄ¼ï¿½
+		String mKey = null; //´ÓI18NConfig.propertiesÖÐÅäÖÃµÄ¼ü
 		String systemRunMode = ConfigInit.Config.getProperty("systemRunMode", "1");
-		String[] sArgs = null; //ï¿½ï¿½Òªï¿½æ»»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		//ï¿½ì³£Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½Ö´ï¿½ï¿½sqlï¿½ï¿½ÏµÍ³ï¿½ì³£ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ê¾
+		String[] sArgs = null; //ÐèÒªÌæ»»µÄÊý¾Ý
+		//Òì³£Â·¾¶£¬Êý¾ÝÔ´£¬Ö´ÐÐsql£¬ÏµÍ³Òì³££¬Òì³£ÐÅÏ¢£¬Òì³£ÌáÊ¾
 		String sPath = "", sDataSource = "", sSql = ""
 			, sSysExceptionName = "", sSelfExceptionMessage = "", sqlExcetpionMsg = "";
 		
 		/**
-		* ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬²ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
-		* ï¿½ä²»ï¿½ï¿½Ö±ï¿½ÓµÃµï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ì³£ï¿½ï¿½
-		* ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½×°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½java.lang.reflect.InvocationTargetException
-		* ï¿½ï¿½Ê±Í¨ï¿½ï¿½getCause()ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ì³£
+		* Èç¹ûµ×²ãÓÐÓÃ·´Éä»úÖÆ·´Éä³ö¶ÔÏó£¬²¢µ÷ÓÃ·½·¨Ê±£¬
+		* Æä²»ÄÜÖ±½ÓµÃµ½×îÔ­Ê¼µÄÒì³££¬
+		* ¶øÊÇ±»°ü×°ÁËÒ»²ãµÄjava.lang.reflect.InvocationTargetException
+		* ´ËÊ±Í¨¹ýgetCause()²ÅÄÜÄÃµ½×îÔ­Ê¼µÄÒì³£
 		*/
 		Throwable exception1 = (exception != null && 
 				!(exception instanceof BaseRuntimeException)) ? 
@@ -260,20 +260,20 @@ public class LogOperateUtil {
 				sSql = (String)m.get("sSql"); 
 				sSelfExceptionMessage = (String)m.get("exceptionMessage");  
 				mKey = (String)m.get("i18n"); 
-				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½
+				//ÇåÀíµô£¬Îª´òÓ¡ÆäËüÒì³£ÃèÊö×÷×¼±¸
 				m.remove("sPath");
 				m.remove("sDataSource");
 				m.remove("sSql");
 				m.remove("exceptionMessage");
 				m.remove("i18n");
 			}
-	        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+	        //µÃ×îÖÕÓÃÓÚ¿Í»§¶ËÌáÊ¾Òì³£ÃèÊöÐÅÏ¢
 	        mKey = StringUtil.checkStr(mKey) ? mKey : bre.getI18nKey();
 	        sArgs = bre.getSArgs();
 			sSelfExceptionMessage = I18nConfig.getInstance(
 					systemRunMode).getValue(mKey, sArgs, sSelfExceptionMessage);
 			
-			//ï¿½ï¿½Ô­Ê¼ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			//µÃÔ­Ê¼Òì³£ÀàÃûÓëÃèÊö
 			exception = bre.getCause();
 			if(exception != null){
 				sSysExceptionName = exception.getClass().getName();
@@ -284,30 +284,30 @@ public class LogOperateUtil {
 			sSysExceptionMessage = exception.getMessage();
 		}
 		/**
-		 * ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½
-		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½messageÎª×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Throwableï¿½ï¿½ï¿½Îª×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Úµï¿½Îª×¼
+		 * ×Ô¶¨ÒåÒì³£ÐÅÏ¢µÄÓÅÏÈ¼¶£º
+		 * ÓÅÏÈÒÔmessageÎª×¼£¬Æä´ÎÒÔThrowableÀïµÄÎª×¼£¬×îºóÒÔÏµÍ³ÅäÖÃÎÄ¼þÄÚµÄÎª×¼
 		 * */
-		message = StringUtil.checkObj(message)?"ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Î´ï¿½Ð¶Ï³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-->"+message : null;
+		message = StringUtil.checkObj(message)?"´ËÒì³£±»ÈËÎª²¶»ñ£¬Î´ÖÐ¶Ï³ÌÐòÔËÐÐ-->"+message : null;
 		sSelfExceptionMessage =
 			   StringUtil.checkStr(message) ? message : sSelfExceptionMessage;
 		sSelfExceptionMessage =
 				StringUtil.checkStr(sSelfExceptionMessage) ? sSelfExceptionMessage :
 					(I18nConfig.getInstance(systemRunMode).getValue(null, null, null));
 		
-		//ï¿½ì³£ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½
+		//Òì³£ÏêÏ¸ÃèÊö
 		if( m == null ){m = new HashMap();}
 		sSysExceptionMessage = StringUtil.toString(
 				sSysExceptionMessage).replace("\n", " | ").replace("\r", " | ");
 		m.put("sysExceptionMessage", sSysExceptionMessage);
 		sSysExceptionMessage = JackJson.getBasetJsonData(m);
-		//ï¿½ì³£ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Ù´ï¿½È·ï¿½ï¿½
+		//Òì³£³ÌÐòÂ·¾¶ÔÙ´ÎÈ·ÈÏ
 		sPath = (StringUtil.checkStr(sPath))? sPath : logCallStack(exception);
 
 		Map<String, String> mp = new HashMap<String, String>();
 		mp.put("sMd5", sMd5);
 		mp.put("sPath", sPath);
 		if(sSelfExceptionMessage != null && sSelfExceptionMessage.length() > 450){
-			sSelfExceptionMessage = sSelfExceptionMessage.substring(0, 450)+"...ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ó³¤¶ï¿½(450ï¿½Ö½ï¿½)ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½ï¿½È¡ï¿½ï¿½";
+			sSelfExceptionMessage = sSelfExceptionMessage.substring(0, 450)+"...³¬³ö×Ö¶Î×î´ó³¤¶È(450×Ö½Ú)£¬ÒÑ±»½ØÈ¡£¡";
 		}
 		mp.put("sSelfExceptionMessage", sSelfExceptionMessage);
 		mp.put("sSysExceptionName", sSysExceptionName);
@@ -325,31 +325,31 @@ public class LogOperateUtil {
 		}
 		
 		if(request != null){
-			//ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
+			//ÈËÔ±ÐÅÏ¢
 			String iStaffId = SessionUtil.getAttribute("USERID",
 					request.getSession()) != null ? (String)SessionUtil.getAttribute(
 							"USERID", request.getSession()):"-1";
 			String sStaffAccount = SessionUtil.getAttribute("USERNAME", 
 					request.getSession()) != null?(String)SessionUtil.getAttribute(
-							"USERNAME", request.getSession()):"Î´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½";
+							"USERNAME", request.getSession()):"Î´µÇÂ¼£¬ÎÞÕËºÅ";
 			String sStaffName = SessionUtil.getAttribute("USERCNNAME", 
 					request.getSession()) != null ? (String)SessionUtil.getAttribute(
-							"USERCNNAME", request.getSession()):"Î´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
+							"USERCNNAME", request.getSession()):"Î´µÇÂ¼£¬ÎÞÐÕÃû";
 			
-			//ï¿½ï¿½ï¿½ï¿½url,ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½,Ä£ï¿½ï¿½ID
+			//ÇëÇóurl,¿ªÊ¼´¦ÀíÊ±¼ä,Ä£¿éID
 			String sUrl = request.getAttribute("sUrl") == null ? "" : (String)request.getAttribute("sUrl");
 			long iCostTime = 0l;
-			if(request.getAttribute("beginTime") != null){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ðµï¿½
+			if(request.getAttribute("beginTime") != null){//Èç¹û²»¾­¹ýÈÕÖ¾¹ýÂËÆ÷£¬´ËÊý¾ÝÊÇÃ»ÓÐµÄ
 			 	iCostTime = System.currentTimeMillis() - (Long)request.getAttribute("beginTime");
 			}
 			
-		    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½500ï¿½Í½Ø¶ï¿½
+		    //´¦ÀíËùÓÐ²ÎÊý£¬Öµ³¬³ö500¾Í½Ø¶Ï
 			Map<String, String> reqeustParam = RequestUtil.getMapByRequest(request);
 			truncateParam(reqeustParam, 500);
-			//Í¨ï¿½ï¿½actionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Þ±ï¿½ï¿½Ü°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½
+			//Í¨¹ýaction·½·¨ºÍÇëÇó²ÎÊýÓëÈ¨ÏÞ±í¹¦ÄÜ°´Å¥½øÐÐÆ¥Åä
 			String actionMethod = (String) request.getAttribute("actionMethod");
 	        Map<String, String> rightInfoMap = createRightInfo(actionMethod,request.getHeader("referer"), reqeustParam);
-		    //ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		    //ÉèÖÃ¹ØÁªÊý¾Ý
 		    mp.put("iActionId", rightInfoMap.get("iActionId"));
 			mp.put("iRightId", rightInfoMap.get("iRightId"));
 			mp.put("iBtnRightId", rightInfoMap.get("iBtnRightId"));
@@ -364,9 +364,9 @@ public class LogOperateUtil {
 		    mp.put("sUrl", sUrl);
 		    mp.put("sReferer", request.getHeader("referer"));
 		}
-	    //ï¿½ì³£ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
+	    //Òì³£ÐÅÏ¢Êä³öµ½ÈÕÖ¾ÎÄ¼þºÍÊý¾Ý¿â
     	logException(mp);
-		//ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½Â£ï¿½ï¿½ï¿½Ó¡ï¿½ì³£
+		//¿ª·¢Ä£Ê½ÏÂ£¬´òÓ¡Òì³£
 		if(exception != null && "1".equals(systemRunMode)){
 	        exception.printStackTrace();
 	        sSelfExceptionMessage += ("#%"+m.get("sysExceptionMessage")) + ("#%"+sPath) + ("#%"+sSysExceptionName);
@@ -376,44 +376,44 @@ public class LogOperateUtil {
 	}
     
 	/**
-	 * ï¿½ï¿½Â¼ï¿½ì³£ï¿½ï¿½Ö¾
-	 * ï¿½Ã·ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Exception.jspï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	 * @param exception ï¿½ì³£ï¿½ï¿½ï¿½ï¿½
-	 * @return ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ï¢
+	 * ¼ÇÂ¼Òì³£ÈÕÖ¾
+	 * ¸Ã·½·¨Ö»ÔÚException.jspÖÐÓÐÓÃµ½£¬ÆäËüµØ·½Èç¹ûÒª¼ÇÒì³£ÈÕÖ¾Çëµ÷ÓÃÖØÔØ·½·¨£¨Á½¸ö²ÎÊý£©
+	 * @param exception Òì³£¶ÔÏó
+	 * @return ×Ô¶¨ÒåµÄÒì³£ÐÅÏ¢
 	 */
 	public static String logException(Throwable exception) {
 		return logException(exception, null, null);
 	}
 	
 	/**
-	 * ï¿½ï¿½Â¼ï¿½ì³£ï¿½ï¿½Ö¾ add by qiaoqd
-	 * ï¿½ï¿½ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½ï¿½logException(Throwable exception, String msg)
-	 * @param exception ï¿½ì³£ï¿½ï¿½ï¿½ï¿½
-	 * @return ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ï¢
+	 * ¼ÇÂ¼Òì³£ÈÕÖ¾ add by qiaoqd
+	 * ¼æÈÝÍâ²¿µ÷ÓÃlogException(Throwable exception, String msg)
+	 * @param exception Òì³£¶ÔÏó
+	 * @return ×Ô¶¨ÒåµÄÒì³£ÐÅÏ¢
 	 */
 	public static String logException(Throwable exception, String msg) {
 		return logException(exception, msg, null);
 	}
 	
 	/**
-	 * ï¿½ï¿½Â¼ï¿½ì³£ï¿½ï¿½Ö¾ add by qiaoqd
-	 * ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Exception.jspÒ³ï¿½æ´¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£Ê¹ï¿½ï¿½.
-	 * @param exception ï¿½ì³£ï¿½ï¿½ï¿½ï¿½
-	 * @param req ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	 * @return ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ï¢
+	 * ¼ÇÂ¼Òì³£ÈÕÖ¾ add by qiaoqd
+	 * ¸Ã·½·¨Ö÷ÒªÕë¶ÔException.jspÒ³Ãæ´¦Àí¹ýÂËÆ÷Òì³£Ê¹ÓÃ.
+	 * @param exception Òì³£¶ÔÏó
+	 * @param req ÇëÇó¶ÔÏó
+	 * @return ×Ô¶¨ÒåµÄÒì³£ÐÅÏ¢
 	 */
 	public static String logException(Throwable exception, HttpServletRequest req) {
 		return logException(exception, null, req);
 	}
 	
-    /** ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     *  ï¿½ï¿½Òªï¿½ï¿½config.propertiesï¿½ï¿½ActionRelatedToRightï¿½ï¿½ï¿½ï¿½Îª1
-     * @param mp ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢
+    /** Òì³£ÈÕÖ¾±£´æÈë¿â
+     *  ÐèÒª½«config.propertiesµÄActionRelatedToRightÉèÖÃÎª1
+     * @param mp Òì³£ÈÕÖ¾ÐÅÏ¢
      */
 	@Deprecated
     public static void logExceptionToDb(Map<String, String> mp) {
-        String ERR_LOG_DB = ConfigInit.Config.getProperty("ERR_LOG_DB", "off");// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ö¾
+        String ERR_LOG_DB = ConfigInit.Config.getProperty("ERR_LOG_DB", "off");// ÊÇ·ñÈë¿â
+        // Èç¹ûÅäÖÃ²»±£´æÒì³£ÈÕÖ¾
         if (!("on".equals(ERR_LOG_DB) || "1".equals(ERR_LOG_DB))) {
             return;
         }
@@ -452,12 +452,12 @@ public class LogOperateUtil {
         data.add(mp.get("iBtnRightId"));
         data.add(StringUtil.toString(mp.get("sContent")));
         
-        // ï¿½ï¿½ï¿½ï¿½
+        // ±£´æ
         save(sb.toString(), data);
     }
 	
-    /**ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½  tangyj 2013-05-27
-     * @param mp ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢
+    /**²Ëµ¥µã»÷ÈÕÖ¾Êä³öµ½ÈÕÖ¾ÎÄ¼þ  tangyj 2013-05-27
+     * @param mp ²Ëµ¥µã»÷ÈÕÖ¾ÐÅÏ¢
      */
     public static void logMenuClick(Map<String, String> mp) {
     	String menuClickLog = ConfigInit.Config.getProperty("menuClickLog", "0");
@@ -474,8 +474,8 @@ public class LogOperateUtil {
         }
     }
     
-    /**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó´ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
-     * @param mp keyÖµï¿½ï¿½ï¿½Â£ï¿½
+    /**½«Êý¾ÝÖ±½Ó´æÊý¾Ý¿â
+     * @param mp keyÖµÈçÏÂ£º
      * iDomainId
      * sDomainName
      * iDeptId
@@ -516,14 +516,14 @@ public class LogOperateUtil {
         sb.append(",'").append(SYSTEM_NAME).append("')");
         ArrayList data = new ArrayList();
         data.add(Long.parseLong(mp.get("iRightId")));
-        // ï¿½ï¿½ï¿½ï¿½
+        // ±£´æ
         save(sb.toString(), data);
     	
     }
     
 	/**
-	 * ï¿½ï¿½Â¼ï¿½Ëµï¿½ï¿½ï¿½Ö¾
-	 * @param request HttpServletRequestï¿½ï¿½ï¿½ï¿½
+	 * ¼ÇÂ¼²Ëµ¥ÈÕÖ¾
+	 * @param request HttpServletRequest¶ÔÏó
 	 */
 	public static void logMenuClick(HttpServletRequest request) {
 		String menuClickLog = ConfigInit.Config.getProperty("menuClickLog", "0");
@@ -531,7 +531,7 @@ public class LogOperateUtil {
             return;
         }
         
-     	//ï¿½ì²½ï¿½ï¿½ï¿½ó²»»ï¿½Ç²Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
+     	//Òì²½ÇëÇó²»»á¼Ç²Ëµ¥µã»÷ÈÕÖ¾
 		if(RequestUtil.isAjaxRequest(request)){
 			return;
 		}
@@ -541,26 +541,26 @@ public class LogOperateUtil {
 			return;
 		}
 		
-		String urlValue = RequestUtil.mergeURIAndParma(request);// È¡ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
+		String urlValue = RequestUtil.mergeURIAndParma(request);// È¡ÇëÇóÂ·¾¶
 		
-		//ï¿½ï¿½ï¿½ï¿½URLï¿½ï¿½ï¿½Ð¹ï¿½ï¿½Ë£ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½Ç²Ëµï¿½ï¿½ï¿½ï¿½
+		//¸ù¾ÝURL½øÐÐ¹ýÂË£¬·ÀÖ¹½«Í¼Æ¬µÈ×ÊÔ´ÇëÇóÒ²µ±³ÉÊÇ²Ëµ¥µã»÷
 		Pattern pattern = Pattern.compile(URLRegExp);
 		Matcher matcher = pattern.matcher(urlValue);
 		if (!matcher.find()){
 			return;
 		 }
 		
-		//ï¿½ï¿½Â¼ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½
+		//¼ÇÂ¼ÈÕÖ¾ÎÄ¼þ
 		HttpSession session = request.getSession();
-		Map<String, String> mp = getUserMsg(session);// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
-		mp.put("sIpAddress", RequestUtil.getIpAddr(request));// È¡ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½ï¿½IP
-		mp.put("sUrl", urlValue);// È¡ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
-		mp.put("queryStr", request.getQueryString());// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½
+		Map<String, String> mp = getUserMsg(session);// µÃÓÃ»§ÐÅÏ¢
+		mp.put("sIpAddress", RequestUtil.getIpAddr(request));// È¡¿Í»§¶Ë·ÃÎÊIP
+		mp.put("sUrl", urlValue);// È¡ÇëÇóÂ·¾¶
+		mp.put("queryStr", request.getQueryString());// Á´½ÓËù´øµÄ²ÎÊý
 		
 		if(isLogRuntime()){
-			//Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Þ±ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ð±È½ï¿½
+			//Í¨¹ýÇëÇóÁ´½ÓÓëÈ¨ÏÞ±í²Ëµ¥½øÐÐ±È½Ï
 			String iRightId = null;
-			//Ö±ï¿½Ó´Ó»ï¿½ï¿½ï¿½ï¿½ï¿½È¡
+			//Ö±½Ó´Ó»º´æÖÐÈ¡
 			if(matchedMenu.containsKey(urlValue)){
 				iRightId = matchedMenu.get(urlValue);
 	        }else{
@@ -571,22 +571,22 @@ public class LogOperateUtil {
 			if(!StringUtil.checkStr(iRightId)){
 				return;
 			}
-			mp.put("iRightId", iRightId);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½
+			mp.put("iRightId", iRightId);// Á´½ÓËù´øµÄ²ÎÊý
 		}
 		LogOperateUtil.logMenuClick(mp);
 	}
 	
 	private  static String getRightIdByUrl(String url){
-		//ï¿½ï¿½Ê¼ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//³õÊ¼»¯È¨ÏÞÊý¾Ý
 		List<Map<String, String>> rightList  = ConfigInit.rightMenuList;
 		if(url == null || url.length() == 0){return null;}
 		
-		//ï¿½ï¿½ï¿½paramNamesÖµÒ»Ö±Îªï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Ö»Æ¥ï¿½ï¿½URLï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//Èç¹ûparamNamesÖµÒ»Ö±Îª¿ÕÔò±íÊ¾Ö»Æ¥ÅäURL£¬²»Æ¥ÅäÈÎÎñ²ÎÊý
 		String[] paramNames = null;
 		String paramStr = RequestUtil.getUrlAndParam(url)[1];
 		Map<String, String> paramMap = RequestUtil.getParamMap(paramStr, "&", "=");
 		
-		//ï¿½ï¿½Ô¸Ú¹Ü°ï¿½ï¿½ï¿½ï¿½ï¿½
+		//Õë¶Ô¸Ú¹Ü°æÁ÷³Ì
 		if(url.indexOf("controlBus!getPage") != -1){
 			String filedName = "";
 			if(StringUtil.checkStr(paramMap.get("Fd_sTableName"))){
@@ -595,14 +595,14 @@ public class LogOperateUtil {
 			if(StringUtil.checkStr(paramMap.get("Fd_iFormId"))){
 				filedName = "Fd_iFormId";
 			}
-			if(filedName == null){//ï¿½ï¿½ï¿½URLï¿½ï¿½Ã»ï¿½Ð¸Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			if(filedName == null){//Èç¹ûURLÖÐÃ»ÓÐ¸Ã²ÎÊý£¬ÔòÖ±½Ó×÷·ÏÊý¾Ý
 				return null;
 			}
 			paramNames = new String[2];//{"Fd_opt",filedName};
 			paramNames[0] = "Fd_opt";
 			paramNames[1] = filedName;
 		}
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½Ã±ï¿½
+		//Õë¶ÔÁ÷³ÌÍ¨ÓÃ±íµ¥
 		else if(url.indexOf("createPage!getPage.action") != -1){
 			String filedName = null;
 			if(StringUtil.checkStr(paramMap.get("S_PAGE_ID"))){
@@ -611,12 +611,12 @@ public class LogOperateUtil {
 			if(StringUtil.checkStr(paramMap.get("S_TABLE_ID"))){
 				filedName = "S_TABLE_ID";
 			}
-			if(filedName == null){//ï¿½ï¿½ï¿½URLï¿½ï¿½Ã»ï¿½Ð¸Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			if(filedName == null){//Èç¹ûURLÖÐÃ»ÓÐ¸Ã²ÎÊý£¬ÔòÖ±½Ó×÷·ÏÊý¾Ý
 				return null;
 			}
 			paramNames = new String[1];
 			paramNames[0] = filedName;
-		}else{//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½URLï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½
+		}else{//ÐèÒªÂú×ãºóÃæURLµÄËùÓÐ²ÎÊý
 			paramNames = new String[0];
 		}
 		
@@ -631,8 +631,8 @@ public class LogOperateUtil {
 		return iRight;
 	}
     
-    /**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½ tangyj 2013-03-31
-     * @param mp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢
+    /**²Ù×÷ÈÕÖ¾Êä³öµ½ÈÕÖ¾ÎÄ¼þ tangyj 2013-03-31
+     * @param mp ²Ù×÷ÈÕÖ¾ÐÅÏ¢
      */
     public static void logOperate(Map<String, String> mp) {
     	String operateLog = ConfigInit.Config.getProperty("operateLog", "0");
@@ -649,8 +649,8 @@ public class LogOperateUtil {
 		}
     } 
     
-    /**ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
-	 * @param request requestï¿½ï¿½ï¿½ï¿½
+    /**¼ÇÂ¼²Ù×÷ÈÕÖ¾
+	 * @param request request¶ÔÏó
 	 */
 	public static void logOperate(HttpServletRequest request) {
 		String operateLog = ConfigInit.Config.getProperty("operateLog", "0");
@@ -658,32 +658,32 @@ public class LogOperateUtil {
             return;
         }
         HttpSession session = request.getSession();
-		long endTime = System.currentTimeMillis();//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
-		Map<String, String> mp = getUserMsg(session);// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
+		long endTime = System.currentTimeMillis();//½áÊøÊ±¼ä
+		Map<String, String> mp = getUserMsg(session);// µÃÓÃ»§ÐÅÏ¢
 		
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½500ï¿½Í½Ø¶ï¿½
+		//´¦ÀíËùÓÐ²ÎÊý£¬Öµ³¬³ö500¾Í½Ø¶Ï
 		Map<String, String> reqeustParamMap = RequestUtil.getMapByRequest(request);
 		truncateParam(reqeustParamMap, 500);
-		//Í¨ï¿½ï¿½actionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½Þ±ï¿½ï¿½Ü°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½
+		//Í¨¹ýaction·½·¨ºÍÇëÇó²ÎÊýÓëÈ¨ÏÞ±í¹¦ÄÜ°´Å¥½øÐÐÆ¥Åä
 	 	String actionMethod = (String) request.getAttribute("actionMethod");
         Map<String, String> rightInfoMap = createRightInfo(actionMethod, request.getHeader("referer"), reqeustParamMap);
-        //ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½ò²»¼ï¿½ï¿½ï¿½Ö¾
+        //Èç¹ûÃ»ÓÐÆ¥Åä½á¹ûÔò²»¼ÇÈÕÖ¾
         if(rightInfoMap == null || rightInfoMap.size() == 0 || "-1".equals(rightInfoMap.get("isRelated"))){
         	return;
         }
-        //ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //ÉèÖÃ¹ØÁªÊý¾Ý
         mp.put("iActionId", rightInfoMap.get("iActionId"));
 		mp.put("iRightId", rightInfoMap.get("iRightId"));
 		mp.put("iBtnRightId", rightInfoMap.get("iBtnRightId"));
 		mp.put("sContent", StringUtil.toString(rightInfoMap.get("sContent")));
 		
-		mp.put("sIpAddress", RequestUtil.getIpAddr(request));// È¡ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½ï¿½IP
-		mp.put("sUrl", RequestUtil.mergeURIAndParma(request));// È¡ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
+		mp.put("sIpAddress", RequestUtil.getIpAddr(request));// È¡¿Í»§¶Ë·ÃÎÊIP
+		mp.put("sUrl", RequestUtil.mergeURIAndParma(request));// È¡ÇëÇóÂ·¾¶
 		
-		//È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//È¡ÇëÇó²ÎÊý
 		mp.put("sParams", JackJson.getBasetJsonData(reqeustParamMap));
 		mp.put("rightInfo", JackJson.getBasetJsonData(rightInfoMap));
-		// ï¿½ï¿½ï¿½ã´¦ï¿½ï¿½Ê±ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
+		// ¼ÆËã´¦ÀíÊ±³¤(ºÁÃë)
 		mp.put("iCostTime", (endTime - (Long)request.getAttribute("beginTime")) + "");
 		mp.put("sReferer", request.getHeader("referer"));
 		
@@ -691,22 +691,22 @@ public class LogOperateUtil {
 		
 	}
 	
-	/**ï¿½ï¿½ï¿½ï¿½actionï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ï¢
-	 * @param actionMethod actionï¿½à¼°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	 * @param requestParamMap ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½
-	 * @param referer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½URL
-	 * @return Æ¥ï¿½ï¿½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½Ï¢
+	/**¸ù¾Ýaction»ñÈ¡ËùÊôÄ£¿éÐÅÏ¢
+	 * @param actionMethod actionÀà¼°·½·¨Ãû
+	 * @param requestParamMap ÇëÇóÏà¹Ø²ÎÊý
+	 * @param referer ÇëÇóËùÔÚ½çÃæµÄURL
+	 * @return Æ¥ÅäºóµÄ½á¹ûÐÅÏ¢
 	 */
 	private static  Map<String, String>  createRightInfo(
 				String actionMethod, String referer, Map<String, String> requestParamMap){
         String actionRelatedToRight = ConfigInit.Config.getProperty("ActionRelatedToRight", "0");
-		//ï¿½ï¿½Òªï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½È¨ï¿½Þ½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½
+		//ÐèÒªÔÚÇ°¶ËÓëÈ¨ÏÞ½øÐÐ¹ØÁª
         Map<String, String> rightParamMap = new HashMap<String, String>();
         if ("1".equals(actionRelatedToRight) || "on".equals(actionRelatedToRight)){
         	Map<String, String> matchResult = null;
         	Long iRelType = ConfigInit.actionRel.get(actionMethod);
     		if(iRelType != null){
-    			//Mapï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½URLï¿½Ä²ï¿½ï¿½ï¿½Ò²ï¿½Óµï¿½Mapï¿½ï¿½
+    			//Map¸´ÖÆ£¬½«ÇëÇóËùÔÚ½çÃæURLµÄ²ÎÊýÒ²¼Óµ½MapÖÐ
             	String paramStr = RequestUtil.getUrlAndParam(referer)[1];
         		Map<String, String> paramMap = RequestUtil.getParamMap(paramStr, "&", "=");
         		paramMap.putAll(requestParamMap);
@@ -714,29 +714,29 @@ public class LogOperateUtil {
     			//matchResult = logOperateMapping.match(actionMethod, paramMap);
     		}
 			if(matchResult != null){
-				rightParamMap.put("isRelated", "1");//1ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+				rightParamMap.put("isRelated", "1");//1´ú±íÒÑ¹ØÁª
 				rightParamMap.put("iActionId", matchResult.get("IACTIONID"));
 				rightParamMap.put("iRightId", matchResult.get("IRIGHTID"));
 				rightParamMap.put("iBtnRightId", matchResult.get("IBTNRIGHTID"));
 				rightParamMap.put("sContent", matchResult.get("SCONTENT") != null ? matchResult.get("SCONTENT"):"");
-			}else{//ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-				rightParamMap.put("isRelated", "-1");//-1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+			}else{//¹ØÁªÊ§°Ü
+				rightParamMap.put("isRelated", "-1");//-1´ú±í¹ØÁªÊ§°Ü
 				rightParamMap.put("iActionId", "-1");
 				rightParamMap.put("iRightId", "-1");
 				rightParamMap.put("iBtnRightId", "-1");
 				rightParamMap.put("sContent", "");
 			}
-		}else{//ï¿½Úºï¿½Ë¹ï¿½ï¿½ï¿½
-			rightParamMap.put("isRelated", "0");//0ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
-			rightParamMap.put("actionMethod", actionMethod);//0ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
+		}else{//ÔÚºó¶Ë¹ØÁª
+			rightParamMap.put("isRelated", "0");//0´ú±íÎ´¹ØÁª
+			rightParamMap.put("actionMethod", actionMethod);//0´ú±íÎ´¹ØÁª
 		}
         
         return rightParamMap;
 	}
     
-    /**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Ö±ï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     * ï¿½ï¿½Òªï¿½ï¿½config.propertiesï¿½ï¿½ActionRelatedToRightï¿½ï¿½ï¿½ï¿½Îª1
-     * @param mp ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢
+    /**²Ù×÷ÈÕÖ¾Ö±½Ó±£´æÈë¿â
+     * ÐèÒª½«config.propertiesµÄActionRelatedToRightÉèÖÃÎª1
+     * @param mp ²Ù×÷ÈÕÖ¾ÐÅÏ¢
      */
     @Deprecated
     public static void logOperateToTb(Map<String, String> mp) {
@@ -782,19 +782,19 @@ public class LogOperateUtil {
         sb.append(",'").append(SYSTEM_NAME).append("','").append(refer.length()>255?refer.substring(0, 255):refer).append("')");
         ArrayList data = new ArrayList();
         data.add(mp.get("sParams").toString());
-        // ï¿½ï¿½ï¿½ï¿½
+        // ±£´æ
         save(sb.toString(), data);
     }
    
     /**
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ë¡¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
+     * Ëø¶¨¡¢½âËø¡¢ÐÞ¸ÄÃÜÂë¡¢¶ÔÏóÐÂÔöÐÞ¸ÄÉ¾³ý£¬¼ÇÂ¼ÈÕÖ¾
      * @author tanjianwen 2012-5-22
-     * @param mp ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢
+     * @param mp ÈÕÖ¾ÐÅÏ¢
      */
     public static void logOperationToDb(Map mp) {
         String OPT_LOG_DB = 
-        	ConfigInit.Config.getProperty("OPT_LOG_DB", "off").trim();// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
+        	ConfigInit.Config.getProperty("OPT_LOG_DB", "off").trim();// ÊÇ·ñÈë¿â
+        // Èç¹ûÅäÖÃ²»±£´æ²Ù×÷ÈÕÖ¾
         if (!("on".equals(OPT_LOG_DB)) && !("1".equals(OPT_LOG_DB))) {
             return;
         }
@@ -845,25 +845,25 @@ public class LogOperateUtil {
             		> 4000) {
                 data.add(StringUtil.getSubString(
                 		mp.get("sOptJson").toString(), 0, 3980) 
-                		+ "...ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½!");
+                		+ "...Êý¾Ý¹ý³¤£¬±»½Ø¶Ï!");
             } else {
                 data.add(mp.get("sOptJson").toString());
             }
         } else {
             data.add("");
         }
-        // ï¿½ï¿½ï¿½ï¿½
+        // ±£´æ
         save(sb.toString(), data);
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Â½ï¿½ï¿½Ö¾ï¿½ï¿½Òªï¿½Ãµï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½modify by ldc 2011-11-3
-     * @param errCode ï¿½ï¿½Â¼×´Ì¬
-     * @param userName ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     * @param sBrowserType ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     * @param sessionID ï¿½ï¿½Â¼SessionId
-     * @param sLoginIP ï¿½ï¿½Â¼IP
-     * @return  0: ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½
+     * ÒÔÏÂÎªµÇÂ½ÈÕÖ¾ÐèÒªÓÃµ½µÄ·½·¨£¬modify by ldc 2011-11-3
+     * @param errCode µÇÂ¼×´Ì¬
+     * @param userName µÇÂ¼ÈËÃû³Æ
+     * @param sBrowserType ä¯ÀÀÆ÷ÀàÐÍ
+     * @param sessionID µÇÂ¼SessionId
+     * @param sLoginIP µÇÂ¼IP
+     * @return  0: ´ú±íÊ§°Ü 1£º´ú±í³É¹¦
      */
     public static int setLogin(String errCode, String userName,
     		String sBrowserType, String sessionID, String sLoginIP) {
@@ -871,12 +871,12 @@ public class LogOperateUtil {
          	StringUtil.checkStr(sBrowserType) ? sBrowserType : "";
         Dialect dialect = DialectFactory.getDialect();
         Date loginDate = new Date();
-        //weblogicï¿½ï¿½sessionIDÎª54Î»
+        //weblogicµÄsessionIDÎª54Î»
         sessionID = sessionID.length() > 32? sessionID.substring(0,32):sessionID;
-        //Ð´Ò»ï¿½ï¿½ï¿½ÂµÄµï¿½Â¼ï¿½ï¿½Ï¢
+        //Ð´Ò»ÌõÐÂµÄµÇÂ¼ÐÅÏ¢
         if ("1".equals(ConfigInit.Config.getProperty("logonLog"))) {
         	String sMd5 = getUUID(); //MD5Tool.getMD5String();
-        	//ï¿½ï¿½ï¿½ï¿½Çµï¿½Â¼ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ÒªÐ´ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½
+        	//Èç¹ûÊÇµÇÂ¼ÐÅÏ¢£¬ÐèÒªÐ´ÈÕÖ¾ÎÄ¼þ
         	if("1".equals(errCode)){
         		Map<String, String> loginInfo = new HashMap<String, String>();
         		loginInfo.put("userName", userName);
@@ -890,10 +890,10 @@ public class LogOperateUtil {
                 	loginInfo.put("sMd5", sMd5);
                 	logLoginToDb(loginInfo);
                 }
-                //1ï¿½ï¿½ï¿½ï¿½É¹ï¿½
+                //1´ú±í³É¹¦
                 return 1;
         	}
-        	//ï¿½ï¿½Â¼Ê§ï¿½Üµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÖ±ï¿½ï¿½ï¿½ï¿½ï¿½
+        	//µÇÂ¼Ê§°ÜµÄÊý¾ÝÐèÒªÖ±½ÓÈë¿â
             String sql = "insert into tbLoginLog(sessionID,sLoginName" +
             		",iState,dLoginTime,sBrowserType,sLoginIP,sMd5,sSystemName) " +
             		" values('" + sessionID + "','" + userName +
@@ -906,7 +906,7 @@ public class LogOperateUtil {
     }
     
     /**
-     * ï¿½ï¿½Â¼ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½â·½ï¿½ï¿½ï¿½ï¿½mapï¿½ï¿½keyï¿½ï¿½ï¿½ï¿½
+     * µÇÂ¼³É¹¦µÄÈë¿â·½·¨£¬mapµÄkeyÈçÏÂ
      *  userName
      *  sBrowserType
      *  sessionID
@@ -915,8 +915,8 @@ public class LogOperateUtil {
     public static void logLoginToDb(Map<String, String> params){
     	Dialect dialect = DialectFactory.getDialect();
     	Date loginDate = new Date();
-    	//ï¿½ï¿½Â¼ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Îµï¿½Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½
-    	//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ÎµÄµï¿½Â¼Ê±ï¿½ï¿½ï¿½Â¼Îªï¿½ï¿½Ò»ï¿½Îµï¿½Â¼ï¿½ÄµÇ³ï¿½Ê±ï¿½ï¿½
+    	//µÇÂ¼³É¹¦ºó¼ì²éÉÏ´ÎµÇÂ¼ÊÇ·ñÓÐÍË³ö£¬
+    	//Èç¹ûÃ»ÓÐÍË³öÔòÒª½«±¾´ÎµÄµÇÂ¼Ê±¼ä¼ÇÂ¼ÎªÉÏÒ»´ÎµÇÂ¼µÄµÇ³öÊ±¼ä
 		StringBuffer sbSQL = new StringBuffer();
 		sbSQL.append("select ");
 		sbSQL.append(dialect.datetimeTostring("dLoginTime", null));
@@ -945,7 +945,7 @@ public class LogOperateUtil {
 			save(sbUpdateSQL.toString(), null);
 			//DatabaseUtil.updateDateBase(sbUpdateSQL.toString());
 		}
-	  //ï¿½ï¿½Â¼ï¿½ï¿½Â¼ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
+	  //¼ÇÂ¼µÇÂ¼³É¹¦µÄÊý¾Ý	
       String sql = "insert into tbLoginLog(sessionID,sLoginName" +
       		",iState,dLoginTime,sBrowserType,sLoginIP,sMd5,sSystemName) " +
       		" values('" + params.get("sessionID") + "','" + params.get("userName") +
@@ -955,8 +955,8 @@ public class LogOperateUtil {
       //DatabaseUtil.updateDateBase(sql);
     }
     
-    /**ï¿½ï¿½Â¼ï¿½ï¿½Â¼ï¿½ï¿½Ï¢
-     * @param params keyÖµï¿½ï¿½ï¿½ï¿½
+    /**¼ÇÂ¼µÇÂ¼ÐÅÏ¢
+     * @param params keyÖµÈçÏÂ
      * userName
      * sessionID
      */
@@ -994,18 +994,18 @@ public class LogOperateUtil {
     }
 
     /**
-     *ï¿½ï¿½Â¼ï¿½Ç³ï¿½ï¿½ï¿½Ö¾
-     * @param usr ï¿½ï¿½Â¼ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+     *¼ÇÂ¼µÇ³öÈÕÖ¾
+     * @param usr µÇÂ¼ÈËµÄÃû³Æ
      * @param sessionID sessionIDÖµ
-     * @return 0,ï¿½Þ¸Ä³ï¿½ï¿½ï¿½1ï¿½Þ¸Ä³É¹ï¿½ï¿½ï¿½2ï¿½Þµï¿½Ç°sessionID,ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Â¼
+     * @return 0,ÐÞ¸Ä³ö´í£¬1ÐÞ¸Ä³É¹¦£¬2ÎÞµ±Ç°sessionID,²»ÓÃ¸üÐÂÍË³ö¼ÇÂ¼
      */
     public static int setLogout(String usr, String sessionID) {
     	if(!StringUtil.checkStr(usr)){ return 1;}
-    	//weblogicï¿½ï¿½sessionIDÎª54Î»
+    	//weblogicµÄsessionIDÎª54Î»
 		sessionID = sessionID.length() > 32? sessionID.substring(0,32):sessionID;
     	
         Dialect dialect = DialectFactory.getDialect();
-        //ï¿½Ë³ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½
+        //ÍË³öµÇÂ¼£¬¸ü¸ÄÏà¹Ø×Ö¶ÎÄÚÈÝ
         if ("1".equals(ConfigInit.Config.getProperty("logonLog"))) {
         	String sMd5 = getUUID(); //MD5Tool.getMD5String();
         	Map params = new HashMap<String, String>();
@@ -1022,34 +1022,34 @@ public class LogOperateUtil {
     
     
     
-    /**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Ä¼ï¿½  qiaoqide 2013-04-15
-     * @param mp ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½Ï¢
+    /**µ¼Èë¿â±íÊä³ö´íÎóÐÅÏ¢µ½ÈÕÖ¾ÎÄ¼þ  qiaoqide 2013-04-15
+     * @param mp Òì³£ÈÕÖ¾ÐÅÏ¢
      */
     public static void logPDMOperate(Map<String, String> mp) {
-        log.error("[ï¿½ì³£]ï¿½ì³£ï¿½ï¿½ï¿½é£º" + mp.get("sParams"));
+        log.error("[Òì³£]Òì³£ÏêÇé£º" + mp.get("sParams"));
     }  
 
-    /**ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
-     * @param iTemplateId Ä£ï¿½ï¿½ID
-     * @param dBeginTime ï¿½ï¿½ï¿½ë¿ªÊ¼Ê±ï¿½ï¿½
-     * @param iCostTime ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
-     * @param iStaffId ï¿½ï¿½Ô±ID
-     * @param sStaffName ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
-     * @param sStaffAccount ï¿½ï¿½Ô±ï¿½ï¿½Â¼ï¿½ï¿½
-     * @param iDeptId ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
-     * @param sDeptName ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     * @param sContent ï¿½ï¿½×¢
-     * @param updateCount ï¿½ï¿½ï¿½Â¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
-     * @param insertCount ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
-     * @param allCount Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     * @return ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
+    /**Êý¾Ýµ¼ÈëÈÕÖ¾
+     * @param iTemplateId Ä£°åID
+     * @param dBeginTime µ¼Èë¿ªÊ¼Ê±¼ä
+     * @param iCostTime µ¼ÈëÊ±³¤
+     * @param iStaffId ÈËÔ±ID
+     * @param sStaffName ÈËÔ±ÐÕÃû
+     * @param sStaffAccount ÈËÔ±µÇÂ¼Ìù
+     * @param iDeptId ÈËÔ±²¿ÃÅ
+     * @param sDeptName ÈËÔ±²¿ÃÅÃû³Æ
+     * @param sContent ±¸×¢
+     * @param updateCount ¸üÐÂ¼ÇÂ¼×ÜÊý
+     * @param insertCount ²åÈë¼ÇÂ¼×ÜÊý
+     * @param allCount Ó°ÏìÊý¾ÝÌõÊý
+     * @return ·µ»Ø½á¹û
      */
     public static int addTbImportLog(long iTemplateId, Date dBeginTime,
     		long iCostTime, Double  iStaffId, String sStaffName, String sStaffAccount,
     		Double  iDeptId, String sDeptName, String sContent, int updateCount, 
     		int insertCount, int allCount) {
     	
-    	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
+    	// Èç¹ûÅäÖÃ²»±£´æ²Ù×÷ÈÕÖ¾
     	String operateLog = ConfigInit.Config.getProperty("IMPORT_LOG_DB", "0");
     	if (!("on".equals(operateLog) || "1".equals(operateLog))) {
             return 0;
@@ -1059,7 +1059,7 @@ public class LogOperateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String beginDate = dialect.stringToDatetime(sdf.format(dBeginTime));
         String endDate = dialect.stringToDatetime(sdf.format(new Date()));
-        //Ð´Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾
+        //Ð´Ò»ÌõÐÂÈÕÖ¾
         String sql = "insert into tbImportLog(iLogId,iTemplateId," +
         		"dBeginTime,dEndTime,iCostTime," +
         		"iStaffId,sStaffName,sStaffAccount," +
@@ -1075,48 +1075,48 @@ public class LogOperateUtil {
         //return DatabaseUtil.updateDateBase(sql);
     }
     
-    /**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     * @param sql SQLï¿½ï¿½ï¿½
-     * @param data ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+    /**±£´æÊý¾Ý
+     * @param sql SQLÓï¾ä
+     * @param data Êý¾ÝÁÐ±í
      */
     private static void save(String sql, ArrayList data) {
     	if(data == null){data = new ArrayList();}
         try {
             try {
                 DatabaseUtil.updateDateBase(sql, data, safeMgrDataSource);
-            } catch (Exception e) {// ï¿½æ±¸ï¿½Ã¿ï¿½
+            } catch (Exception e) {// ´æ±¸ÓÃ¿â
                 String domain = ConfigInit.Config.getProperty("BACKUP_DATASRC");
                 DatabaseUtil.updateDateBase(sql, data, domain);
             }
         } catch (Exception e) {
-            // ï¿½ï¿½ï¿½ï¿½ï¿½ï²»ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£,ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½Ö¾ï¿½ï¿½Ñ­ï¿½ï¿½
+            // ÔÚÕâÀï²»ÔÙÅ×³öÒì³£,ÒòÎªÕâ¸ö²Ù×÷±¾Éí¾ÍÊÇ±£´æ¸÷ÖÖÈÕÖ¾£¬±ÜÃâÒì³£ÈÕÖ¾ËÀÑ­»·
             e.printStackTrace();
         }
     }
 
-    /**ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
-     * @return ï¿½ï¿½ï¿½ï¿½Öµ
+    /**»ñÈ¡Ö÷¼ü
+     * @return Ö÷¼üÖµ
      */
     private static String getKeyId() {// Dialect dialect,String iId
         String primarykeys = null;
         try {
             try {
-                primarykeys = DatabaseUtil.getKeyId(safeMgrDataSource, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾È¡ï¿½ï¿½ï¿½ï¿½", "");
-            } catch (Exception e) {// ï¿½Ó±ï¿½ï¿½Ã¿ï¿½È¡
+                primarykeys = DatabaseUtil.getKeyId(safeMgrDataSource, "±£´æÈÕÖ¾È¡Ö÷¼ü", "");
+            } catch (Exception e) {// ´Ó±¸ÓÃ¿âÈ¡
                 String domain = ConfigInit.Config.getProperty("BACKUP_DATASRC");
-                primarykeys = DatabaseUtil.getKeyId(domain, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾È¡ï¿½ï¿½ï¿½ï¿½", "");
+                primarykeys = DatabaseUtil.getKeyId(domain, "±£´æÈÕÖ¾È¡Ö÷¼ü", "");
             }
         } catch (Exception e) {
-            // ï¿½ï¿½ï¿½ï¿½ï¿½ï²»ï¿½ï¿½ï¿½×³ï¿½ï¿½ì³£,ï¿½ï¿½Îªï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
+            // ÔÚÕâÀï²»ÔÙÅ×³öÒì³£,ÒòÎªÕâÐ©²Ù×÷±¾Éí¾ÍÊÇ±£´æÈÕÖ¾£¬±ÜÃâËÀÑ­»·
         }
         return primarykeys;
     }
     
-    /**ï¿½ï¿½ï¿½É²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½jsonï¿½ï¿½Ê½ï¿½Ö·ï¿½ï¿½ï¿½
+    /**Éú³É²Ù×÷Êý¾ÝµÄjson¸ñÊ½×Ö·û´®
      * @author tanjianwen
-     * @param keys jsonï¿½ï¿½keyï¿½ï¿½ï¿½ï¿½
-     * @param values jsonï¿½ï¿½keyï¿½ï¿½Ó¦Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-     * @return ï¿½ï¿½ï¿½ï¿½Æ´ï¿½Õ³ï¿½ï¿½ï¿½ï¿½ï¿½jsonï¿½Ö·ï¿½ï¿½ï¿½
+     * @param keys jsonµÄkeyÊý×é
+     * @param values jsonµÄkey¶ÔÓ¦ÖµµÄÊý×é
+     * @return ×îÂçÆ´´Õ³öÀ´µÄjson×Ö·û´®
      */
     @Deprecated
     public static String buildOptJson(String[] keys, String[] values) {
@@ -1138,9 +1138,9 @@ public class LogOperateUtil {
         return "{" + json.toString() + "}";
     }
 	
-	/**ï¿½ï¿½sessionï¿½Ð»ï¿½È¡ï¿½ï¿½Â¼ï¿½ï¿½Ô±ï¿½ï¿½Ï¢
-	 * @param session sessionï¿½ï¿½ï¿½ï¿½
-	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
+	/**´ÓsessionÖÐ»ñÈ¡µÇÂ¼ÈËÔ±ÐÅÏ¢
+	 * @param session session¶ÔÏó
+	 * @return ·µ»ØÈËÔ±ÐÅÏ¢¼¯ºÏ
 	 */
 	private static Map<String, String> getUserMsg(HttpSession session) {
 		Map<String, String> mp = new HashMap<String, String>();
@@ -1154,34 +1154,34 @@ public class LogOperateUtil {
 			mp.put("iStaffId", staff.getIStaffId());
 			mp.put("sStaffAccount", staff.getSStaffAccount());
 			mp.put("sStaffName", staff.getSStaffName());
-			// ï¿½ï¿½É«ï¿½ï¿½Ï¢(Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½È¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½É«)
+			// ½ÇÉ«ÐÅÏ¢(Ò»¸öÈËÓÐ¶à¸ö½ÇÉ«£¬È¡µÚÒ»¸ö½ÇÉ«)
 			List list = staff.getRoleList();
 			if (list != null && list.size() > 0) {
 				Map<String, String> role = (Map<String, String>) list.get(0);
 				mp.put("iRoleId", role.get("iRoleId") == null ? "-1" : role
 						.get("iRoleId"));
-				mp.put("sRoleName", role.get("sRoleName") == null ? "ï¿½Þ½ï¿½É«"
+				mp.put("sRoleName", role.get("sRoleName") == null ? "ÎÞ½ÇÉ«"
 						: role.get("sRoleName"));
 			} else {
 				mp.put("iRoleId", "-1");
-				mp.put("sRoleName", "ï¿½Þ½ï¿½É«");
+				mp.put("sRoleName", "ÎÞ½ÇÉ«");
 			}
 		} else {
 			mp.put("iDomainId", "-1");
-			mp.put("sDomainName", "Î´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+			mp.put("sDomainName", "Î´µÇÂ¼£¬ÎÞÇøÓò");
 			mp.put("iDeptId", "-1");
-			mp.put("sDeptName", "Î´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Þ²ï¿½ï¿½ï¿½");
+			mp.put("sDeptName", "Î´µÇÂ¼£¬ÎÞ²¿ÃÅ");
 			mp.put("iStaffId", "-1");
-			mp.put("sStaffAccount", "Î´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½");
-			mp.put("sStaffName", "Î´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+			mp.put("sStaffAccount", "Î´µÇÂ¼£¬ÎÞÕËºÅ");
+			mp.put("sStaffName", "Î´µÇÂ¼£¬ÎÞÐÕÃû");
 			mp.put("iRoleId", "-1");
-			mp.put("sRoleName", "Î´ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Þ½ï¿½É«");
+			mp.put("sRoleName", "Î´µÇÂ¼£¬ÎÞ½ÇÉ«");
 		}
 		return mp;
 	}
 	
-	/**ï¿½ï¿½È¡Actionï¿½ï¿½È¨ï¿½Þ±ï¿½Ä¹ï¿½Ïµï¿½ï¿½ï¿½ï¿½
-	 * @return Actionï¿½ï¿½È¨ï¿½Þ±ï¿½Ä¹ï¿½Ïµï¿½ï¿½ï¿½ï¿½
+	/**»ñÈ¡ActionÓëÈ¨ÏÞ±íµÄ¹ØÏµÊý¾Ý
+	 * @return ActionÓëÈ¨ÏÞ±íµÄ¹ØÏµÊý¾Ý
 	 */
 	public static HashMap<String, Long> initActionRel() {
 		HashMap<String, Long> resultActionRel = new HashMap<String, Long>();
@@ -1189,13 +1189,13 @@ public class LogOperateUtil {
 		if (!("1".equals(operateLog) || "on".equals(operateLog))){
 			return resultActionRel;
 		}
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½È¨ï¿½Þ±ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦Ó³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//Èç¹û²Ù×÷ÈÕÖ¾²»ÔÚÇ°¶ËÓëÈ¨ÏÞ±í½øÐÐ¹ØÁª£¬Ôò²»ÐèÒª¼ÓÔØÏàÓ¦Ó³ÉäÊý¾Ý
 		String actionRelatedToRight = ConfigInit.Config	.getProperty("ActionRelatedToRight", "0");
 		if (!("1".equals(actionRelatedToRight) || "on".equals(actionRelatedToRight))){
 			return resultActionRel;
 		}
 		
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½ï¿½Ïµï¿½ï¿½Ó½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Â¾ï¿½Í¨ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½config.propertiesï¿½ï¿½ï¿½Ãµï¿½Log_OperateMappingï¿½ï¿½ï¿½ï¿½)
+		//½«ËùÓÐÓ³Éä¹ØÏµÌí¼Ó½øÀ´(°üÀ¨ÐÂ¾ÉÍ¨ÓÃ±íµ¥£¬¾ßÌå¼ûconfig.propertiesÅäÖÃµÄLog_OperateMappingÊôÐÔ)
 		/*Map<Long, LogOperateMapping> allMapping = LogOperateMapping.getInstanceList();
 		Collection<LogOperateMapping> mappings = allMapping.values();
 		for(LogOperateMapping mapping : mappings){
@@ -1207,7 +1207,7 @@ public class LogOperateUtil {
 					String actionMethod = entry.getKey();
 					Long newRelType = entry.getValue();
 					Long oldRelType = resultActionRel.get(actionMethod);
-					//ï¿½ï¿½ï¿½methodï¿½ï¿½ï¿½ï¿½ï¿½ï¿½relTypeï¿½ï¿½ï¿½ï¿½Öµï¿½ó£¬¸ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½
+					//Èç¹ûmethod´æÔÚÇÒrelTypeµÄÊýÖµ´ó£¬¸ù¾Ý¶¨µÄÓÅÏÈ¼¶¾ÍÐèÒª¸²¸Ç
 					if(oldRelType == null || oldRelType < newRelType){
 						resultActionRel.put(actionMethod, newRelType);
 					}
@@ -1217,7 +1217,7 @@ public class LogOperateUtil {
 		return resultActionRel;
 	}
 	
-	/**ï¿½ï¿½È¨ï¿½Þ±ï¿½Ä»ï¿½È¡ï¿½ï¿½ï¿½Ð²Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+	/**´ÓÈ¨ÏÞ±íµÄ»ñÈ¡ËùÓÐ²Ëµ¥Êý¾Ý
 	 * @return 
 	 */
 	public static List< Map<String, String>> getRightMenuList() {
@@ -1227,7 +1227,7 @@ public class LogOperateUtil {
 			return null;
 		}
 		
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊµÊ±ï¿½ï¿½â£¬Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+		//Èç¹û²»ÊÇÊµÊ±Èë¿â£¬Ò²²»ÓÃÔÚÏîÄ¿¿ªÆôÊ±»º´æ²Ëµ¥Êý¾Ý
 		if(!LogOperateUtil.isLogRuntime()){
 			return null;
 		}
@@ -1235,7 +1235,7 @@ public class LogOperateUtil {
 		String sql = "select iRight as \"iRight\",sURL as \"sURL\"  from tbOsRight where iType=1 and sURL is not null";
 		 List<Map<String, String>> rightMenuList = DatabaseUtil.queryForList(sql);
 		 List<Map<String, String>> menu = new ArrayList<Map<String,String>>();
-		 //È¥ï¿½ï¿½urlÎªï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Â¼
+		 //È¥µôurlÎª¿Õ×Ö·û´®µÄ¼ÇÂ¼
 		 for(Map menuMap : rightMenuList){
 			 if(StringUtil.checkStr(StringUtil.toString(menuMap.get("sURL")))){
 				 menu.add(menuMap);
@@ -1247,11 +1247,11 @@ public class LogOperateUtil {
 	
 	
 	/**
-	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Mapï¿½ï¿½ï¿½ï¿½
-	 * @param paramStr a=1ï¿½Ö¸ï¿½ï¿½ï¿½b=2
-	 * @param paramSplitRegex ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½
-	 * @param paramValueSplitRegex ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½Ä·Ö¸ï¿½ï¿½ï¿½
-	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Mapï¿½ï¿½ï¿½ï¿½
+	 * ½«²ÎÊýÀàÐÍµÄ·û´®½âÎö³ÉMap¼¯ºÏ
+	 * @param paramStr a=1·Ö¸ô·ûb=2
+	 * @param paramSplitRegex ²ÎÊý·Ö¸ô·û
+	 * @param paramValueSplitRegex ²ÎÊýÓëÖµµÄ·Ö¸ô·û
+	 * @return ½âÎöºó·â×°µÄMap¼¯ºÏ
 	 */
 	public static  Map<String, String> getParamMap(String paramStr
 			, String paramSplitRegex, String paramValueSplitRegex){
@@ -1270,26 +1270,26 @@ public class LogOperateUtil {
 		return paramMap;
 	}
 	
-	/**ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªinfo
-	 * @param msg ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
+	/**ÈÕÖ¾Êä³ö£¬¼¶±ðÎªinfo
+	 * @param msg ÈÕÖ¾ÄÚÈÝ
 	 */
 	public static void log(String msg){
 		log(log, msg);
 	}
 	
-	/**ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªinfo
-	 * @param log ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
-	 * @param msg ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
+	/**ÈÕÖ¾Êä³ö£¬¼¶±ðÎªinfo
+	 * @param log ÈÕÖ¾¶ÔÏó
+	 * @param msg ÈÕÖ¾ÄÚÈÝ
 	 */
 	public static void log(Logger log1, String msg){
 		log1 = (log1==null)? log : log1;
 		log(log1, msg, "info");
 	}
 	
-	/**ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	 * @param log ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
-	 * @param msg ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
-	 * @param level ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
+	/**ÈÕÖ¾Êä³ö£¬¿ÉÒÔÉèÖÃÈÕÖ¾Êä³ö¼¶±ð
+	 * @param log ÈÕÖ¾¶ÔÏó
+	 * @param msg ÈÕÖ¾ÄÚÈÝ
+	 * @param level ÈÕÖ¾¼¶±ð
 	 */
 	public static void log(Logger log, String msg, String level){
 		if("info".equals(level)){
@@ -1305,11 +1305,11 @@ public class LogOperateUtil {
 		}
 	}
 	
-	/**Í¨ï¿½ï¿½ï¿½ï¿½Ê¼Ê±ï¿½ï¿½Í½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½È¡ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Ä£ï¿½ï¿½ï¿½Ðµï¿½Í³ï¿½Æ½ï¿½ï¿½ï¿½
-	 * @param beginDate ï¿½ï¿½Ê¼Ê±ï¿½ï¿½
-	 * @param endDate ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
-	 * @param type 1ï¿½ï¿½Ð¡Ê±;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/**Í¨¹ý¿ªÊ¼Ê±¼äºÍ½áÊøÊ±¼ä»ñÈ¡ÖÐ¼äËù¸ôÐ¡Ê±»òÌìÊý
+	 * ÓÃÓÚÈÕÖ¾Ä£¿éÖÐµÄÍ³¼Æ½çÃæ
+	 * @param beginDate ¿ªÊ¼Ê±¼ä
+	 * @param endDate ½áÊøÊ±¼ä
+	 * @param type 1£ºÐ¡Ê±;ÆäËü£ºÌì
 	 * @return
 	 */
 	public static Map getDataMap(String beginDate, String endDate, Integer type) {
@@ -1327,10 +1327,10 @@ public class LogOperateUtil {
 				 newDate=StringUtil.getNextTime(newDate,60);
 				 beginLong=Long.valueOf(newDate.replaceAll("[-\\s:]",""));
 			 }
-		}else{//ï¿½ï¿½
+		}else{//Ìì
 			//map.put((beginDate.split(" ")[0]), (beginDate.split(" ")[0]));
 			Long beginLong=Long.valueOf(beginDate.replaceAll("[-\\s:]",""));
-			//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£¬ï¿½ï¿½È»ï¿½ï¿½Ê¼Ê±ï¿½ï¿½ï¿½ï¿½ï¿½24Ð¡Ê±ï¿½Í»ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½Ê±ï¿½ä£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			//ÐèÒªÀ©´ó½áÊøÊ±¼ä£¬²»È»¿ªÊ¼Ê±¼ä¼ÓÉÏ24Ð¡Ê±¾Í»á´óÓÚ½áÊøÊ±¼ä£¬ÕâÑùµ±Ìì¾Í²»»áÓÐÍ³¼ÆÊý¾Ý
 			Long endLong=Long.valueOf(((endDate.substring(0,11))+"23:59:59").replaceAll("[-\\s:]",""));
 			String newDate=beginDate;//StringUtil.getNextTime(beginDate,1440);
 			 while(beginLong < endLong){
@@ -1342,7 +1342,7 @@ public class LogOperateUtil {
 		return map;
 	}
 	
-	/**ï¿½Ç·ï¿½ï¿½ï¿½ÒªÊµÊ±Ð´ï¿½ï¿½ï¿½Ý¿ï¿½
+	/**ÊÇ·ñÐèÒªÊµÊ±Ð´Êý¾Ý¿â
 	 * @return
 	 */
 	public static boolean isLogRuntime(){
@@ -1354,7 +1354,7 @@ public class LogOperateUtil {
 	}
 	
 	
-	/**ï¿½ï¿½È¡mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½Ä³ï¿½ï¿½ï¿½
+	/**½ØÈ¡map¼¯ºÏÖÐÖµµÄ³¤¶È
 	 * @param reqeustParamMap
 	 * @param paramMaxLength
 	 */
@@ -1364,17 +1364,17 @@ public class LogOperateUtil {
 			Iterator<Entry<String, String>> iterator = entrySet.iterator();
 			while(iterator.hasNext()){
 				 Entry<String, String> next = iterator.next();
-				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½500ï¿½ï¿½ï¿½Ö½Ú¾Í½ï¿½È¡ï¿½ï¿½
+				//²ÎÊý³¬¹ý500¸ö×Ö½Ú¾Í½ØÈ¡µô
 				 if((next.getValue().length() + StringUtil.getChineseCount(next.getValue())) > paramMaxLength ){
-					 reqeustParamMap.put(next.getKey() , StringUtil.getSubString(next.getValue(), 0, paramMaxLength)+"...ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½!");
+					 reqeustParamMap.put(next.getKey() , StringUtil.getSubString(next.getValue(), 0, paramMaxLength)+"...Êý¾Ý¹ý³¤£¬±»½Ø¶Ï!");
 				 }
 			}
 		}
 	}
 	
 	/**
-	 * È¡UUIDï¿½ï¿½ï¿½ï¿½
-	 * @return UUIDï¿½ï¿½ï¿½ï¿½
+	 * È¡UUIDÖ÷¼ü
+	 * @return UUIDÖ÷¼ü
 	 */
 	public static String getUUID(){
 		String uuId=java.util.UUID.randomUUID().toString().replaceAll("-", "");

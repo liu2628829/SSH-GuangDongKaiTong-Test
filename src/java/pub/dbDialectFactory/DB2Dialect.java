@@ -1,23 +1,19 @@
 package pub.dbDialectFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import util.StringUtil;
+
+import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
-import util.StringUtil;
-
 /**
- * DB2 ·½ÑÔ
+ * DB2 æ–¹è¨€
  * 
  * @author gaotao 2011-08-09
  */
 class DB2Dialect implements Dialect {
 	/**
-	 * ´æ´¢¹ı³Ì·­Ò³·½·¨
+	 * å­˜å‚¨è¿‡ç¨‹ç¿»é¡µæ–¹æ³•
 	 */
 	public Object[] getDataByCallableStatement(Connection conn, String sql,
 			int page, int limit) throws SQLException {
@@ -29,7 +25,7 @@ class DB2Dialect implements Dialect {
 			rows = rs.getInt(1);
 		}
 		
-		DialectTool.free(null, sta, rs); //ÏÈ¹Ø±ÕÒÑ¾­ÎŞÓÃµÄ¶ÔÏó
+		DialectTool.free(null, sta, rs); //å…ˆå…³é—­å·²ç»æ— ç”¨çš„å¯¹è±¡
 		
 		String v_sql = "select tem.*,"
 				+ rows
@@ -44,12 +40,12 @@ class DB2Dialect implements Dialect {
 	}
 
 	/**
-	 * preparestatement ·ÖÒ³²éÑ¯
+	 * preparestatement åˆ†é¡µæŸ¥è¯¢
 	 */
 	public Object[] getDataByPageEoms(Connection conn, String sql, int page,
 			int limit, List list) throws SQLException {
 		
-		/**µÃ×Ü¼ÇÂ¼Êı*/
+		/**å¾—æ€»è®°å½•æ•°*/
 		String tempSql = DialectTool.getCountSql(sql);
 		PreparedStatement sta = conn.prepareStatement(tempSql);
 		int size = 0;
@@ -64,12 +60,12 @@ class DB2Dialect implements Dialect {
 		if (rs != null && rs.next()) {
 			rows = rs.getString(1);
 		}
-		DialectTool.free(null, sta, rs); //ÏÈ¹Ø±ÕÒÑ¾­ÎŞÓÃµÄ¶ÔÏó
-		if("0".equals(rows)){ //Ã»ÓĞ¼ÇÂ¼Êı£¬²»±Ø¼ÌĞø²éÑ¯Êı¾İ½á¹û¼¯
+		DialectTool.free(null, sta, rs); //å…ˆå…³é—­å·²ç»æ— ç”¨çš„å¯¹è±¡
+		if("0".equals(rows)){ //æ²¡æœ‰è®°å½•æ•°ï¼Œä¸å¿…ç»§ç»­æŸ¥è¯¢æ•°æ®ç»“æœé›†
 			return null;
 		}
 		
-		/**µÃÊı¾İ½á¹û¼¯*/
+		/**å¾—æ•°æ®ç»“æœé›†*/
 		tempSql = getPageSql(rows, sql, page, limit);
 		sta =conn.prepareStatement(tempSql.toString());
 		if(list!=null){
@@ -82,7 +78,7 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * Éú³É·ÖÒ³SQL
+	 * ç”Ÿæˆåˆ†é¡µSQL
 	 * */
 	private String getPageSql(String rows, String sql, int page, int limit){
 		
@@ -92,22 +88,22 @@ class DB2Dialect implements Dialect {
 		v_sql.append(rows);
 		v_sql.append(" as \"totalCount\", tm2.* from (select rownum as rn, tm1.* from (");
 		v_sql.append(sql);
-		v_sql.append(" ) tm1 where rownum <="); //°ÑĞĞºÅ¹ıÂË·ÅÔÚÄÚ²ã×Ó²éÑ¯£¬ÄÜ½øÒ»²½¼õÉÙ×Ó²éÑ¯¼ìË÷µÄÊı¾İÁ¿
+		v_sql.append(" ) tm1 where rownum <="); //æŠŠè¡Œå·è¿‡æ»¤æ”¾åœ¨å†…å±‚å­æŸ¥è¯¢ï¼Œèƒ½è¿›ä¸€æ­¥å‡å°‘å­æŸ¥è¯¢æ£€ç´¢çš„æ•°æ®é‡
 		v_sql.append(page*limit);
 		v_sql.append(") tm2 ");
-		v_sql.append(" where rn >= "); //Õâ¸öÌõ¼ş²»ÄÜ·Åµ½ÄÚ²ã£¬²»È»²é²»³öÊı¾İ
+		v_sql.append(" where rn >= "); //è¿™ä¸ªæ¡ä»¶ä¸èƒ½æ”¾åˆ°å†…å±‚ï¼Œä¸ç„¶æŸ¥ä¸å‡ºæ•°æ®
 		v_sql.append((page-1)*limit+1);
 		
 		return v_sql.toString();
 	}
 
 	/**
-	 * È¡Ö÷¼ü
-	 * ²»Í¬Êı¾İ¿â£¬È¡Ö÷¼ü·½·¨²»Ò»ÖÂ£¬sybase,mysqlµÄĞèÓÃ´æ´¢¹ı³Ì£¬oracle,DB2ÓÃĞòÁĞ
-	 * Í¬·ÖÒ³·½·¨Ò»Ñù£¬Statment¶ÔÏó±ØĞëÔÚ±Ø·½ÑÔÊµÏÖÀàÄÚÊµÀı»¯
-	 * Í¬·ÖÒ³·½·¨Ò»Ñù£¬ÎªÁË±£Ö¤ÄÜ¹»ÔÙDataBaseUtilÍ³Ò»¹Ø±ÕÊı¾İ¿â²Ù×÷¶ÔÏó£¬¹ÊÒ²·µ»ØÒ»¸ö¶ÔÏóÊı×é
-	 * Êı×éÓĞ2¸öÔªËØ£¬µÚÒ»¸öÔªËØÊÇStatement£¬µÚ¶ş¸öResultset
-	 * cachePrimaryKeys:»º´æÖ÷¼üµÄ¸öÊı£¬´Ë²ÎÊıÕë¶Ô½ömysql,sybaseÓĞĞ§
+	 * å–ä¸»é”®
+	 * ä¸åŒæ•°æ®åº“ï¼Œå–ä¸»é”®æ–¹æ³•ä¸ä¸€è‡´ï¼Œsybase,mysqlçš„éœ€ç”¨å­˜å‚¨è¿‡ç¨‹ï¼Œoracle,DB2ç”¨åºåˆ—
+	 * åŒåˆ†é¡µæ–¹æ³•ä¸€æ ·ï¼ŒStatmentå¯¹è±¡å¿…é¡»åœ¨å¿…æ–¹è¨€å®ç°ç±»å†…å®ä¾‹åŒ–
+	 * åŒåˆ†é¡µæ–¹æ³•ä¸€æ ·ï¼Œä¸ºäº†ä¿è¯èƒ½å¤Ÿå†DataBaseUtilç»Ÿä¸€å…³é—­æ•°æ®åº“æ“ä½œå¯¹è±¡ï¼Œæ•…ä¹Ÿè¿”å›ä¸€ä¸ªå¯¹è±¡æ•°ç»„
+	 * æ•°ç»„æœ‰2ä¸ªå…ƒç´ ï¼Œç¬¬ä¸€ä¸ªå…ƒç´ æ˜¯Statementï¼Œç¬¬äºŒä¸ªResultset
+	 * cachePrimaryKeys:ç¼“å­˜ä¸»é”®çš„ä¸ªæ•°ï¼Œæ­¤å‚æ•°é’ˆå¯¹ä»…mysql,sybaseæœ‰æ•ˆ
 	 */
 	public synchronized Object[] getKeyId(Connection conn, int cachePrimaryKeys)
 			throws SQLException {
@@ -118,7 +114,7 @@ class DB2Dialect implements Dialect {
 	}
 
 	/**
-	 * ĞŞ¸ÄClob»òtext´óÎÄ±¾×Ö¶Î
+	 * ä¿®æ”¹Clobæˆ–textå¤§æ–‡æœ¬å­—æ®µ
 	 */
 	public Object[] writeClobOrText(Connection conn,String tableName,String where,String cols[],String val[])throws Exception{
 		
@@ -175,16 +171,16 @@ class DB2Dialect implements Dialect {
 		return new String[] { "", "" };
 	}
 
-	// ÔİÊ±Î´ÊµĞĞ
+	// æš‚æ—¶æœªå®è¡Œ
 	public String datetimeTostring(String col, String format) {
 		return "";
 	}
 
 	/**
-	 * ·µ»ØÊı¾İ¿âµÄ×Ö·û´®µÄÆ´½Ó½á¹û sybase »ò oracle 'a'||'b' = 'ab' mysql
-	 * concatº¯Êı£ºconcat('a','b') = 'ab'
+	 * è¿”å›æ•°æ®åº“çš„å­—ç¬¦ä¸²çš„æ‹¼æ¥ç»“æœ sybase æˆ– oracle 'a'||'b' = 'ab' mysql
+	 * concatå‡½æ•°ï¼šconcat('a','b') = 'ab'
 	 * 
-	 * @author Ì·½¡ÎÄ
+	 * @author è°­å¥æ–‡
 	 * @return
 	 */
 	public String getConcatResult(String... strs) {
@@ -199,10 +195,10 @@ class DB2Dialect implements Dialect {
 	}
 
 	/**
-	 * ·µ»ØÊı¾İ¿âµÄ×Ö·û´®µÄÆ´½Ó½á¹û
-	 * @param splitChar Æ´½ÓÊ±£¬ÖĞ¼ä¼Ó×Ô¶¨ÒåµÄ¼ä¸ô·û
-	 * @param strs ¶à¸ö×Ö¶ÎÃû£¬Ïàµ±ÓÚÒ»¸öÊı×é
-	 * @return Æ´½Ó´®µÄ½á¹û
+	 * è¿”å›æ•°æ®åº“çš„å­—ç¬¦ä¸²çš„æ‹¼æ¥ç»“æœ
+	 * @param splitChar æ‹¼æ¥æ—¶ï¼Œä¸­é—´åŠ è‡ªå®šä¹‰çš„é—´éš”ç¬¦
+	 * @param strs å¤šä¸ªå­—æ®µåï¼Œç›¸å½“äºä¸€ä¸ªæ•°ç»„
+	 * @return æ‹¼æ¥ä¸²çš„ç»“æœ
 	 */
 	public String getConcatResult2(String splitChar, String... strs) {
 		String result = "";
@@ -216,10 +212,10 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * Êı¾İ¿âµÄÊı×ÖÀàĞÍ×ª×Ö·û´®ÀàĞÍ
+	 * æ•°æ®åº“çš„æ•°å­—ç±»å‹è½¬å­—ç¬¦ä¸²ç±»å‹
 	 * 
-	 * @param ĞèÒª×ª»»µÄÊı×Ö
-	 * @author Ì·½¡ÎÄ
+	 * @param éœ€è¦è½¬æ¢çš„æ•°å­—
+	 * @author è°­å¥æ–‡
 	 * @return
 	 */
 	public String convertNumberToString(String number) {
@@ -231,8 +227,8 @@ class DB2Dialect implements Dialect {
 	}
 
 	/**
-	 * ÓÅÏÈ´ÓÓ¦ÓÃ»º´æÈ¡Ö÷¼ü£¬oracle,DB2²»»áÔÚÓ¦ÓÃÄÚ»º´æÖ÷¼ü£¬ËùÒÔÒªÓĞËùÇø·Ö,¹Ê¼Ó´Ë·½·¨
-	 * @param domain Êı¾İÔ´ID
+	 * ä¼˜å…ˆä»åº”ç”¨ç¼“å­˜å–ä¸»é”®ï¼Œoracle,DB2ä¸ä¼šåœ¨åº”ç”¨å†…ç¼“å­˜ä¸»é”®ï¼Œæ‰€ä»¥è¦æœ‰æ‰€åŒºåˆ†,æ•…åŠ æ­¤æ–¹æ³•
+	 * @param domain æ•°æ®æºID
 	 * @return
 	 */
 	public String getInitPrimaryKeys(String domain) {
@@ -240,11 +236,11 @@ class DB2Dialect implements Dialect {
 	}
 
 	/**
-	 * Êı¾İ¿âµÄ×Ö·û´®ÀàĞÍ×ª»»ÎªÕûĞÍÀàĞÍ
+	 * æ•°æ®åº“çš„å­—ç¬¦ä¸²ç±»å‹è½¬æ¢ä¸ºæ•´å‹ç±»å‹
 	 * 
-	 * INTº¯Êı·µ»ØÕûĞÍ³£Á¿ÖĞµÄÊı×Ö¡¢×Ö·û´®»òÕßÈÕÆÚ¡¢Ê±¼äµÄÕûÊı±íÊ¾
+	 * INTå‡½æ•°è¿”å›æ•´å‹å¸¸é‡ä¸­çš„æ•°å­—ã€å­—ç¬¦ä¸²æˆ–è€…æ—¥æœŸã€æ—¶é—´çš„æ•´æ•°è¡¨ç¤º
 	 * 
-	 * @param ĞèÒª×ª»»µÄ×Ö¶Î
+	 * @param éœ€è¦è½¬æ¢çš„å­—æ®µ
 	 * @autho Zhanweibin 2011-12-27
 	 * @return
 	 */
@@ -253,19 +249,19 @@ class DB2Dialect implements Dialect {
 	}
 
 	/**
-	 * µÃµ½Êı¾İ¿âµÄÀàĞÍ
+	 * å¾—åˆ°æ•°æ®åº“çš„ç±»å‹
 	 * 
 	 * @author Zhanweibin 2012-03-02
-	 * @return Êı¾İ¿âĞ¡Ğ´Ãû³Æ
+	 * @return æ•°æ®åº“å°å†™åç§°
 	 */
 	public String getDBType() {
 		return "db2";
 	}
 	
 	/**
-	 * »ñÈ¡Êı¾İ¿âÓÃ»§±íĞÅÏ¢
+	 * è·å–æ•°æ®åº“ç”¨æˆ·è¡¨ä¿¡æ¯
 	 * @author tanjianwen
-	 * @return ÓÃ»§±íĞÅÏ¢²éÑ¯Óï¾ä
+	 * @return ç”¨æˆ·è¡¨ä¿¡æ¯æŸ¥è¯¢è¯­å¥
 	 */
 	public String getUserTableInfo(String tableNames,  String ... args) {
 		return "";
@@ -284,9 +280,9 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * Ìí¼ÓÁĞ
-	 * @param tableName ±íÃû
-	 * @param data ÁĞÊı¾İ
+	 * æ·»åŠ åˆ—
+	 * @param tableName è¡¨å
+	 * @param data åˆ—æ•°æ®
 	 * @return
 	 */
 	public String addField(String tableName, List<Map> dataList) {
@@ -294,9 +290,9 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * ĞŞ¸ÄÁĞ
-	 * @param tableName ±íÃ÷
-	 * @param dataList ÁĞÊı¾İ
+	 * ä¿®æ”¹åˆ—
+	 * @param tableName è¡¨æ˜
+	 * @param dataList åˆ—æ•°æ®
 	 * @return
 	 */
 	public String[] editField(String tableName, List<Map> dataList) {
@@ -304,7 +300,7 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * É¾³ıÒªĞŞ¸ÄµÄÁĞ
+	 * åˆ é™¤è¦ä¿®æ”¹çš„åˆ—
 	 * @param tableName
 	 * @param dataList
 	 * @return
@@ -314,7 +310,7 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * É¾³ıÁĞ
+	 * åˆ é™¤åˆ—
 	 * @param tableName
 	 * @param dataList
 	 * @return
@@ -324,14 +320,14 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * ¸´ÖÆ±í½á¹¹,´´½¨ĞÂ±í,¿ÉÍ¬Ê±´øÉÏÊı¾İ
-	 * @param fromTable Ô´±í±íÃû
-	 * @param toTable ĞÂ±í±íÃû
-	 * @param fields ĞèÒª¸´ÖÆµÄ×Ö¶Î£¬¶à¸ö×Ö¶ÎÓÃ¶ººÅ¸ô¿ª£¬Èç¹ûÃ»ÓĞ£¬Ëù¸´ÖÆËùÓĞ×Ö¶Î
-	 * @param where ÓĞ¸øÌõ¼ş£¬Ôò°´Ìõ¼ş¸´ÖÆÊı¾İ£»Ã»¸øÌõ¼ş£¬Ôò½ö¸´ÖÆ±í½á¹¹
+	 * å¤åˆ¶è¡¨ç»“æ„,åˆ›å»ºæ–°è¡¨,å¯åŒæ—¶å¸¦ä¸Šæ•°æ®
+	 * @param fromTable æºè¡¨è¡¨å
+	 * @param toTable æ–°è¡¨è¡¨å
+	 * @param fields éœ€è¦å¤åˆ¶çš„å­—æ®µï¼Œå¤šä¸ªå­—æ®µç”¨é€—å·éš”å¼€ï¼Œå¦‚æœæ²¡æœ‰ï¼Œæ‰€å¤åˆ¶æ‰€æœ‰å­—æ®µ
+	 * @param where æœ‰ç»™æ¡ä»¶ï¼Œåˆ™æŒ‰æ¡ä»¶å¤åˆ¶æ•°æ®ï¼›æ²¡ç»™æ¡ä»¶ï¼Œåˆ™ä»…å¤åˆ¶è¡¨ç»“æ„
 	 */
 	public String copyTableStructure(String fromTable, String toTable,String fields,String where) {
-		//Èç: create table table_name_new as select * from table_name_old where 1=2
+		//å¦‚: create table table_name_new as select * from table_name_old where 1=2
 		StringBuffer sql=new StringBuffer("create table ");
 		sql.append(toTable)
 		.append(" as ")
@@ -345,14 +341,14 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * ¸´ÖÆ±í½á¹¹,´´½¨ĞÂ±í,¿ÉÍ¬Ê±´øÉÏÊı¾İ
-	 * @param fromTable Ô´±í±íÃû
-	 * @param toTable ĞÂ±í±íÃû
-	 * @param fields ĞèÒª¸´ÖÆµÄ×Ö¶Î£¬¶à¸ö×Ö¶ÎÓÃ¶ººÅ¸ô¿ª£¬Èç¹ûÃ»ÓĞ£¬Ëù¸´ÖÆËùÓĞ×Ö¶Î
-	 * @param where ÓĞ¸øÌõ¼ş£¬Ôò°´Ìõ¼ş¸´ÖÆÊı¾İ£»Ã»¸øÌõ¼ş£¬Ôò½ö¸´ÖÆ±í½á¹¹
+	 * å¤åˆ¶è¡¨ç»“æ„,åˆ›å»ºæ–°è¡¨,å¯åŒæ—¶å¸¦ä¸Šæ•°æ®
+	 * @param fromTable æºè¡¨è¡¨å
+	 * @param toTable æ–°è¡¨è¡¨å
+	 * @param fields éœ€è¦å¤åˆ¶çš„å­—æ®µï¼Œå¤šä¸ªå­—æ®µç”¨é€—å·éš”å¼€ï¼Œå¦‚æœæ²¡æœ‰ï¼Œæ‰€å¤åˆ¶æ‰€æœ‰å­—æ®µ
+	 * @param where æœ‰ç»™æ¡ä»¶ï¼Œåˆ™æŒ‰æ¡ä»¶å¤åˆ¶æ•°æ®ï¼›æ²¡ç»™æ¡ä»¶ï¼Œåˆ™ä»…å¤åˆ¶è¡¨ç»“æ„
 	 */
 	public String copyTempTableStructure(String fromTable, String toTable,String fields,String where) {
-		//Èç: create table table_name_new as select * from table_name_old where 1=2
+		//å¦‚: create table table_name_new as select * from table_name_old where 1=2
 		StringBuffer sql=new StringBuffer("create GLOBAL TEMPORARY table ");
 		sql.append(toTable)
 		.append(" as ")
@@ -366,7 +362,7 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * »ñÈ¡¼ì²éÊÇ·ñ´æÔÚÏàÍ¬µÄ±íÃû³ÆµÄsqlÓï¾ä
+	 * è·å–æ£€æŸ¥æ˜¯å¦å­˜åœ¨ç›¸åŒçš„è¡¨åç§°çš„sqlè¯­å¥
 	 */
 	public String getCheckTableSql(String tableName, String ... args) {
 		String sql="";
@@ -376,7 +372,7 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * »ñÈ¡¼ì²éÊÇ·ñ´æÔÚÏàÍ¬µÄ±íÃû³ÆµÄsqlÓï¾ä,ºóÃæpin inÓï¾ä
+	 * è·å–æ£€æŸ¥æ˜¯å¦å­˜åœ¨ç›¸åŒçš„è¡¨åç§°çš„sqlè¯­å¥,åé¢pin inè¯­å¥
 	 */
 	public String getCheckTablesSql() {
 		String sql="";
@@ -395,10 +391,10 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * ·­Òë×Ö¶ÎÀàĞÍ,¿â±íÊ¹ÓÃ
-	 * @param ftype Êı¾İÀàĞÍ
-	 * @param flen ×Ö¶Î³¤¶È
-	 * @param decpos Ğ¡ÊıÎ»³¤¶È
+	 * ç¿»è¯‘å­—æ®µç±»å‹,åº“è¡¨ä½¿ç”¨
+	 * @param ftype æ•°æ®ç±»å‹
+	 * @param flen å­—æ®µé•¿åº¦
+	 * @param decpos å°æ•°ä½é•¿åº¦
 	 * @return
 	 */
 	public String parseType(String ftype,int flen,int decpos){
@@ -406,18 +402,18 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * ĞŞ¸ÄÁĞ
-	 * @param tableName ±íÃû
-	 * @param dataList ÁĞÊı¾İ
+	 * ä¿®æ”¹åˆ—
+	 * @param tableName è¡¨å
+	 * @param dataList åˆ—æ•°æ®
 	 * @return
 	 */
 	public String[] modifyField(String tableName, List<Map> dataList) {
 		return null;
 	}
 	/**
-	 * ĞÂÔöÁĞ
-	 * @param tableName ±íÃû
-	 * @param dataList ÁĞÊı¾İ
+	 * æ–°å¢åˆ—
+	 * @param tableName è¡¨å
+	 * @param dataList åˆ—æ•°æ®
 	 * @return
 	 */
 	public String[] insertField(String tableName, List<Map> dataList) {
@@ -433,7 +429,7 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * ÄÃµ½ĞŞ¸ÄÁĞÃûsql
+	 * æ‹¿åˆ°ä¿®æ”¹åˆ—åsql
 	 * @param map
 	 * @return
 	 */
@@ -442,9 +438,9 @@ class DB2Dialect implements Dialect {
 	}
 
 	/**
-	 * insert Óï¾äÆ´×ÔÔö³¤×Ö¶Î£¬È¡ÖµSQL²¿·Ö£¬´Ë·½·¨±»Í¨ÓÃ±íµ¥2.0ËùÓÃ
-	 * @param tableName ±íÃû
-	 * @return Êı×é°üº¬3¸öÔªÏµ£¬¾ßÌå¼ûÊµÏÖÀàµÄÊµÏÖ 
+	 * insert è¯­å¥æ‹¼è‡ªå¢é•¿å­—æ®µï¼Œå–å€¼SQLéƒ¨åˆ†ï¼Œæ­¤æ–¹æ³•è¢«é€šç”¨è¡¨å•2.0æ‰€ç”¨
+	 * @param tableName è¡¨å
+	 * @return æ•°ç»„åŒ…å«3ä¸ªå…ƒç³»ï¼Œå…·ä½“è§å®ç°ç±»çš„å®ç° 
 	 */
 	public String[] getIncrementSQL(String tableName) {
 		return new String []{
@@ -455,7 +451,7 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * »ñÈ¡¿â±í×Ö¶Î¶¨ÒåÄ¬ÈÏ³¤¶È
+	 * è·å–åº“è¡¨å­—æ®µå®šä¹‰é»˜è®¤é•¿åº¦
 	 * @param ftype
 	 * @param flen
 	 * @param decpos
@@ -481,10 +477,10 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * Á½¸öÈÕÆÚ×Ö¶Î¼äÏà²îµÄÃëÊı
-	 * @param beginColumnName ¿ªÊ¼Ê±¼ä
-	 * @param endColumnName ½áÊøÊ±¼ä
-	 * @return Ïà²îÃëÊı
+	 * ä¸¤ä¸ªæ—¥æœŸå­—æ®µé—´ç›¸å·®çš„ç§’æ•°
+	 * @param beginColumnName å¼€å§‹æ—¶é—´
+	 * @param endColumnName ç»“æŸæ—¶é—´
+	 * @return ç›¸å·®ç§’æ•°
 	 * @author tangxiaolong
 	 * @version 2013-11-1
 	 */
@@ -494,12 +490,12 @@ class DB2Dialect implements Dialect {
 	}
 	
 	/**
-	 * ÔÚformat¶ÔÓ¦µÄÊ±¼äµ¥Î»£¬Ôö¼ÓÏàÓ¦µÄÖµ£¬µÃµ½Ò»¸öĞÂµÄÊ±¼ä¡£
-	 * ÈçoracleÏÂ3¸ö²ÎÊı·Ö±ğ¸ø£º "sysdate"£¬"10","year", ´ú±íÔÚµ±Ç°Ê±¼äµÄ»ù´¡ÉÏ¼Ó10Äê
-	 * @param col ÈÕÆÚ×Ö¶ÎÃû³Æ
-	 * @param num Ôö¼õÊıÖµ
-	 * @param format Ê±¼äµ¥Î» (¿ÉÓĞÈçÏÂÖµ£º year, month, day, hour, minute, second)
-	 * @return º¯Êı´®
+	 * åœ¨formatå¯¹åº”çš„æ—¶é—´å•ä½ï¼Œå¢åŠ ç›¸åº”çš„å€¼ï¼Œå¾—åˆ°ä¸€ä¸ªæ–°çš„æ—¶é—´ã€‚
+	 * å¦‚oracleä¸‹3ä¸ªå‚æ•°åˆ†åˆ«ç»™ï¼š "sysdate"ï¼Œ"10","year", ä»£è¡¨åœ¨å½“å‰æ—¶é—´çš„åŸºç¡€ä¸ŠåŠ 10å¹´
+	 * @param col æ—¥æœŸå­—æ®µåç§°
+	 * @param num å¢å‡æ•°å€¼
+	 * @param format æ—¶é—´å•ä½ (å¯æœ‰å¦‚ä¸‹å€¼ï¼š year, month, day, hour, minute, second)
+	 * @return å‡½æ•°ä¸²
 	 */
 	public String addDateTime(String col, String num, String format){
 		if("yyyy".equalsIgnoreCase(format) || "yy".equalsIgnoreCase(format)){

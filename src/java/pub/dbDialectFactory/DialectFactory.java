@@ -1,70 +1,68 @@
 package pub.dbDialectFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import pub.servlet.ConfigInit;
 import pub.source.LogOperateUtil;
 import util.BaseRuntimeException;
 import util.StringUtil;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * ¹¤³§
- * 
+ * å·¥å‚
+ *
  * @author gaotao 2011-08-08
  */
 public class DialectFactory {
-	
-	/**»º´æ¹¤³§Àà(½«ÊµÏÖÀàÈ«Ãû£¬×÷ÎªdialectsµÄ¼ü)*/
+
+	/**ç¼“å­˜å·¥å‚ç±»(å°†å®ç°ç±»å…¨åï¼Œä½œä¸ºdialectsçš„é”®)*/
 	private static Map<String, Dialect> dialects = new HashMap<String, Dialect>();
-	/**·½ÑÔ½Úµã*/
+	/**æ–¹è¨€èŠ‚ç‚¹*/
 	private static NodeList nodes = null;
-	/**È¡·½ÑÔµÄÅäÖÃ£¬´Óconfig.properties»òapplicationConext.xml*/
+	/**å–æ–¹è¨€çš„é…ç½®ï¼Œä»config.propertiesæˆ–applicationConext.xml*/
 	private static String dialectConfig = ConfigInit.Config.getProperty("dialectConfig","applicationContext");
-	/**Ä¬ÈÏÊı¾İÔ´Ãû³Æ*/
+	/**é»˜è®¤æ•°æ®æºåç§°*/
 	private static String defaultDataSource=null;
-	
-	/**¾²Ì«¿é³õÊ¼»¯*/
+
+	/**é™å¤ªå—åˆå§‹åŒ–*/
 	static{
 		try{
 			getApplicationContext();
 		}catch(Exception e){
-			LogOperateUtil.logException(e, "DialectFactory·½ÑÔÀà³õÊ¼»¯Ê§°Ü!", null);
+			LogOperateUtil.logException(e, "DialectFactoryæ–¹è¨€ç±»åˆå§‹åŒ–å¤±è´¥!", null);
 		}
 	}
-	
+
 	/**
-	 * ²»Í¬Êı¾İ¿âÔ´¶ÔÓ¦²»Í¬µÄ·½ÑÔ:domain¾ÍÊÇ¸÷xmlÖĞÅäÖÃµÄÊı¾İÔ´ID
-	 * */ 
+	 * ä¸åŒæ•°æ®åº“æºå¯¹åº”ä¸åŒçš„æ–¹è¨€:domainå°±æ˜¯å„xmlä¸­é…ç½®çš„æ•°æ®æºID
+	 * */
 	public static Dialect getDialect(String domain) {
 		Dialect dialect = null;
 		String dialectType="";
 		try {
-			if ("config".equals(dialectConfig)) {// Ê¹ÓÃconfig.propertiesÅä×Ô¶¨ÒåÊı¾İ¿â·½ÑÔ
-				domain = StringUtil.checkStr(domain) ? domain : getDefaultDatasrc("1"); //domainÃ»ÓĞÖ¸¶¨£¬ÔòÒÔÄ¬ÈÏdomainÎª×¼
-				
-				dialectType = ConfigInit.Config.getProperty(domain); //µÃµ½·½ÑÔÀàÃû
-				dialect = dialects.get(dialectType);//¼ì²éÊÇ·ñ´æÔÚ»º´æµ±Ç°ÀàĞÍµÄ·½ÑÔ¶ÔÏóÊµÀı
-				
-				if (dialect == null && StringUtil.checkStr(dialectType)) { //ÔİÎŞ»º´æ,²¢ÇÒ·½ÀàÃû´æÔÚ
+			if ("config".equals(dialectConfig)) {// ä½¿ç”¨config.propertiesé…è‡ªå®šä¹‰æ•°æ®åº“æ–¹è¨€
+				domain = StringUtil.checkStr(domain) ? domain : getDefaultDatasrc("1"); //domainæ²¡æœ‰æŒ‡å®šï¼Œåˆ™ä»¥é»˜è®¤domainä¸ºå‡†
+
+				dialectType = ConfigInit.Config.getProperty(domain); //å¾—åˆ°æ–¹è¨€ç±»å
+				dialect = dialects.get(dialectType);//æ£€æŸ¥æ˜¯å¦å­˜åœ¨ç¼“å­˜å½“å‰ç±»å‹çš„æ–¹è¨€å¯¹è±¡å®ä¾‹
+
+				if (dialect == null && StringUtil.checkStr(dialectType)) { //æš‚æ— ç¼“å­˜,å¹¶ä¸”æ–¹ç±»åå­˜åœ¨
 					dialect = (Dialect) Class.forName(dialectType).newInstance();
 					dialects.put(dialectType, dialect);
 				}else if(dialect == null && !StringUtil.checkStr(dialectType)){
-					throw new BaseRuntimeException("config.propertiesÀïÃ»ÓĞÅäÖÃ"+domain+"Êı¾İ¿â·½ÑÔ´¦ÀíÀà", null);
+					throw new BaseRuntimeException("config.propertiesé‡Œæ²¡æœ‰é…ç½®"+domain+"æ•°æ®åº“æ–¹è¨€å¤„ç†ç±»", null);
 				}
-			} else {// Ê¹ÓÃapplicationContext.xmlÅä×Ô¶¨ÒåÊı¾İ¿â·½ÑÔ
+			} else {// ä½¿ç”¨applicationContext.xmlé…è‡ªå®šä¹‰æ•°æ®åº“æ–¹è¨€
 				//getApplicationContext();
 				dialectType = getBeanName(domain);
 				dialect = dialects.get(dialectType);
@@ -75,64 +73,64 @@ public class DialectFactory {
 				}
 			}
 		} catch (Exception e) {
-			throw LogOperateUtil.logSQLError(e,domain,"Ã»ÓĞÅäÖÃÈÎºÎÊı¾İ¿â·½ÑÔ´¦ÀíÀà»òÕß·½ÑÔÀà"+dialectType+"²»´æÔÚ¡£",LogOperateUtil.logCallStack());
+			throw LogOperateUtil.logSQLError(e,domain,"æ²¡æœ‰é…ç½®ä»»ä½•æ•°æ®åº“æ–¹è¨€å¤„ç†ç±»æˆ–è€…æ–¹è¨€ç±»"+dialectType+"ä¸å­˜åœ¨ã€‚",LogOperateUtil.logCallStack());
 		}
 		return dialect;
 	}
 
 	/**
-	 * Ä¬ÈÏ·½ÑÔ
-	 * */ 
+	 * é»˜è®¤æ–¹è¨€
+	 * */
 	public static Dialect getDialect() {
 		Dialect dialect = getDialect(null);
 		return dialect;
 	}
 
 	/**
-	 * ¸÷ÊµÌå¶ÔÏó¸ù¾İÊı¾İÔ´È¡ID»ñÈ¡»º´æÖ÷¼üÖµ
+	 * å„å®ä½“å¯¹è±¡æ ¹æ®æ•°æ®æºå–IDè·å–ç¼“å­˜ä¸»é”®å€¼
 	 * */
 	public static String getPrimaryKeys(String domain){
 		return getDialect(domain).getInitPrimaryKeys(domain);
 
 	}
-	
+
 	/**
-	 * ¸÷ÊµÌå¶ÔÏó¸ù¾İÊı¾İÔ´ÉèÖÃ×îĞÂ»º´æÖ÷¼üÆğÊ¼Öµ
+	 * å„å®ä½“å¯¹è±¡æ ¹æ®æ•°æ®æºè®¾ç½®æœ€æ–°ç¼“å­˜ä¸»é”®èµ·å§‹å€¼
 	 * */
 	public static void setPrimaryKeys(String domain,String curKey){
 		Map<String,Long> temp=DialectCacheObjects.primaryKeys.get(domain);
 		if(temp!=null){
-			temp.put("cnt", Long.valueOf(1));//»º´æÖĞ±»È¡µôµÄ¸öÊı´Ó1¿ªÊ¼
+			temp.put("cnt", Long.valueOf(1));//ç¼“å­˜ä¸­è¢«å–æ‰çš„ä¸ªæ•°ä»1å¼€å§‹
 			temp.put("curKey", Long.parseLong(curKey));
 			DialectCacheObjects.primaryKeys.put(domain, temp);
 		}
 	}
-	
-	
-	/**»ñÈ¡Ä¬ÈÏÊı¾İÔ´*/
+
+
+	/**è·å–é»˜è®¤æ•°æ®æº*/
 	public static String getDefaultDatasrc(){
 		return defaultDataSource;
 	}
-	
+
 	/**
-	 * ´ÓapplicationContext.xml»ñÈ¡Ä¬ÈÏÊı¾İÔ´
+	 * ä»applicationContext.xmlè·å–é»˜è®¤æ•°æ®æº
 	 */
 	private static void getDefaultDatasrc(NodeList nodes){
-        for(int i=0;i<nodes.getLength();i++){
-            Element node = (Element)nodes.item(i);
-            if("defaultSource".equals(node.getAttribute("id"))){
-                NodeList nl = node.getElementsByTagName("property");
-                Element n = (Element)nl.item(0);
-                nl = n.getElementsByTagName("value");
-                n =(Element)nl.item(0);
-                defaultDataSource = n.getTextContent();
-                break;
-            }
-        }
+		for(int i=0;i<nodes.getLength();i++){
+			Element node = (Element)nodes.item(i);
+			if("defaultSource".equals(node.getAttribute("id"))){
+				NodeList nl = node.getElementsByTagName("property");
+				Element n = (Element)nl.item(0);
+				nl = n.getElementsByTagName("value");
+				n =(Element)nl.item(0);
+				defaultDataSource = n.getTextContent();
+				break;
+			}
+		}
 	}
-	
+
 	/**
-	 * ´Óconfig.propertiesÀï»ñµÃÄ¬ÈÏÊı¾İÔ´Ãû³Æ
+	 * ä»config.propertiesé‡Œè·å¾—é»˜è®¤æ•°æ®æºåç§°
 	 * @return
 	 */
 	private static String getDefaultDatasrc(String flg){
@@ -144,7 +142,7 @@ public class DialectFactory {
 				domain = domain1;
 			}else{
 				InputStream istream = DialectFactory.class.getClassLoader().getResourceAsStream("config.properties");
-				
+
 				ConfigInit.Config.load(istream);
 				istream.close();
 				domain1 =  ConfigInit.Config.getProperty("DEFAULT_DATASRC");
@@ -153,61 +151,61 @@ public class DialectFactory {
 				}
 			}
 		} catch (Exception e) {
-			LogOperateUtil.logException(e, "»ñÈ¡Ä¬ÈÏÊı¾İÔ´Ãû³ÆÊ§°Ü!", null);
+			LogOperateUtil.logException(e, "è·å–é»˜è®¤æ•°æ®æºåç§°å¤±è´¥!", null);
 		}
 		defaultDataSource = domain;
 		return domain;
 	}
 
 	/**
-	 * µÃapplicationÅäÖÃ
-	 * */ 
+	 * å¾—applicationé…ç½®
+	 * */
 	private static void getApplicationContext() throws ParserConfigurationException, SAXException, IOException {
 		if (nodes == null){
-		    //classÎÄ¼ş¸ùÄ¿Â¼
-		    InputStream in = DialectFactory.class.getClassLoader().getResourceAsStream("applicationContext.xml");
-		    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		    DocumentBuilder builder = dbf.newDocumentBuilder();
-		    Document doc = builder.parse(in);
-		    nodes = doc.getElementsByTagName("bean");	
-		    
-		    getDefaultDatasrc(nodes);
+			//classæ–‡ä»¶æ ¹ç›®å½•
+			InputStream in = DialectFactory.class.getClassLoader().getResourceAsStream("applicationContext.xml");
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = dbf.newDocumentBuilder();
+			Document doc = builder.parse(in);
+			nodes = doc.getElementsByTagName("bean");
+
+			getDefaultDatasrc(nodes);
 		}
 	}
-	
+
 	/**
-	 * µÃµ½·½ÑÔ´¦ÀíÀàÃû
+	 * å¾—åˆ°æ–¹è¨€å¤„ç†ç±»å
 	 * */
 	private static String getBeanName(String domain) {
 		if (domain == null || "".equals(domain.trim()))
-			domain =  getDefaultDatasrc();//Ä¬ÈÏÑÔÖ÷¿â·½ÑÔ
-        String dialectType  = getDescription(nodes, domain);
+			domain =  getDefaultDatasrc();//é»˜è®¤è¨€ä¸»åº“æ–¹è¨€
+		String dialectType  = getDescription(nodes, domain);
 		return dialectType;
 	}
-	
+
 	/**
-	 * ½âÎöapplicationContext.xml»ñÈ¡·½ÑÔ
+	 * è§£æapplicationContext.xmlè·å–æ–¹è¨€
 	 */
 	private static String getDescription(NodeList nodes,String domain){
 		String description = "";
-        for(int i=0;i<nodes.getLength();i++){
-            Element node = (Element)nodes.item(i);
-            if(domain.equals(node.getAttribute("id"))){
-                NodeList nl = node.getChildNodes();
-                for(int j=0;j<nl.getLength();j++){
-                    Node n = nl.item(j);
-                    if("description".equals(n.getNodeName())){
-                    	description = n.getFirstChild().getNodeValue();
-                    	break;
-                    }
-                }
-            }
-        }
-        return description;
+		for(int i=0;i<nodes.getLength();i++){
+			Element node = (Element)nodes.item(i);
+			if(domain.equals(node.getAttribute("id"))){
+				NodeList nl = node.getChildNodes();
+				for(int j=0;j<nl.getLength();j++){
+					Node n = nl.item(j);
+					if("description".equals(n.getNodeName())){
+						description = n.getFirstChild().getNodeValue();
+						break;
+					}
+				}
+			}
+		}
+		return description;
 	}
-	
-	/**²âÊÔ*/
+
+	/**æµ‹è¯•*/
 	public static void main(String[] args)throws Exception {
-		//getApplicationContext();	
+		//getApplicationContext();
 	}
 }

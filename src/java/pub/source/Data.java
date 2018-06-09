@@ -18,17 +18,17 @@ public class Data {
 		this.val = val;
 	}
 
-	//	/**得实例*/
+		/**得实例*/
 	public static Data get(String filedName, DataType dataType, Object val){
 		return new Data(filedName, dataType, val);
 	}
 
-	//	/**得实例*/
+		/**得实例*/
 	public static Data get(Field field, Object val){
 		return get(field.name(), field.getDataType(), val);
 	}
 
-	//	/**得实例*/
+		/**得实例*/
 	public static Data get(Field field, Map map){
 		return get(field.name(), field.getDataType(), map.get(field.name()));
 	}
@@ -43,5 +43,9 @@ public class Data {
 
 	public Object getVal() {
 		return this.dataType.getVal(this.val);
+	}
+
+	public void setFiledName(String filedName) {
+		this.filedName = filedName;
 	}
 }

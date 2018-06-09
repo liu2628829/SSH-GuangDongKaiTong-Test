@@ -121,6 +121,7 @@ function initLoadData(flg,pkId) {
 	var pageNo=flg?1:options.pageNumber
 	var limit=options.pageSize;
 	var url = path + "/demo/demo!getEmployeeList.action";
+    // AjaxRequest向服务器发送请求
 	AjaxRequest.doRequest("form1", url, {pageNo:pageNo,limit:limit}, function(backData){
 		var jsonData = decode(backData);
 		$('#employeeList').datagrid('loadData',jsonData);

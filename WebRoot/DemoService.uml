@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.catt.model.service.demo.DemoService</OriginalElement>
+  <nodes>
+    <node x="-620.0" y="4.5">com.catt.view.action.demo.FilesAction</node>
+    <node x="165.0" y="163.5">com.catt.model.service.demo.impl.DemoServiceImpl</node>
+    <node x="-184.0" y="163.5">com.catt.model.service.demo.impl.FilesServiceImpl</node>
+    <node x="-177.0" y="-172.5">com.catt.view.action.BaseAction</node>
+    <node x="187.0" y="-231.5">com.catt.view.action.CommonEnumAction</node>
+    <node x="-612.0" y="-190.5">com.catt.view.action.demo.DemoAction</node>
+    <node x="167.0" y="10.0">com.catt.model.service.demo.DemoService</node>
+    <node x="-182.0" y="0.5">com.catt.model.service.demo.FilesService</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.catt.view.action.demo.FilesAction" target="com.catt.view.action.BaseAction">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.catt.model.service.demo.impl.FilesServiceImpl" target="com.catt.model.service.demo.FilesService">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.catt.view.action.demo.DemoAction" target="com.catt.view.action.BaseAction">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.catt.view.action.CommonEnumAction" target="com.catt.view.action.BaseAction">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.catt.model.service.demo.impl.DemoServiceImpl" target="com.catt.model.service.demo.DemoService">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="63.0" y="15.5" />
+  <SelectedNodes>
+    <node>com.catt.model.service.demo.DemoService</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

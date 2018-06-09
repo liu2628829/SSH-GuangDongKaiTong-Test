@@ -157,6 +157,7 @@ public class DemoServiceImpl implements DemoService{
 	 */
 	public int deleteEmployee(String empId) {
 		String sql = "delete from tbEmployee where iEmployeeId in ("+empId+")";
+//		String sql = "delete from tb_Files where S_FILE_NAME in ("+empId+")";
 		return DatabaseUtil.updateDateBase(sql,null);
 	}
 }

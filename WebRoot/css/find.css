@@ -47,14 +47,14 @@
   }
   
   .cleanBtnOver{
-      background:url(../images/find/reset.gif) no-repeat 0px 0px;
+      background:url(./../images/find/reset.gif) no-repeat 0px 0px;
       cursor: hand;
       color:blue;
       text-decoration:underline;
   }
   
   .cleanBtnOut{
-      background:url(../images/find/reset.gif) no-repeat 0px 0px;
+      background:url(./../images/find/reset.gif) no-repeat 0px 0px;
       cursor: hand;
       color:black;
       text-decoration:none;

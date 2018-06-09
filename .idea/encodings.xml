@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
-    <file url="PROJECT" charset="UTF-8" />
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$/src/WebRoot/demo/dbam/jquery/js/files.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/WebRoot/demo/dbam/jquery/js/index.js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/java/pub/dbDialectFactory/DB2Dialect.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/java/pub/dbDialectFactory/DialectFactory.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/java/pub/source/LogOperateUtil.java" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>
