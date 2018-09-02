@@ -1,0 +1,42 @@
+[
+  {
+    "id": 201,
+    "pid": 215,
+    "state": "open",
+    "iconCls": "",
+    "text": "menu（菜单）",
+    "url": "https://www.topjui.com/document/menu/menu.html?source=menu"
+  },
+  {
+    "id": 202,
+    "pid": 215,
+    "state": "open",
+    "iconCls": "",
+    "text": "linkbutton（按钮）",
+    "url": "https://www.topjui.com/document/menu/linkbutton.html?source=menu"
+  },
+  {
+    "id": 203,
+    "pid": 215,
+    "state": "open",
+    "iconCls": "",
+    "text": "menubutton（菜单按钮）",
+    "url": "https://www.topjui.com/document/menu/menubutton.html?source=menu"
+  },
+  {
+    "id": 204,
+    "pid": 215,
+    "state": "open",
+    "iconCls": "",
+    "text": "splitbutton（分割按钮）",
+    "url": "https://www.topjui.com/document/menu/splitbutton.html?source=menu"
+  },
+  {
+    "id": 205,
+    "pid": 215,
+    "state": "open",
+    "iconCls": "",
+    "text": "switchbutton（开关按钮）",
+    "url": "https://www.topjui.com/document/menu/switchbutton.html?source=menu"
+  }
+]
