@@ -2,6 +2,7 @@ package com.catt.model.service.demo.impl;
 
 import com.catt.entity.TbEmployee;
 import com.catt.model.service.demo.DemoService;
+import com.esotericsoftware.minlog.Log;
 import org.springframework.stereotype.Service;
 import pub.dbDialectFactory.Dialect;
 import pub.dbDialectFactory.DialectFactory;
@@ -21,9 +22,20 @@ public class DemoServiceImpl implements DemoService{
 	 * 查询人员集合
 	 */
 	public List getEmployeeList(Map map) {
+		String row = (String)map.get("pageNo");
 		//return demoDao.getEmployeeList(map);
 		String pageNo = (String)map.get("pageNo");
 		String limit = (String)map.get("limit");
+
+		// 为适应topjui的分页，从map中取page,rows
+		if (pageNo == null) {
+			pageNo = (String)map.get("page");
+		}
+		if (limit == null) {
+			limit = (String)map.get("rows");
+		}
+		Log.info("pageNo" + pageNo);
+		Log.info("limit" + limit);
 
 		List list=new ArrayList();
 
@@ -97,6 +109,11 @@ public class DemoServiceImpl implements DemoService{
 		}else{
 			list1 = DatabaseUtil.queryForList(sql.toString(), list, null);
 		}
+
+		// 为适应topjui的分页，往map中设置值
+//		if (pageNo == null) {
+//			pageNo = (String)map.get("to");
+//		}
 
 		return list1;
 	}
