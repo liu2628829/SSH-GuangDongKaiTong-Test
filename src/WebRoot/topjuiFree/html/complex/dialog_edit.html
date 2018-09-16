@@ -7,6 +7,26 @@
        dialog:{
            width: 700,
            height: 400,
+           href:_ctx + '/html/complex/icon_table.html',
+           buttonsGroup:[
+                {
+                    text: '选择图标',
+                    url: _ctx + '/json/response/success.json',
+                    iconCls: 'fa fa-cog',
+                    handler: setIcon,
+                    btnCls: 'topjui-btn-brown'
+                },
+               {text:'保存',url:_ctx + '/json/response/failure.json',iconCls:'fa fa-plus',handler:'ajaxForm',btnCls:'topjui-btn-green'}
+           ]
+       }">选择图标</a>
+    <a href="javascript:void(0)"
+       data-toggle="topjui-menubutton"
+       data-options="method:'openDialog',
+       iconCls: 'fa fa-plus',
+       btnCls: 'topjui-btn-brown',
+       dialog:{
+           width: 700,
+           height: 400,
            href:_ctx + '/html/complex/dialog_add.html',
            buttonsGroup:[
                {text:'保存',url:_ctx + '/json/response/failure.json',iconCls:'fa fa-plus',handler:'ajaxForm',btnCls:'topjui-btn-green'}
@@ -39,6 +59,16 @@
     <fieldset>
         <legend>必填信息</legend>
     </fieldset>
+    <div class="topjui-row">
+        <div class="topjui-col-sm12">
+            <label class="topjui-form-label">选中的图标名称</label>
+            <div class="topjui-input-block">
+                <input type="text" id="iconName" name="iconName" data-toggle="topjui-textbox"
+                       data-options="required:true">
+            </div>
+        </div>
+    </div>
+
     <div class="topjui-row">
         <div class="topjui-col-sm12">
             <label class="topjui-form-label">商品名称</label>

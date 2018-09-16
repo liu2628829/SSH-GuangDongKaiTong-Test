@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<div data-toggle="topjui-layout" data-options="fit:true">
+    <div data-options="region:'center',title:'',fit:true,border:false,bodyCls:'border_right_bottom'">
+        <div data-toggle="topjui-tabs" data-options="fit:true,border:false">
+            <div title="必填信息" data-options="iconCls:'fa fa-th'">
+                <div class="topjui-fluid">
+                    <fieldset>
+                        <legend>基本信息</legend>
+                    </fieldset>
+                    <div class="topjui-row">
+                        <div>
+                            <label style="font-size:20px;width:600px;" >动态表格：</label><br/>
+                            <table border="1">
+                                <tbody id="table">
+                            </table>
+                            <button type="button" onclick="setIconTable(iconNum,iconArr)">表格初始化</button>
+                        </div>
+                    </div>
+                    <div class="topjui-row">
+                        <div id="container" class="container">
+                        </div>
+                    </div>
+                    <div class="topjui-row">
+                         <span class="glyphicon glyphicon-sort-by-attributes"></span>
+                    </div>
+                    <span class="glyphicon glyphicon-asterisk"></span>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+    setIconBootstrapGrid(iconNum,iconArr);
+})
+</script>

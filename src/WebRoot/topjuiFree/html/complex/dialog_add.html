@@ -1,3 +1,4 @@
+
 <div data-toggle="topjui-layout" data-options="fit:true">
     <div data-options="region:'center',title:'',fit:true,border:false,bodyCls:'border_right_bottom'">
         <div data-toggle="topjui-tabs" data-options="fit:true,border:false">
@@ -6,6 +7,27 @@
                     <fieldset>
                         <legend>基本信息</legend>
                     </fieldset>
+                    <div class="topjui-row">
+                        <div>
+                            <label style="font-size:20px;width:600px;" >动态表格：</label><br/>
+                            <table border="1">
+                                <tbody id="table">
+                            </table>
+                            <button type="button" onclick="setIconTable(2,cars)">表格初始化</button>
+                        </div>
+                    </div>
+
+                    <div class="topjui-row">
+                        <div class="topjui-col-sm12">
+                            <label class="topjui-form-label">选中的图标名称</label>
+                            <div class="topjui-input-block">
+                                <input type="text" id="iconName" name="iconName" data-toggle="topjui-textbox"
+                                       data-options="required:true">
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="topjui-row">
                         <div class="topjui-col-sm12">
                             <label class="topjui-form-label">商品名称</label>
